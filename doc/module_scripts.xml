@@ -329,4 +329,26 @@
             <return name="reg0">关系的值（血缘越近值越大,没有关系时为0）</return>
         </returns>
     </script>
+
+    <script name="troop_change_relation_with_troop">
+        <desc></desc>
+        <note>
+            改变领主和领主的关系
+
+        </note>
+    </script>
+
+    <script name="troop_get_relation_with_troop">
+        <desc></desc>
+        <note>
+            获得领主和领主之时的关系
+        </note>
+    </script>
+    <script name="give_center_to_lord">
+        <desc></desc>
+        <note>
+            将一块地授予某个领主
+
+        </note>
+    </script>
 </scripts>

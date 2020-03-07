@@ -652,6 +652,10 @@ slot_party_looted_item_5_modifier = 119
     村庄所属的城镇/城堡
 '''
 slot_village_bound_center         = 120
+
+'''
+    村庄交易城镇
+'''
 slot_village_market_town          = 121
 
 '''
@@ -1045,19 +1049,63 @@ sfai_nascent_rebellion          = 7
 #Rebellion system changes end
 
 #slot_party_ai_state values
+'''
+    未知情况
+'''
 spai_undefined                  = -1
+
+'''
+    围攻城市
+'''
 spai_besieging_center           = 1
+
+'''
+    巡逻城市
+'''
 spai_patrolling_around_center   = 4
+
+'''
+    突袭城市
+'''
 spai_raiding_around_center      = 5
+
 ##spai_raiding_village            = 6
+
+'''
+    守卫城市
+'''
 spai_holding_center             = 7
 ##spai_helping_town_against_siege = 9
+
+'''
+    吸引军队
+'''
 spai_engaging_army              = 10
+
+'''
+    跟随军队
+'''
 spai_accompanying_army          = 11
+
+'''
+    保护军队
+'''
 spai_screening_army             = 12
+
+'''
+    与城市交易
+'''
 spai_trading_with_town          = 13
+
+'''
+    向城市撤退
+'''
 spai_retreating_to_center       = 14
 ##spai_trading_within_kingdom     = 15
+
+'''
+    访问村子
+'''
 spai_visiting_village           = 16 #same thing, I think. Recruiting differs from holding because NPC parties don't actually enter villages
 
 #slot_village_state values
@@ -1122,6 +1170,10 @@ slot_troop_prisoner_of_party   = 8  # important for heroes only
 slot_troop_present_at_event    = 9
 
 slot_troop_leaded_party         = 10 # important for kingdom heroes only
+
+'''
+    领主财产
+'''
 slot_troop_wealth               = 11 # important for kingdom heroes only
 
 '''
@@ -1131,7 +1183,7 @@ slot_troop_wealth               = 11 # important for kingdom heroes only
 slot_troop_cur_center           = 12 # important for royal family members only (non-kingdom heroes)
 
 '''
-    城镇旗帜
+    城镇旗帜（英雄旗帜）
 '''
 slot_troop_banner_scene_prop    = 13 # important for kingdom heroes and player only
 
@@ -2460,6 +2512,12 @@ arena_grand_prize = 250
 price_adjustment = 25 #the percent by which a trade at a center alters price
 
 fire_duration = 4 #fires takes 4 hours
+
+'''
+    成就系统
+    
+    参考：https://www.bilibili.com/read/cv3924092/
+'''
 
 #NORMAL ACHIEVEMENTS
 ACHIEVEMENT_NONE_SHALL_PASS = 1,
