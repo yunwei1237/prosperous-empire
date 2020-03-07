@@ -1138,7 +1138,7 @@ item_get_type                          = 1570   # (item_get_type, <destination>,
 
 ######################party相关命令
 #Parties...
-###获取队伍同伴数
+###获取队伍同伴数（村庄的守卫或城堡的守军）
 party_get_num_companions               = 1601	# (party_get_num_companions,<destination>,<party_id>),
 ###获取囚犯总数
 party_get_num_prisoners                = 1602	# (party_get_num_prisoners,<destination>,<party_id>),

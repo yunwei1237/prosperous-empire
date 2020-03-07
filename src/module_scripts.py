@@ -1,4 +1,4 @@
-# -*- coding: cp1254 -*-
+# -*- coding: utf-8 -*-
 from header_common import *
 from header_operations import *
 from module_constants import *
@@ -30,7 +30,6 @@ scripts = [
   ("game_start",
    [
       (faction_set_slot, "fac_player_supporters_faction", slot_faction_state, sfs_inactive),
-      (assign, "$g_player_luck", 200),
       (assign, "$g_player_luck", 200),
       (troop_set_slot, "trp_player", slot_troop_occupation, slto_kingdom_hero),
       (store_random_in_range, ":starting_training_ground", training_grounds_begin, training_grounds_end),
@@ -247,6 +246,7 @@ scripts = [
       (try_for_range, ":cur_center", castles_begin, castles_end),
         (assign, ":min_dist", 999999),
         (assign, ":min_dist_village", -1),
+        ## 求出离城堡最近的村庄
         (try_for_range, ":cur_village", villages_begin, villages_end),
           (neg|party_slot_ge, ":cur_village", slot_village_bound_center, 1), #skip villages which are already bound.
           (store_distance_to_party_from_party, ":cur_dist", ":cur_village", ":cur_center"),
@@ -5524,10 +5524,12 @@ scripts = [
 
 	  (try_for_range, ":cur_troop", lords_begin, lords_end),  
 		(troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
-		
+
+		## 儿子出生时间 儿子年龄 = 父亲年龄 - father_age_at_birth
+        ## 也就是父亲在23-25之间生了儿子或女儿
 		(store_random_in_range, ":father_age_at_birth", 23, 26),
 #		(store_random_in_range, ":mother_age_at_birth", 19, 22),
-		
+		## npc_seed代表当前领主的编号（0-19），篡位者的编号（0-5）
 		(try_begin),
 			(is_between, ":cur_troop", "trp_knight_1_1", "trp_knight_2_1"),
 			(store_sub, ":npc_seed", ":cur_troop", "trp_knight_1_1"),
@@ -5562,7 +5564,9 @@ scripts = [
 		
 		
 		(try_begin),
+            # 1-8领主是有家庭的，（编号其实是0-7）
 			(lt, ":npc_seed", 8), #NPC seed is the order in the faction
+            # 将领主编号直接设置成了性格编号（也就是0-7之间的所有性格）
 			(assign, ":reputation", ":npc_seed"),
 			(store_random_in_range, ":age", 45, 64),
 			
@@ -5637,7 +5641,10 @@ scripts = [
 			
 			(store_random_in_range, ":age", 25, 36),			
 			(store_random_in_range, ":reputation", 0, 8),			
-			
+
+			## 21-25都是slot_lord_reputation_type的值，
+            ## 20并是slot_lord_reputation_type的值，但这里却使用了，并且在随机到20时又使用21的值覆盖了，
+            ## 这么做的目的应该是，希望21（lrep_conventional：传统女性）号这种类型的女性多一些
 			(store_random_in_range, ":sister_reputation", 20, 26),
 			(try_begin),
 				(eq, ":sister_reputation", 20),
@@ -5654,6 +5661,10 @@ scripts = [
 			
 		(else_try),	#Younger unmarried lords 
 			#age is father's minus 20 to 25
+            # 这行代码有两个比较重要的点，12到底是怎么来的
+            # 每一个国家有20个领主，1-8是有家庭的，9-12是大龄剩男，13-20是小鲜肉
+            # 为了保证后边8个小孩子可以和前边8个老父亲一一对应，减去12就可以了。
+            # 也就是相差中间那4个是大龄剩男，这也就保证了父亲是一一对应的
 			(store_sub, ":father", ":cur_troop", 12),
 			(troop_set_slot, ":cur_troop", slot_troop_father, ":father"),
 			(troop_get_slot, ":mother", ":father", slot_troop_spouse),
@@ -5672,6 +5683,7 @@ scripts = [
 		
 		(try_begin),
 			(eq, ":reputation", 0),
+            ## 如果还没有性格（0，其实可以使用lrep_none），就设置为军事的性格，（1，其实可以使用lrep_martial）
 			(assign, ":reputation", 1),
 		(try_end),
 		
@@ -6040,7 +6052,7 @@ scripts = [
       (item_set_slot, "itm_apples", slot_item_production_slot, slot_center_acres_vineyard),
       (item_set_slot, "itm_apples", slot_item_production_string, "str_acres_orchard"),
       (item_set_slot, "itm_apples", slot_item_base_price, 44),
-	  
+
       (item_set_slot, "itm_smoked_fish", slot_item_urban_demand, 16),
       (item_set_slot, "itm_smoked_fish", slot_item_rural_demand, 16),
       (item_set_slot, "itm_smoked_fish", slot_item_desert_demand, 16),
@@ -13299,6 +13311,12 @@ scripts = [
 
   #script_update_party_creation_random_limits
   # INPUT: none
+
+    ## 设置野外部队生成随机限制
+    ## 公式：min((player_level * 3) + 25,100)
+    ## 最小值为0，最大值为100
+    ## 最大值会随着玩家的等级一直增长，最大为100
+    ## 此脚本被使用两次
   ("update_party_creation_random_limits",
     [
       (store_character_level, ":player_level", "trp_player"),

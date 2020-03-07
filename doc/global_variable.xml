@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE variables [
+
+    <!ELEMENT variables (variable+)>
+    <!ELEMENT variable (#PCDATA)>
+
+    <!ATTLIST variables prefix CDATA #REQUIRED>
+    <!ATTLIST variable name CDATA #REQUIRED>
+]>
+<variables prefix="$g_">
+    <variable name="$g_player_luck">玩家的幸运值</variable>
+    <variable name="$g_player_party_icon">玩家队伍徐图标</variable>
+    <variable name="$g_election_date">选举时间</variable>
+    <variable name="$number_of_npc_slots">玩家同伴数量</variable>
+    <variable name="$disable_npc_complaints"></variable>
+    <variable name="$player_has_homage">是否拥有至少一块土地</variable>
+    <variable name="$players_kingdom">玩家所在阵营</variable>
+    <variable name="$g_player_minister">玩家的大臣</variable>
+</variables>

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE scripts [
+
+    <!ELEMENT scripts (script+)>
+    <!ELEMENT script (desc,note,params?,returns?)>
+    <!ELEMENT desc (#PCDATA)>
+    <!ELEMENT note (#PCDATA)>
+
+    <!ELEMENT params (param+)>
+    <!ELEMENT param (#PCDATA)>
+
+    <!ELEMENT returns (return+)>
+    <!ELEMENT return (#PCDATA)>
+
+    <!ATTLIST scripts prefix CDATA #REQUIRED>
+    <!ATTLIST script name CDATA #REQUIRED>
+
+    <!ATTLIST param name CDATA #REQUIRED>
+
+    <!ATTLIST param type (input|output) "input">
+
+    <!ATTLIST return name CDATA #REQUIRED>
+]>
+
+<scripts prefix="script_">
+    <script name="game_start">
+        <desc>
+            #script_game_start:
+            # This script is called when a new game is started
+            # INPUT: none
+        </desc>
+        <note>
+            在游戏开始时被调用
+
+            1.初始化玩家信息
+            2.重置领主家庭结构
+            3.初始化旗帜信息，物品，领主家庭结构，NPC信息
+            4.初始化宴会时间
+            5.将城镇编号随机保存到trp_random_town_sequence数组中
+            6.设置每一个国家的文化（正规兵，守卫，市民，村民，间谍），重置国家元帅
+            7.设置每一个国家的领导者
+            8.玩家阵营和玩家支持的阵营的文化都斯瓦迪亚王国
+            9.设置阵营的兵种类型（正规军，守卫，狱卒等等）
+            10.设置每一个城镇中每一个可交易物品的价格浮动因子（1000）
+            11.规划所有商队的交易路径
+            12.设置竞技场信息（小队数量，小队人数），20%机率在游戏开始时就开办竞技赛
+            13.设置村庄所属的城镇和城堡（最多一个村庄）（以最距离最近为依据，优先城镇）
+            14.设置城镇信息（地形，大厅，城墙，监狱，酒馆，镇长，酒店老板，武器商人，防具商人，杂货商人，支援队伍模板）
+            15.设置城堡信息（地形，大厅，监狱，支援队伍模板，警报钟楼）
+            16.设置村庄信息（地形，村长，村庄守卫）
+            17.设置旗帜（阵营，领主），
+            18.设置所有人声望（公式：声望 = 级别 * 级别 / 4 + 年龄 * 年龄 / 8 + 额外声望） ，如果是国王，增加250到400,如果是领主，增加0到100
+            19.设置信息界面的画面（人物，阵营，人物）
+            20.设置每个国家的领地，将领地授予领主
+            21.
+        </note>
+    </script>
+    <script name="update_party_creation_random_limits">
+        <desc>
+            #script_update_party_creation_random_limits
+            # INPUT: none
+        </desc>
+        <note>
+            设置野外部队生成随机限制
+            公式：min((player_level * 3) + 25,100)
+            最小值为0，最大值为100
+            最大值会随着玩家的等级一直增长，最大为100
+            此脚本被使用两次
+        </note>
+    </script>
+    <script name="initialize_banner_info">
+        <desc></desc>
+        <note>
+            初始化旗帜信息
+            1.初始化玩家旗帜信息
+            2.初始化所有人物旗帜信息
+            在trp_banner_background_color_array数组中保存了所有人物旗帜颜色
+        </note>
+    </script>
+    <script name="initialize_item_info">
+        <desc></desc>
+        <note>
+            初始化物品信息
+            1.初始化食物提升士气值
+            2.设置物品的需求量，物品产出场地，基础价格，工厂生产（工厂建造费用，使用量，工人费用，生产量，源材料）
+        </note>
+    </script>
+    <script name="initialize_aristocracy">
+        <desc>#LORD OCCUPATIONS, BLOOD RELATIONSHIPS, RENOWN AND REPUTATIONS</desc>
+        <note>
+            初始化贵族信息
+            1.国王年龄(50-60)
+            2.家庭结构(职业，年龄，性格，家庭关系)
+        </note>
+    </script>
+    <script name="init_troop_age">
+        <desc></desc>
+        <note>
+            初始化人物年龄
+            1.20岁以下外貌不发生任何改变
+            2.超出20岁的外貌的每一都会
+                2.1 力量和智力下降
+                2.2 外貌显得变得老一点
+        </note>
+        <params>
+            <param name="troop_no">人物编号</param>
+            <param name="age">人物年龄</param>
+        </params>
+    </script>
+    <script name="age_troop_one_year">
+        <desc>#This is probably unnecessarily complicated, but can support a multi-generational mod</desc>
+        <note>
+            为人物增加一岁
+            1.45岁以后2%的机率会使用人物的力量和智力下降一点
+            2.年老一岁（外貌变得老一点）
+        </note>
+        <params>
+            <param name="troop_no">人物编号</param>
+        </params>
+    </script>
+    <script name="add_lady_items">
+        <desc></desc>
+        <note>
+            根据国家和性格选择衣服，头巾
+        </note>
+        <params>
+            <param name="lady_no">女性编号</param>
+        </params>
+    </script>
+    <script name="initialize_npcs">
+        <desc>#NPC companion changes begin</desc>
+        <note>
+            初始化npc
+
+            玩家同伴
+            1.道德类型
+            2.招募费用
+            3.讨厌同伴
+            4.有亲信的城堡
+            5.政敌（政见）
+            6.家乡
+            7.性格类型
+            8.对话
+            9.故国
+
+            篡位者
+            1.故国
+            2.性格类型
+        </note>
+    </script>
+    <script name="initialize_faction_troop_types">
+        <desc></desc>
+        <note>
+            初始化所有国家兵种类型
+            将每一个国家文化上的兵种，保存到每一个国家对应的兵种上（也就是说，slot_faction_tier_1_troop常量被国家和文化共同使用，文化其实是作为一个不变的模板来使用）
+            设置国家正规军，逃兵，守卫，狱卒，信使，城堡守卫，援军
+        </note>
+    </script>
+    <script name="initialize_trade_routes">
+        <desc></desc>
+        <note>
+            初始化商队的交易路线
+            设置所有城镇之间贸易路线
+        </note>
+    </script>
+    <script name="set_trade_route_between_centers">
+        <desc>
+            #script_set_trade_route_between_centers
+            # INPUT:
+            # param1: center_no_1
+            # param1: center_no_2
+        </desc>
+        <note>
+            设置两个城镇之间的贸易路线
+            在两个城镇之间建立一条交易路线，每一个城镇最多只能建立15个路线，超过的会被忽略，并显示错误信息
+
+        </note>
+        <params>
+            <param name="center_no_1">起始城镇</param>
+            <param name="center_no_2">目的城镇</param>
+        </params>
+    </script>
+    <script name="initialize_town_arena_info">
+        <desc></desc>
+        <note>
+            初始化城镇竞技场
+            1.设置每一个城镇竞技场小队数量为4，每小队的人数量为8（帕 拉 汶为2）
+            2.设置拇一个城镇竞技场，三个近战小队的数量和小队的人数
+        </note>
+    </script>
+    <script name="give_center_to_faction_aux">
+        <desc>
+            # script_give_center_to_faction_aux
+            # Input: arg1 = center_no, arg2 = faction
+        </desc>
+        <note>
+            将领地给某一个阵营
+            1.将据点给指定阵营
+            2.如果是村庄，将村民同时给某个阵营
+            3.更新旗帜，更新阵营信息，更新领地信息，更新人物信息
+            4.如果是城镇或城堡，同时将所管辖的村庄也给指定阵营
+        </note>
+        <params>
+            <param name="center_no">领地</param>
+            <param name="faction">阵营</param>
+        </params>
+    </script>
+    <script name="update_faction_notes">
+        <desc>
+          #script_update_faction_notes
+          # INPUT: faction_no
+          # OUTPUT: none
+        </desc>
+        <note>
+            更新阵营信息
+            大部分代码已经注释掉了
+            未激活的阵营和玩家阵营不显示，其它阵营显示
+        </note>
+        <params>
+            <param name="faction_no">阵营编号</param>
+        </params>
+    </script>
+    <script name="update_troop_notes">
+        <desc>
+            #script_update_troop_notes
+            # INPUT: troop_no
+            # OUTPUT: none
+        </desc>
+        <note>
+            更新人物信息
+            代码全部注释掉
+        </note>
+        <params>
+            <param name="troop_no">兵种编号</param>
+        </params>
+    </script>
+
+    <script name="update_center_notes">
+        <desc>
+            #script_update_center_notes
+            # INPUT: center_no
+            # OUTPUT: none
+        </desc>
+        <note>
+            更新据点信息
+            代码全部注释掉
+        </note>
+    </script>
+    <script name="give_center_to_faction_while_maintaining_lord">
+        <desc>
+            # script_give_center_to_faction_aux
+            # Input: arg1 = center_no, arg2 = faction
+        </desc>
+        <note>
+            和give_center_to_faction_aux功能大致相同，只是give_center_to_faction_aux考虑更周全一些
+        </note>
+    </script>
+    <script name="refresh_village_defenders">
+        <desc>
+            # script_refresh_village_defenders
+            # Input: arg1 = village_no
+            # Output: none
+        </desc>
+        <note>
+            刷新村庄守卫
+            如果村庄守卫不够50个人，就补充士兵
+        </note>
+    </script>
+    <script name="assign_lords_to_empty_centers">
+        <desc>
+            # script_assign_lords_to_empty_centers
+            # Input: none
+            # Output: none
+            #Now ONLY called from the start
+        </desc>
+        <note>
+            将没有领主的地分给每一个领主
+
+            1.统计每一个阵营没有领主的土地数量
+            2.统计每一个领主拥有的土地数量
+            3.
+        </note>
+    </script>
+    
+    <script name="calculate_troop_score_for_center">
+        <desc></desc>
+        <note></note>
+    </script>
+
+    <script name="game_get_troop_note">
+        <desc>
+            #script_game_get_troop_note
+            # This script is called from the game engine when the notes of a troop is needed.
+            # INPUT: arg1 = troop_no, arg2 = note_index
+            # OUTPUT: s0 = note
+        </desc>
+        <note>
+            1.获得人物阵营（包含玩家阵营）
+            2.收集领主和玩家的家族信息（如果是玩家显示家族信息，不显示年龄，如果非玩家就显示年龄和家族信息，将计算好的信息保存到s49）
+            3.收集玩家同伴的信息（还不是领主时）
+            4.
+        </note>
+    </script>
+    <script name="troop_get_family_relation_to_troop">
+        <desc>
+            # script_write_family_relation_as_s3s_s2_to_s4
+            # Inputs: arg1 = troop_no, arg2 = family_no (valid slot no after slot_troop_family_begin)
+            # Outputs: s11 = what troop_1 is to troop_2, reg0 = strength of relationship. Normally, "$g_talk_troop" should be troop_2
+        </desc>
+        <note>
+            获得两个人物在家族之中的关系（如，我是你爸爸，或你是我儿子等等）
+            1.获得双方配偶
+            2.获得双方岳丈
+            3.获得对方岳母
+            4.获得双方父亲
+            5.获得双方母亲
+            6.获得双方祖父（爷爷）
+            7.获得双方监护人
+            8.一个一个地作对比
+            9.返回关系值（血缘越近值越大），返回关系的文字（爷爷，父亲，母亲等等）
+        </note>
+        <params>
+            <param name="troop_1"></param>
+            <param name="troop_2"></param>
+        </params>
+        <returns>
+            <return name="reg4">当前人物性别</return>
+            <return name="s11">关系的文字（爷爷，父亲，母亲等等）</return>
+            <return name="reg0">关系的值（血缘越近值越大,没有关系时为0）</return>
+        </returns>
+    </script>
+</scripts>

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from ID_items import *
 from ID_quests import *
 from ID_factions import *
@@ -13,18 +15,48 @@ from ID_factions import *
 ########################################################
 
 slot_item_is_checked               = 0
+
+'''
+    该物品作为队伍食物时，提高士气的数值
+'''
 slot_item_food_bonus               = 1
 slot_item_book_reading_progress    = 2
 slot_item_book_read                = 3
+
+'''
+    用于书本，阅读需要的智力值
+'''
 slot_item_intelligence_requirement = 4
 
 slot_item_amount_available         = 7
 
+'''
+    该物品城市的需求量
+'''
 slot_item_urban_demand             = 11 #consumer demand for a good in town, measured in abstract units. The more essential the item (ie, like grain) the higher the price
+
+'''
+    该物品农村的需求量
+'''
 slot_item_rural_demand             = 12 #consumer demand in villages, measured in abstract units
+
+'''
+    该物品沙漠的需求量
+'''
 slot_item_desert_demand            = 13 #consumer demand in villages, measured in abstract units
 
-slot_item_production_slot          = 14 
+'''
+    该物品生产时所需要的环境
+    产出葡萄需要果园
+    产出烟熏肉需要鱼塘
+'''
+slot_item_production_slot          = 14
+
+'''
+    生产物品环境的描述信息
+    果园显示为：数英亩的果园和葡萄园
+    农场显示为：几英亩的麦田
+'''
 slot_item_production_string        = 15 
 
 slot_item_tied_to_good_price       = 20 #ie, weapons and metal armor to tools, padded to cloth, leather to leatherwork, etc
@@ -35,14 +67,41 @@ slot_item_positions_begin          = 23 #reserve around 5 slots after this
 
 slot_item_multiplayer_faction_price_multipliers_begin = 30 #reserve around 10 slots after this
 
+'''
+    如果想制作成该物品，最需要的原材料
+'''
 slot_item_primary_raw_material    		= 50
+
+'''
+    物品作为源材料时，可以制作成哪种物品
+'''
 slot_item_is_raw_material_only_for      = 51
+
+'''
+    每次工厂开工，需要的原材料数量
+'''
 slot_item_input_number                  = 52 #ie, how many items of inputs consumed per run
+
+'''
+    物品的基础价格
+'''
 slot_item_base_price                    = 53 #taken from module_items
 #slot_item_production_site			    = 54 #a string replaced with function - Armagan
+
+'''
+    每次工厂开工，生产的物品数量
+'''
 slot_item_output_per_run                = 55 #number of items produced per run
+
+'''
+    每次工厂开工，需要支付给工人的工资和维护费用
+'''
 slot_item_overhead_per_run              = 56 #labor and overhead per run
 slot_item_secondary_raw_material        = 57 #in this case, the amount used is only one
+
+'''
+    开办工厂需要的费用
+'''
 slot_item_enterprise_building_cost      = 58 #enterprise building cost
 
 
@@ -88,18 +147,40 @@ slot_faction_ai_object                  = 5
 slot_faction_ai_rationale               = 6 #Currently unused, can be linked to strings generated from decision checklists
 
 
+'''
+    国家的元帅
+'''
 slot_faction_marshall                   = 8
 slot_faction_ai_offensive_max_followers = 9
 
+'''
+    国家的文件
+    其实对应的也是一个国家，只是这个国家被当成数组使用，
+    保存着这个国家的信息，兵种等等
+'''
 slot_faction_culture                    = 10
+'''
+    国家的领导者（国王）
+'''
 slot_faction_leader                     = 11
 
+'''
+    临时slot，其实就是在不同的场景下，代表的含义可能会不一样，所以重要数据不能保存到该slot下
+'''
 slot_faction_temp_slot                  = 12
 
 ##slot_faction_vassal_of            = 11
+
+'''
+    国旗
+'''
 slot_faction_banner                     = 15
 
 slot_faction_number_of_parties    = 20
+
+'''
+    阵营的状态
+'''
 slot_faction_state                = 21
 
 slot_faction_adjective            = 22
@@ -117,23 +198,81 @@ slot_faction_quick_battle_tier_2_archer        = 44
 slot_faction_quick_battle_tier_1_cavalry       = 45
 slot_faction_quick_battle_tier_2_cavalry       = 46
 
+
+
+'''
+    第一种兵
+'''
 slot_faction_tier_1_troop         = 41
+
+'''
+    第二级兵
+'''
 slot_faction_tier_2_troop         = 42
+
+'''
+    第三级兵
+'''
 slot_faction_tier_3_troop         = 43
+
+'''
+    第四级兵
+'''
 slot_faction_tier_4_troop         = 44
+
+'''
+    第五级兵
+'''
 slot_faction_tier_5_troop         = 45
 
+'''
+    逃兵
+'''
 slot_faction_deserter_troop       = 48
+'''
+    守卫
+'''
 slot_faction_guard_troop          = 49
+'''
+    信使
+'''
 slot_faction_messenger_troop      = 50
+'''
+    狱卒
+'''
 slot_faction_prison_guard_troop   = 51
+'''
+    城堡守卫
+'''
 slot_faction_castle_guard_troop   = 52
 
+'''
+    城镇市民（男）
+'''
 slot_faction_town_walker_male_troop      = 53
+
+'''
+    城镇市民（女）
+'''
 slot_faction_town_walker_female_troop    = 54
+
+'''
+    村民（男）
+'''
 slot_faction_village_walker_male_troop   = 55
+'''
+    村民（女）
+'''
 slot_faction_village_walker_female_troop = 56
+
+'''
+    间谍（男）
+'''
 slot_faction_town_spy_male_troop         = 57
+
+'''
+    间谍（女）
+'''
 slot_faction_town_spy_female_troop       = 58
 
 slot_faction_has_rebellion_chance = 60
@@ -158,9 +297,17 @@ slot_faction_political_issue_time 						 = 65 #Now is used
 
 
 #slot_faction_deserter_party_template       = 62
-
+'''
+    援军队伍模板1
+'''
 slot_faction_reinforcements_a        = 77
+'''
+    援军队伍模板2
+'''
 slot_faction_reinforcements_b        = 78
+'''
+    援军队伍模板3
+'''
 slot_faction_reinforcements_c        = 79
 
 slot_faction_num_armies              = 80
@@ -181,6 +328,10 @@ slot_faction_biggest_feast_host       = 93
 
 #Faction AI states
 slot_faction_last_feast_concluded       = 94 #Set when a feast starts -- this needs to be deprecated
+
+'''
+    宴会开始时间
+'''
 slot_faction_last_feast_start_time      = 94 #this is a bit confusing
 
 
@@ -215,6 +366,9 @@ slot_faction_sum_advice_about_factions_begin 			= 150
 ########################################################
 ##  PARTY SLOTS            #############################
 ########################################################
+'''
+    据点类型，用于判断是城镇，还是城堡，或者村庄等
+'''
 slot_party_type                = 0  #spt_caravan, spt_town, spt_castle
 
 slot_party_retreat_flag        = 2
@@ -224,31 +378,103 @@ slot_party_ai_object           = 5
 slot_party_ai_rationale        = 6 #Currently unused, but can be used to save a string explaining the lord's thinking
 
 #slot_town_belongs_to_kingdom   = 6
+'''
+    城堡的领主
+'''
 slot_town_lord                 = 7
 slot_party_ai_substate         = 8
 slot_town_claimed_by_player    = 9
 
 slot_cattle_driven_by_player = slot_town_lord #hack
 
+'''
+    所在地（地形的模型）
+'''
 slot_town_center        = 10
+
+'''
+    城堡
+'''
 slot_town_castle        = 11
+
+'''
+    监狱
+'''
 slot_town_prison        = 12
+
+'''
+    酒馆
+'''
 slot_town_tavern        = 13
+
+'''
+    商店
+'''
 slot_town_store         = 14
+
+'''
+    竞技场
+'''
 slot_town_arena         = 16
+
+'''
+    小巷
+'''
 slot_town_alley         = 17
+
+'''
+    城墙
+'''
 slot_town_walls         = 18
+
+'''
+    文化
+'''
 slot_center_culture     = 19
 
+'''
+    酒馆老板
+'''
 slot_town_tavernkeeper  = 20
+
+'''
+    武器商人
+'''
 slot_town_weaponsmith   = 21
+
+'''
+    防具商人
+'''
 slot_town_armorer       = 22
+
+'''
+    杂货商人
+'''
 slot_town_merchant      = 23
+
+'''
+    马匹商人
+'''
 slot_town_horse_merchant= 24
+
+'''
+    镇长
+'''
 slot_town_elder         = 25
+
+'''
+    据点和玩家的关系
+'''
 slot_center_player_relation = 26
 
+'''
+    警报钟楼，在围攻时发出信息（0,代表没有，1代表有）
+'''
 slot_center_siege_with_belfry = 27
+
+'''
+    上一次被攻下的人
+'''
 slot_center_last_taken_by_troop = 28
 
 # party will follow this party if set:
@@ -257,6 +483,9 @@ slot_party_following_player    = 31
 slot_party_follow_player_until_time = 32
 slot_party_dont_follow_player_until_time = 33
 
+'''
+    被哪支队伍袭击
+'''
 slot_village_raided_by        = 34
 slot_village_state            = 35 #svs_normal, svs_being_raided, svs_looted, svs_recovering, svs_deserted
 slot_village_raid_progress    = 36
@@ -280,7 +509,15 @@ slot_town_player_odds   = 51
 
 slot_party_last_toll_paid_hours = 52
 slot_party_food_store           = 53 #used for sieges
+
+'''
+    围攻队伍
+'''
 slot_center_is_besieged_by      = 54 #used for sieges
+
+'''
+    上次发现的敌人队伍
+'''
 slot_center_last_spotted_enemy  = 55
 
 slot_party_cached_strength        = 56
@@ -288,8 +525,22 @@ slot_party_nearby_friend_strength = 57
 slot_party_nearby_enemy_strength  = 58
 slot_party_follower_strength      = 59
 
+'''
+    支援部队模板
+'''
 slot_town_reinforcement_party_template = 60
+
+'''
+    城堡原来国家
+    也就是游戏一开始所属的国家
+'''
 slot_center_original_faction           = 61
+
+'''
+    城堡上一个所属的国家
+    
+    从哪个国家抢夺的城堡
+'''
 slot_center_ex_faction                 = 62
 
 slot_party_follow_me                   = 63
@@ -305,7 +556,9 @@ slot_party_leader_last_courted         = 70 #used for AI
 slot_party_last_in_any_center          = 71 #used for AI
 
 
-
+'''
+    据点地形
+'''
 slot_castle_exterior    = slot_town_center
 
 #slot_town_rebellion_contact   = 76
@@ -334,12 +587,37 @@ slot_town_rebellion_readiness = 77
 
 slot_town_arena_melee_mission_tpl = 78
 slot_town_arena_torny_mission_tpl = 79
+
+'''
+    竞技场中近战小队的数量[第一小队]
+'''
 slot_town_arena_melee_1_num_teams = 80
+
+'''
+    竞技场中近战小队的人数[第一小队]
+'''
 slot_town_arena_melee_1_team_size = 81
+
+'''
+    竞技场中近战小队的数量[第二小队]
+'''
 slot_town_arena_melee_2_num_teams = 82
+
+'''
+    竞技场中近战小队的人数[第二小队]
+'''
 slot_town_arena_melee_2_team_size = 83
+
+'''
+    竞技场中近战小队的数量[第三小队]
+'''
 slot_town_arena_melee_3_num_teams = 84
+
+'''
+    竞技场中近战小队的人数[第三小队]
+'''
 slot_town_arena_melee_3_team_size = 85
+
 slot_town_arena_melee_cur_tier    = 86
 ##slot_town_arena_template	  = 87
 
@@ -370,8 +648,15 @@ slot_party_looted_item_3_modifier = 117
 slot_party_looted_item_4_modifier = 118
 slot_party_looted_item_5_modifier = 119
 
+'''
+    村庄所属的城镇/城堡
+'''
 slot_village_bound_center         = 120
 slot_village_market_town          = 121
+
+'''
+    村庄农民队伍
+'''
 slot_village_farmer_party         = 122
 slot_party_home_center            = 123 #Only use with caravans and villagers
 
@@ -407,8 +692,20 @@ slot_center_player_enterprise_output_price        = 142 #not used
 
 
 slot_center_has_bandits                        = 155
+
+'''
+    保存竞技赛持续的天数（如果不为0代表该城镇正在开办竞技赛）
+'''
 slot_town_has_tournament                       = 156
+
+'''
+    城镇中竞技场中小队数量
+'''
 slot_town_tournament_max_teams                 = 157
+
+'''
+    城镇中竞技场中小队中人数
+'''
 slot_town_tournament_max_team_size             = 158
 
 slot_center_faction_when_oath_renounced        = 159
@@ -446,6 +743,21 @@ slot_center_walker_7_type                    = 187
 slot_center_walker_8_type                    = 188
 slot_center_walker_9_type                    = 189
 
+'''
+    以下为15条贸易路线
+    也就是说 在城镇中slot从编号190到204中保存的都以当前城镇为交易路线的起始点到目的城镇
+    
+    当前城镇为起点
+    以下15个slot保存的是目的地
+    
+    
+    由于路线功能使用的是party的本身的slot，所以如果想要添加新的城镇并添加贸易路线时，就会变得很困难
+    
+    如果想扩展，我想到两个办法
+    1.从原来的城镇中删除一条贸易路线，将这条线给新的城镇
+    2.创建一个为每一个城镇创建一个城镇贸易线数组，使用当前party的一个slot，指向城镇贸易线数组，这样就可以保存每一个城镇会至少拥有256个贸易路线
+        缺点就是需要重写所有贸易路线的功能
+'''
 slot_town_trade_route_1           = 190
 slot_town_trade_route_2           = 191
 slot_town_trade_route_3           = 192
@@ -461,53 +773,89 @@ slot_town_trade_route_12          = 201
 slot_town_trade_route_13          = 202
 slot_town_trade_route_14          = 203
 slot_town_trade_route_15          = 204
+
+'''
+    交易路线起始位置
+'''
 slot_town_trade_routes_begin = slot_town_trade_route_1
+
+'''
+    交易路线结束位置
+'''
 slot_town_trade_routes_end = slot_town_trade_route_15 + 1
 
 
 num_trade_goods = itm_siege_supply - itm_spice
+
 slot_town_trade_good_productions_begin       = 500 #a harmless number, until it can be deprecated
 
 #These affect production but in some cases also demand, so it is perhaps easier to itemize them than to have separate 
 
 slot_village_number_of_cattle   = 205
+## 主要产出牛
+## 牛可以制作，干肉、奶酪、皮、黄油
 slot_center_head_cattle         = 205 #dried meat, cheese, hides, butter
+## 主要产出羊
+## 羊可以制作：香肠，羊毛
 slot_center_head_sheep			= 206 #sausages, wool
+## 主要产出马
+## 马可以是交易的物品，但是却不经常交易
 slot_center_head_horses		 	= 207 #horses can be a trade item used in tracking but which are never offered for sale
 
+
+## 牧场，数量越大产出（牛羊马）的数量就越多
 slot_center_acres_pasture       = 208 #pasture area for grazing of cattles and sheeps, if this value is high then number of cattles and sheeps increase faster
+## 原料开始
 slot_production_sources_begin = 209
+## 麦田，数量越大产出（麦子）的数量就越多
 slot_center_acres_grain			= 209 #grain
+## 橄榄田，数量越大产出（橄榄）的数量就越多
 slot_center_acres_olives        = 210 #olives
+## 葡萄园，数量越大产出（葡萄）的数量就越多
 slot_center_acres_vineyard		= 211 #fruit
+## 亚麻田，数量越大产出（亚麻）的数量就越多
 slot_center_acres_flax          = 212 #flax
+## 枣园，数量越大产出（枣）的数量就越多
 slot_center_acres_dates			= 213 #dates
-
+## 鱼塘，数量越大产出（鱼）的数量就越多
 slot_center_fishing_fleet		= 214 #smoked fish
+## 盐田，数量越大产出（盐）的数量就越多
 slot_center_salt_pans		    = 215 #salt
-
+## 养蜂场，数量越大产出（蜂蜜）的数量就越多
 slot_center_apiaries       		= 216 #honey
+## 农场（桑田），数量越大产出（丝绸）的数量就越多
 slot_center_silk_farms			= 217 #silk
+## 基米苏田（作染料的田），数量越大产出（染料）的数量就越多
 slot_center_kirmiz_farms		= 218 #dyes
-
+## 铁矿场，数量越大产出（生铁）的数量就越多
 slot_center_iron_deposits       = 219 #iron
+## 猎场，数量越大产出（兽皮）的数量就越多
 slot_center_fur_traps			= 220 #furs
-
+## 磨坊，数量越大产出（面包）的数量就越多
 slot_center_mills				= 221 #bread
+## 酿酒场，数量越大产出（麦芽酒）的数量就越多
 slot_center_breweries			= 222 #ale
+## 葡萄酿酒场，数量越大产出（葡萄酒）的数量就越多
 slot_center_wine_presses		= 223 #wine
+## 橄榄场，数量越大产出（橄榄油）的数量就越多
 slot_center_olive_presses		= 224 #oil
-
+## 亚麻场，数量越大产出（亚麻布）的数量就越多
 slot_center_linen_looms			= 225 #linen
+## 丝制场，数量越大产出（天鹅绒）的数量就越多
 slot_center_silk_looms          = 226 #velvet
+## 羊毛场，数量越大产出（羊毛布）的数量就越多
 slot_center_wool_looms          = 227 #wool cloth
-
+## 陶窑，数量越大产出（陶器）的数量就越多
 slot_center_pottery_kilns		= 228 #pottery
+## 铁匠，数量越大产出（工具）的数量就越多
 slot_center_smithies			= 229 #tools
+## 制革场，数量越大产出（皮革）的数量就越多
 slot_center_tanneries			= 230 #leatherwork
+## 造船场，数量越大
 slot_center_shipyards			= 231 #naval stores - uses timber, pitch, and linen
-
+##　菜田，数量越大，（卷芯菜）数量就越多
 slot_center_household_gardens   = 232 #cabbages
+## 原材料结束
 slot_production_sources_end = 233
 
 #all spice comes overland to Tulga
@@ -527,6 +875,11 @@ slot_party_orders_time				    	= 247
 
 slot_party_temp_slot_1			            = 248 #right now used only within a single script, merchant_road_info_to_s42, to denote closed roads. Now also used in comparative scripts
 slot_party_under_player_suggestion			= 249 #move this up a bit
+
+'''
+    每一城镇中250编号以后的slot为商品价格因子（1000）
+    可以交易的商品大约35个左右，250+35 = 285，原版slot的最大长度为255，显然超出了这个范围，可能是战团版增加了slot的长度为511，【待测试】
+'''
 slot_town_trade_good_prices_begin 			= 250
 
 slot_center_last_reconnoitered_by_faction_time 				= 350
@@ -536,36 +889,143 @@ slot_center_last_reconnoitered_by_faction_time 				= 350
 
 
 
+'''
+    据点类型的值
+'''
 #slot_party_type values
+
+'''
+    车队
+'''
 ##spt_caravan            = 1
+
+'''
+    城堡
+'''
 spt_castle             = 2
+
+'''
+    城镇
+'''
 spt_town               = 3
+
+'''
+    村庄
+'''
 spt_village            = 4
+
+'''
+    抢劫者
+'''
 ##spt_forager            = 5
+'''
+    战争队伍
+'''
 ##spt_war_party          = 6
+
+'''
+    巡逻队
+'''
 ##spt_patrol             = 7
+
+'''
+    信使
+'''
 ##spt_messenger          = 8
+
+'''
+    袭击者
+'''
 ##spt_raider             = 9
+
+'''
+    侦察队
+'''
 ##spt_scout              = 10
+
+'''
+    国家商队
+'''
 spt_kingdom_caravan    = 11
+
+'''
+    囚车
+'''
 ##spt_prisoner_train     = 12
+
+'''
+    国家领主队伍
+'''
 spt_kingdom_hero_party = 13
+
+'''
+    商队
+'''
 ##spt_merchant_caravan   = 14
+
+'''
+    村民
+'''
 spt_village_farmer     = 15
+
+'''
+    船只
+'''
 spt_ship               = 16
+
+'''
+    牛群
+'''
 spt_cattle_herd        = 17
+
+'''
+    贼窝
+'''
 spt_bandit_lair       = 18
+
+'''
+    逃兵
+'''
 #spt_deserter           = 20
 
 kingdom_party_types_begin = spt_kingdom_caravan
 kingdom_party_types_end = spt_kingdom_hero_party + 1
 
+
+'''
+    阵营状态所有的取值
+'''
 #slot_faction_state values
+
+'''
+    正常的阵营
+'''
 sfs_active                     = 0
+'''
+    被击败的阵营
+    当一个国家失去所有土地和军队后就会变成此状态
+'''
 sfs_defeated                   = 1
+
+'''
+    未激活的阵营
+    玩家的一开始国家就是没有激活的
+'''
 sfs_inactive                   = 2
-sfs_inactive_rebellion         = 3
-sfs_beginning_rebellion        = 4
+
+'''
+    未激活叛乱的阵营
+    篡位者的国家就是此状态，
+    注：在当前版本中，没有使用
+'''
+#sfs_inactive_rebellion         = 3
+
+'''
+    有叛乱的阵营
+    当玩家开始支持篡位者复国时
+    注：在当前版本中，没有使用
+'''
+#sfs_beginning_rebellion        = 4
 
 
 #slot_faction_ai_state values
@@ -627,6 +1087,9 @@ slot_scene_belfry_props_begin   = 10
 ########################################################
 #slot_troop_role         = 0  # 10=Kingdom Lord
 
+'''
+    英雄的职业
+'''
 slot_troop_occupation          = 2  # 0 = free, 1 = merchant
 #slot_troop_duty               = 3  # Kingdom duty, 0 = free
 #slot_troop_homage_type         = 45
@@ -643,9 +1106,16 @@ slot_troop_courtship_state     = 5 #2 professed admiration, 3 agreed to seek a m
 slot_troop_party_template      = 6
 #slot_troop_kingdom_rank        = 7
 
+'''
+    人物的声望
+'''
 slot_troop_renown              = 7
 
 ##slot_troop_is_prisoner         = 8  # important for heroes only
+
+'''
+    人物是哪个城堡的俘虏
+'''
 slot_troop_prisoner_of_party   = 8  # important for heroes only
 #slot_troop_is_player_companion = 9  # important for heroes only:::USE  slot_troop_occupation = slto_player_companion
 
@@ -653,10 +1123,21 @@ slot_troop_present_at_event    = 9
 
 slot_troop_leaded_party         = 10 # important for kingdom heroes only
 slot_troop_wealth               = 11 # important for kingdom heroes only
+
+'''
+    人物现在居住在哪个城市（领主家眷，玩家同伴）
+    并不是人物的家乡，这个城市只是人物暂住的地方
+'''
 slot_troop_cur_center           = 12 # important for royal family members only (non-kingdom heroes)
 
+'''
+    城镇旗帜
+'''
 slot_troop_banner_scene_prop    = 13 # important for kingdom heroes and player only
 
+'''
+    人物故国
+'''
 slot_troop_original_faction     = 14 # for pretenders
 #slot_troop_loyalty              = 15 #deprecated - this is now derived from other figures
 slot_troop_player_order_state   = 16 #Deprecated
@@ -666,7 +1147,15 @@ slot_troop_player_order_object  = 17 #Deprecated
 
 
 #Post 0907 changes begin
+
+'''
+    人物年龄
+'''
 slot_troop_age                 =  18
+
+'''
+    人物年龄外貌（1-100岁的外貌特征，主要是为了达到每增加一岁改变外貌的效果）
+'''
 slot_troop_age_appearance      =  19
 
 #Post 0907 changes end
@@ -685,10 +1174,31 @@ slot_troop_spawned_before      = 28
 slot_troop_last_comment_slot   = 29
 #Post 0907 changes end
 
+'''
+    配偶（妻子）
+'''
 slot_troop_spouse              = 30
+
+'''
+    父亲
+'''
 slot_troop_father              = 31
+
+'''
+    母亲
+'''
 slot_troop_mother              = 32
+
+'''
+    监护人
+    有父亲时，就是父亲
+    没有父亲时，就是哥哥
+'''
 slot_troop_guardian            = 33 #Usually siblings are identified by a common parent.This is used for brothers if the father is not an active npc. At some point we might introduce geneologies
+
+'''
+    未婚夫/未婚妻
+'''
 slot_troop_betrothed           = 34 #Obviously superseded once slot_troop_spouse is filled
 #other relations are derived from one's parents 
 #slot_troop_daughter            = 33
@@ -701,6 +1211,10 @@ slot_troop_love_interests_end  = 38
 #ways to court -- discuss a book, commission/compose a poem, present a gift, recount your exploits, fulfil a specific quest, appear at a tournament
 #preferences for women - (conventional - father's friends)
 slot_lady_no_messages          				= 37
+
+'''
+    追求者（求婚）
+'''
 slot_lady_last_suitor          				= 38
 slot_lord_granted_courtship_permission      = 38
 
@@ -720,9 +1234,17 @@ slot_lady_used_tournament					= 40
 
 
 slot_troop_current_rumor       = 45
+
+'''
+    临时slot，其实就是在不同的场景下，代表的含义可能会不一样，所以重要数据不能保存到该slot下
+'''
 slot_troop_temp_slot           = 46
 slot_troop_promised_fief       = 47
 
+'''
+    决策值
+    未使用
+'''
 slot_troop_set_decision_seed       = 48 #Does not change
 slot_troop_temp_decision_seed      = 49 #Resets at recalculate_ai
 slot_troop_recruitment_random      = 50 #used in a number of different places in the intrigue procedures to overcome intermediate hurdles, although not for the final calculation, might be replaced at some point by the global decision seed
@@ -735,6 +1257,10 @@ slot_troop_intrigue_impatience = 51
 
 #slot_troop_honorable          = 50
 #slot_troop_merciful          = 51
+
+'''
+    性格类型
+'''
 slot_lord_reputation_type     		  = 52
 slot_lord_recruitment_argument        = 53 #the last argument proposed by the player to the lord
 slot_lord_recruitment_candidate       = 54 #the last candidate proposed by the player to the lord
@@ -747,7 +1273,14 @@ slot_troop_change_to_faction          = 55
 # NPC-related constants
 
 #NPC companion changes begin
+'''
+    第一次遇到的城市
+'''
 slot_troop_first_encountered          = 59
+
+'''
+    人物的家乡
+'''
 slot_troop_home                       = 60
 
 slot_troop_morality_state       = 61
@@ -755,25 +1288,71 @@ tms_no_problem         = 0
 tms_acknowledged       = 1
 tms_dismissed          = 2
 
+'''
+    人物道德类型
+    适用于玩家同伴
+'''
 slot_troop_morality_type = 62
+
+'''
+    贵族的
+'''
 tmt_aristocratic = 1
+
+'''
+    平等的
+'''
 tmt_egalitarian = 2
+
+'''
+    人道的
+'''
 tmt_humanitarian = 3
+
+'''
+    诚实的
+'''
 tmt_honest = 4
+
+'''
+    虔诚的
+'''
 tmt_pious = 5
 
+'''
+    人物道德类型的值，正值代表喜欢这个性格的程度，负值代表非讨厌这个性格的程度
+    适用于玩家同伴
+'''
 slot_troop_morality_value = 63
 
+'''
+    人物道德类型(第二性格)
+    适用于玩家同伴
+'''
 slot_troop_2ary_morality_type  = 64
+
+'''
+
+'''
 slot_troop_2ary_morality_state = 65
+
+'''
+    人物道德类型的值(第二性格)，正值代表喜欢这个性格的程度，负值代表非讨厌这个性格的程度
+    适用于玩家同伴
+'''
 slot_troop_2ary_morality_value = 66
 
+'''
+    同伴在哪个城堡有亲信的人（玩家要同伴提供优势时，就会去这个城堡探查）
+'''
 slot_troop_town_with_contacts  = 67
 slot_troop_town_contact_type   = 68 #1 are nobles, 2 are commons
 
 slot_troop_morality_penalties =  69 ### accumulated grievances from morality conflicts
 
-
+'''
+    讨厌的人
+'''
 slot_troop_personalityclash_object     = 71
 #(0 - they have no problem, 1 - they have a problem)
 slot_troop_personalityclash_state    = 72 #1 = pclash_penalty_to_self, 2 = pclash_penalty_to_other, 3 = pclash_penalty_to_other,
@@ -781,9 +1360,16 @@ pclash_penalty_to_self  = 1
 pclash_penalty_to_other = 2
 pclash_penalty_to_both  = 3
 #(a string)
+
+'''
+    第二个讨厌的人
+'''
 slot_troop_personalityclash2_object   = 73
 slot_troop_personalityclash2_state    = 74
 
+'''
+    喜欢的人
+'''
 slot_troop_personalitymatch_object   =  75
 slot_troop_personalitymatch_state   =  76
 
@@ -875,25 +1461,74 @@ slot_troop_turn_against_string	        = 140
 
 slot_troop_strings_end 					= 141
 
+'''
+    初次招募费用
+'''
 slot_troop_payment_request 				= 141
 
 #141, support base removed, slot now available
 
 slot_troop_kingsupport_state			= 142
+
+'''
+    与政敌的争端
+'''
 slot_troop_kingsupport_argument			= 143
+
+'''
+    政敌（玩家做国王时）
+'''
 slot_troop_kingsupport_opponent			= 144
 slot_troop_kingsupport_objection_state  = 145 #0, default, 1, needs to voice, 2, has voiced
 
+'''
+    npc做任务离开的时间
+'''
 slot_troop_days_on_mission		        = 150
+
+'''
+    npc当前所做的任务
+'''
 slot_troop_current_mission			    = 151
 slot_troop_mission_object               = 152
+
+'''
+    国王支持任务
+'''
 npc_mission_kingsupport					= 1
+'''
+    收集情报
+'''
 npc_mission_gather_intel                = 2
+
+'''
+    要求停战
+'''
 npc_mission_peace_request               = 3
+
+'''
+    分为领主
+'''
 npc_mission_pledge_vassal               = 4
+
+'''
+    寻求认可
+'''
 npc_mission_seek_recognition            = 5
+
+'''
+    
+'''
 npc_mission_test_waters                 = 6
+
+'''
+    要求签订互不侵犯条约
+'''
 npc_mission_non_aggression              = 7
+
+'''
+    玩家被打败后，离开队伍，npc等待再次加入
+'''
 npc_mission_rejoin_when_possible        = 8
 
 #Number of routed agents after battle ends.
@@ -916,6 +1551,10 @@ slot_troop_controversy                     = 150 #Determines whether or not a tr
 slot_troop_recent_offense_type 	           = 151 #failure to join army, failure to support colleague
 slot_troop_recent_offense_object           = 152 #to whom it happened
 slot_troop_recent_offense_time             = 153
+
+'''
+    当事人支持的人（当选元帅，分封领地时）
+'''
 slot_troop_stance_on_faction_issue         = 154 #when it happened
 
 tro_failed_to_join_army                    = 1
@@ -1015,20 +1654,70 @@ enctype_catched_during_village_raid   = 2
 
 
 ### Troop occupations slot_troop_occupation
+
+'''
+    英雄的职业
+'''
+
+'''
+    商人
+'''
 ##slto_merchant           = 1
+
+'''
+    未激活的
+    玩家同伴在玩家招募之前的状态
+'''
 slto_inactive           = 0 #for companions at the beginning of the game
 
+'''
+    国家的领主
+    玩家出生后默认为此职业
+'''
 slto_kingdom_hero       = 2
 
+'''
+    玩家的同伴
+    著名的16NPC同伴
+'''
 slto_player_companion   = 5 #This is specifically for companions in the employ of the player -- ie, in the party, or on a mission
+
+'''
+    国家的女士
+'''
 slto_kingdom_lady       = 6 #Usually inactive (Calradia is a traditional place). However, can be made potentially active if active_npcs are expanded to include ladies
+
+'''
+    国家管家
+'''
 slto_kingdom_seneschal  = 7
+
+'''
+    劫匪骑士
+    
+    注：本版本未使用
+'''
 slto_robber_knight      = 8
+
+'''
+    未激活的篡位者
+    篡位者出生时就设置此状态
+'''
 slto_inactive_pretender = 9
 
 
+'''
+    城堡没有主人（还没有授予任何人）
+'''
 stl_unassigned          = -1
+'''
+    玩家要求保留
+'''
 stl_reserved_for_player = -2
+
+'''
+    玩家拒绝保留
+'''
 stl_rejected_by_player  = -3
 
 #NPC changes begin
@@ -1248,24 +1937,85 @@ logent_war_declaration_types_end							= 95
 
 #lord reputation type, for commentaries
 #"Martial" will be twice as common as the other types
-lrep_none           = 0 
+'''
+    无性格
+'''
+lrep_none           = 0
+
+'''
+    军事的
+'''
 lrep_martial        = 1 #chivalrous but not terribly empathetic or introspective, - eg Richard Lionheart, your average 14th century French baron
+
+'''
+    好战的
+'''
 lrep_quarrelsome    = 2 #spiteful, cynical, a bit paranoid, possibly hotheaded - eg Robert Graves' Tiberius, some of Charles VI's uncles
+
+'''
+    冷酷的
+'''
 lrep_selfrighteous  = 3 #coldblooded, moralizing, often cruel - eg William the Conqueror, Timur, Octavian, Aurangzeb (although he is arguably upstanding instead, particularly after his accession)
+
+'''
+    狡猾的
+'''
 lrep_cunning        = 4 #coldblooded, pragmatic, amoral - eg Louis XI, Guiscard, Akbar Khan, Abd al-Aziz Ibn Saud
+
+'''
+    放荡的
+'''
 lrep_debauched      = 5 #spiteful, amoral, sadistic - eg Caligula, Tuchman's Charles of Navarre
+
+'''
+    和善的
+'''
 lrep_goodnatured    = 6 #chivalrous, benevolent, perhaps a little too decent to be a good warlord - eg Hussein ibn Ali. Few well-known historical examples maybe. because many lack the drive to rise to faction leadership. Ranjit Singh has aspects
+
+'''
+    正直的
+'''
 lrep_upstanding     = 7 #moralizing, benevolent, pragmatic, - eg Bernard Cornwell's Alfred, Charlemagne, Salah al-Din, Sher Shah Suri
 
+'''
+    流氓的
+'''
 lrep_roguish        = 8 #used for commons, specifically ex-companions. Tries to live life as a lord to the full
+
+'''
+    善良的
+'''
 lrep_benefactor     = 9 #used for commons, specifically ex-companions. Tries to improve lot of folks on land
+
+'''
+    贪婪的
+'''
 lrep_custodian      = 10 #used for commons, specifically ex-companions. Tries to maximize fief's earning potential
 
 #lreps specific to dependent noblewomen
+'''
+    传统的女性
+'''
 lrep_conventional    = 21 #Charlotte York in SATC seasons 1-2, probably most medieval aristocrats
+
+'''
+    冒险的女性
+'''
 lrep_adventurous     = 22 #Tomboyish. However, this basically means that she likes to travel and hunt, and perhaps yearn for wider adventures. However, medieval noblewomen who fight are rare, and those that attempt to live independently of a man are rarer still, and best represented by pre-scripted individuals like companions
-lrep_otherworldly    = 23 #Prone to mysticism, romantic. 
+
+'''
+    浪漫的女性
+'''
+lrep_otherworldly    = 23 #Prone to mysticism, romantic.
+
+'''
+    有野心的女性
+'''
 lrep_ambitious       = 24 #Lady Macbeth
+
+'''
+    有道德的女性
+'''
 lrep_moralist        = 25 #Equivalent of upstanding or benefactor -- takes nobless oblige, and her traditional role as repository of morality, very seriously. Based loosely on Christine de Pisa 
 
 #a more complicated system of reputation could include the following...
@@ -1561,6 +2311,9 @@ maximum_price_factor = 10000
 village_prod_min = 0 #was -5
 village_prod_max = 20 #was 20
 
+'''
+    食物开始编号
+'''
 trade_goods_begin = "itm_spice"
 trade_goods_end = "itm_siege_supply"
 food_begin = "itm_smoked_fish"
