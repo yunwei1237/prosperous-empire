@@ -3,21 +3,20 @@
 from module_scripts import *
 
 
-'''
-
-patrol party
-'''
-
 ## constans
+
+## 巡逻队数量（固定）
 capital_town_patrol_max_num = 6
 town_patrol_max_num = 4
 castle_patrol_max_num = 2
 village_patrol_max_num = 1
 
+## 巡逻队人数（至少）
 town_patrol_min_size = 80
 castle_patrol_min_size = 60
 village_patrol_min_size = 40
 
+## 巡逻队军事强度
 capital_town_patrol_strength = 8
 town_patrol_strength = 6
 castle_patrol_strength = 4
@@ -34,6 +33,17 @@ slot_party_protect_center = 401
 '''
 spt_patrol             = 7
 
+'''
+    巡逻队功能
+    
+    每24小时会更新巡逻队（补充士兵，添加经验，贩卖俘虏）
+    此巡逻队只为据点生成，包括，首都（6队，每队至少80人），城镇（4队，每队至少80人），城堡（2队，每队至少60人），和村庄（1队，每队至少40人）.
+    
+    人数超过限制就不会再补充士兵，如果超过是不限制的。
+    队数如果少于限制数量，就会创建以补足数量。
+    士兵每天都会有经验加成
+    
+'''
 patrolParty = {
     "name":"PatrolParty",
     "enable":True,
@@ -143,6 +153,9 @@ patrolParty = {
             (try_for_range,":i",0,":need_create_party_num"),
                 ## 在指定地方创建巡逻队
                 (call_script,"script_create_patrol_party", ":center_no", ":strength"),
+                ## 更新创建的队数量，以免重复创建
+                (val_add,":center_patrol_num",1),
+                (party_set_slot,":center_no",slot_party_patrol_num,":center_patrol_num"),
             (try_end),
             (try_end),
             ## 维护巡逻队
@@ -204,10 +217,10 @@ patrolParty = {
                     (lt,":cur_size",":need_size"),
                     (call_script, "script_update_center_wealth", ":center_no",500,-1),
                     (call_script, "script_cf_reinforce_party", ":party_no"),
-                    ## 【升级士兵】
-                    (store_mul,":xp",":times",100),
-                    (party_upgrade_with_xp, ":party_no", ":xp", 0),
                 (try_end),
+                ## 【升级士兵】
+                (store_mul,":xp",":times",100),
+                (party_upgrade_with_xp, ":party_no", ":xp", 0),
             (try_end),
         ])
     ],
