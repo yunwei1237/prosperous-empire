@@ -21,7 +21,7 @@ def write_items(variable_list,variable_uses,tag_uses,quick_strings):
   ofile.write("%d\n"%len(items))
   for item in items:
     if (item[3] & itp_merchandise) > 0:
-      id_no = find_object(items,convert_to_identifier(item[0]))
+      id_no = find_object("itm",convert_to_identifier(item[0]))
       add_tag_use(tag_uses,tag_item,id_no)
     ofile.write(" itm_%s %s %s %d "%(convert_to_identifier(item[0]),replace_spaces(item[1]),replace_spaces(item[1]),len(item[2])))
     item_variations = item[2]

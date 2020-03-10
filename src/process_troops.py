@@ -27,7 +27,7 @@ def save_troops():
       troop[15:15] = [0]
     if (troop[4] > 0):
 #      add_tag_use(tag_uses,tag_scene,troop[4] & tsf_site_id_mask)
-      id_no = find_object(troops,convert_to_identifier(troop[0]))
+      id_no = find_object("trp",convert_to_identifier(troop[0]))
 #      if (id_no >= 0):  add_tag_use(tag_uses,tag_troop,id_no)
 #    if (troop[6] > 0):  add_tag_use(tag_uses,tag_faction,troop[6])
 

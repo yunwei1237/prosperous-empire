@@ -1,5 +1,5 @@
 stringsfile version 1
-3202
+3203
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3202,3 +3202,4 @@ str_disallow_ranged_weapons Disallow_ranged_weapons
 str_ranged_weapons_are_disallowed Ranged_weapons_are_disallowed.
 str_ranged_weapons_are_allowed Ranged_weapons_are_allowed.
 str_duel_starts_in_reg0_seconds Duel_starts_in_{reg0}_seconds...
+str_s5_s_patrol_party {s5}'s_patrol_Party

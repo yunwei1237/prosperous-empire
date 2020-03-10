@@ -183,6 +183,9 @@ slot_faction_number_of_parties    = 20
 '''
 slot_faction_state                = 21
 
+'''
+    附加信息（国名）
+'''
 slot_faction_adjective            = 22
 
 
@@ -502,8 +505,16 @@ slot_village_player_can_not_steal_cattle = 46
 
 slot_center_accumulated_rents      = 47 #collected automatically by NPC lords
 slot_center_accumulated_tariffs    = 48 #collected automatically by NPC lords
+
+'''
+    城市的财富
+'''
 slot_town_wealth        = 49 #total amount of accumulated wealth in the center, pays for the garrison
+'''
+    繁荣度（影响税收）
+'''
 slot_town_prosperity    = 50 #affects the amount of wealth generated
+
 slot_town_player_odds   = 51
 
 
@@ -662,11 +673,18 @@ slot_village_market_town          = 121
     村庄农民队伍
 '''
 slot_village_farmer_party         = 122
+
+'''
+    非英雄（村民，商队）部队的家
+'''
 slot_party_home_center            = 123 #Only use with caravans and villagers
 
 slot_center_current_improvement   = 124
 slot_center_improvement_end_hour  = 125
 
+'''
+    上一次交易的城镇
+'''
 slot_party_last_traded_center     = 126 
 
 
@@ -1169,6 +1187,9 @@ slot_troop_prisoner_of_party   = 8  # important for heroes only
 
 slot_troop_present_at_event    = 9
 
+'''
+    领导的队伍
+'''
 slot_troop_leaded_party         = 10 # important for kingdom heroes only
 
 '''
@@ -1220,6 +1241,10 @@ slot_troop_last_quest          = 24
 slot_troop_last_quest_betrayed = 25
 slot_troop_last_persuasion_time= 26
 slot_troop_last_comment_time   = 27
+
+'''
+    用于记录队伍创建的标识（保存队伍只创建一次，0代表没有创建，1代表已经创建了）
+'''
 slot_troop_spawned_before      = 28
 
 #Post 0907 changes begin
@@ -2108,8 +2133,18 @@ walkert_spy                = 3
 num_town_walkers = 8
 town_walker_entries_start = 32
 
+'''
+    npc招一次后需要的钱（难度：简单级别）
+    钱越多，领主招兵就越少
+'''
 reinforcement_cost_easy = 600
+'''
+    npc招一次后需要的钱（难度：中级级别）
+'''
 reinforcement_cost_moderate = 450
+'''
+    npc招一次后需要的钱（难度：高级级别）
+'''
 reinforcement_cost_hard = 300
 
 merchant_toll_duration        = 72 #Tolls are valid for 72 hours

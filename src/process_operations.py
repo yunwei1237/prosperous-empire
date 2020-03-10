@@ -27,73 +27,73 @@ from module_presentations import *
 from module_map_icons import *
 from module_tableau_materials import *
 from module_animations import *
-
+from process_import_modules import *
 
 def get_id_value(tag, identifier, tag_uses):
   tag_type = -1
   id_no = -1
   if (tag == "str"):
-    id_no = find_object(strings,identifier)
+    id_no = find_object("str",identifier)
     tag_type = tag_string
   elif (tag == "itm"):
-    id_no = find_object(items,identifier)
+    id_no = find_object("itm",identifier)
     tag_type = tag_item
   elif (tag == "trp"):
-    id_no = find_object(troops,identifier)
+    id_no = find_object("trp",identifier)
     tag_type = tag_troop
   elif (tag == "fac"):
-    id_no = find_object(factions,identifier)
+    id_no = find_object("fac",identifier)
     tag_type = tag_faction
   elif (tag == "qst"):
-    id_no = find_object(quests,identifier)
+    id_no = find_object("qst",identifier)
     tag_type = tag_quest
   elif (tag == "pt"):
-    id_no = find_object(party_templates,identifier)
+    id_no = find_object("pt",identifier)
     tag_type = tag_party_tpl
   elif (tag == "p"):
-    id_no = find_object(parties,identifier)
+    id_no = find_object("p",identifier)
     tag_type = tag_party
   elif (tag == "scn"):
-    id_no = find_object(scenes,identifier)
+    id_no = find_object("scn",identifier)
     tag_type = tag_scene
   elif (tag == "mt"):
-    id_no = find_object(mission_templates,identifier)
+    id_no = find_object("mt",identifier)
     tag_type = tag_mission_tpl
   elif (tag == "mnu"):
-    id_no = find_object(game_menus,identifier)
+    id_no = find_object("mnu",identifier)
     tag_type = tag_menu
   elif (tag == "script"):
-    id_no = find_object(scripts,identifier)
+    id_no = find_object("script",identifier)
     tag_type = tag_script
   elif (tag == "psys"):
-    id_no = find_object(particle_systems,identifier)
+    id_no = find_object("psys",identifier)
     tag_type = tag_particle_sys
   elif (tag == "spr"):
-    id_no = find_object(scene_props,identifier)
+    id_no = find_object("spr",identifier)
     tag_type = tag_scene_prop
   elif (tag == "prsnt"):
-    id_no = find_object(presentations,identifier)
+    id_no = find_object("prsnt",identifier)
     tag_type = tag_presentation
   elif (tag == "snd"):
-    id_no = find_object(sounds,identifier)
+    id_no = find_object("snd",identifier)
     tag_type = tag_sound
   elif (tag == "icon"):
-    id_no = find_object(map_icons,identifier)
+    id_no = find_object("icon",identifier)
     tag_type = tag_map_icon
   elif (tag == "skl"):
-    id_no = find_object(skills,identifier)
+    id_no = find_object("skl",identifier)
     tag_type = tag_skill
   elif (tag == "track"):
-    id_no = find_object(tracks,identifier)
+    id_no = find_object("track",identifier)
     tag_type = tag_track
   elif (tag == "mesh"):
-    id_no = find_object(meshes,identifier)
+    id_no = find_object("mesh",identifier)
     tag_type = tag_mesh
   elif (tag == "anim"):
-    id_no = find_object(animations,identifier)
+    id_no = find_object("anim",identifier)
     tag_type = tag_animation
   elif (tag == "tableau"):
-    id_no = find_object(tableaus,identifier)
+    id_no = find_object("tableau",identifier)
     tag_type = tag_tableau
 
   if (tag_type > -1 and id_no > -1):
@@ -113,7 +113,7 @@ def get_identifier_value(str, tag_uses):
       else:
         result = id_no | (tag_type << op_num_value_bits)
     else:
-      print "Error: Unrecognized tag:" +tag_str + "in object:" + str
+      print "Error: Unrecognized tag:" +tag_str + " in object:" + str
   else:
     print "Error: Invalid object:" +str + ".Variables should start with $ sign and references should start with a tag"
   return result

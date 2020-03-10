@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 ###################################################
 # header_common.py
 # This file contains common declarations.
@@ -5,6 +7,8 @@
 ###################################################
 
 #client events
+from module_info import export_dir
+
 multiplayer_event_set_item_selection                          = 0
 multiplayer_event_set_bot_selection                           = 1
 multiplayer_event_admin_start_map                             = 2
@@ -171,7 +175,7 @@ multi_data_item_button_indices_begin = multi_data_troop_button_indices_end
 multi_data_item_button_indices_end = multi_data_item_button_indices_begin + 100 #maximum 100 items per troop
 multi_data_flag_owner_begin = multi_data_item_button_indices_end
 multi_data_flag_owner_end = multi_data_flag_owner_begin + 10 #maximum of 10 flags per scene
-multi_data_flag_players_around_begin = multi_data_flag_owner_end 
+multi_data_flag_players_around_begin = multi_data_flag_owner_end
 multi_data_flag_players_around_end = multi_data_flag_players_around_begin + 10 #maximum of 10 flags per scene
 multi_data_flag_owned_seconds_begin = multi_data_flag_players_around_end
 multi_data_flag_owned_seconds_end = multi_data_flag_owned_seconds_begin + 10 #maximum of 10 flags per scene
@@ -273,9 +277,9 @@ multi_headquarters_pole_height = 900
 multi_headquarters_flag_height_to_win = 800 #used in sd death mode
 multi_headquarters_flag_initial_height = 100 #used in sd death mode
 multi_headquarters_max_distance_sq_to_raise_flags = 1600 #4m * 4m * 100 = 1600
-multi_headquarters_distance_sq_to_set_flag = 8100 #9m * 9m * 100 = 8100 
-multi_headquarters_distance_sq_to_change_flag = 400 #2m * 2m * 100 = 400 
-multi_headquarters_distance_to_change_flag = 200 #2m * 100 = 200 
+multi_headquarters_distance_sq_to_set_flag = 8100 #9m * 9m * 100 = 8100
+multi_headquarters_distance_sq_to_change_flag = 400 #2m * 2m * 100 = 400
+multi_headquarters_distance_to_change_flag = 200 #2m * 100 = 200
 multi_distance_sq_to_use_belfry = 36 #6m * 6m = 36 (there is no * 100 for this one because it uses get_sq_distance_between_positions_in_meters instead of get_sq_distance_between_positions)
 multi_max_sq_dist_between_agents_to_longer_mof_time = 49 #7m * 7m = 49m
 min_allowed_flag_height_difference_to_make_score = 50
@@ -349,21 +353,67 @@ opmask_quick_string         =  tag_quick_string   << op_num_value_bits
 
 def reg(reg_no):
   if (reg_no < 0):
-    print ("Error register_no negative")
-    cause_error()
+    ##print ("Error register_no negative")
+    #cause_error()
+    raise RuntimeError('Error register_no negative')
   return opmask_register | reg_no
 
-def find_object(objects,object_id):
-  result = -1
-  num_objects = len(objects)
-  i_object = 0
-  object_id_lowercase = object_id.lower()
-  while (i_object < num_objects) and (result == -1):
-    object = objects[i_object]
-    if (object[0].lower() == object_id_lowercase):
-      result = i_object
-    i_object += 1
-  return result
+# def find_object(objects,object_id):
+#   result = -1
+#   num_objects = len(objects)
+#   i_object = 0
+#   object_id_lowercase = object_id.lower()
+#   while (i_object < num_objects) and (result == -1):
+#     object = objects[i_object]
+#     if (object[0].lower() == object_id_lowercase):
+#       result = i_object
+#     i_object += 1
+#   return result
+
+id_types = {
+  "str":[tag_string,"ID_strings.py"],
+  "itm":[tag_item,"ID_items.py"],
+  "trp":[tag_troop,"ID_troops.py"],
+  "fac":[tag_faction,"ID_factions.py"],
+  "qst":[tag_quest,"ID_quests.py"],
+  "pt":[tag_party_tpl,"ID_party_templates.py"],
+  "p":[tag_party,"ID_parties.py"],
+  "scn":[tag_scene,"ID_scenes.py"],
+  "mst":[tag_mission_tpl,"ID_mission_templates.py"],
+  "mt":[tag_mission_tpl,"ID_mission_templates.py"],
+  "mnu":[tag_menu,"ID_menus.py"],
+  "script":[tag_script,"ID_scripts.py"],
+  "psys":[tag_particle_sys,"ID_particle_systems.py"],
+  "spr":[tag_scene_prop,"ID_scene_props.py"],
+  "prsnt":[tag_presentation,"ID_presentations.py"],
+  "snd":[tag_sound,"ID_sounds.py"],
+  "icon":[tag_map_icon,"ID_map_icons.py"],
+  "skl":[tag_skill,"ID_skills.py"],
+  "track":[tag_track,"ID_music.py"],
+  "mesh":[tag_mesh,"ID_meshes.py"],
+  "anim":[tag_animation,"ID_animations.py"],
+  "tableau":[tag_tableau,"ID_tableau_materials.py"],
+}
+
+id_tags = id_types.keys();
+
+def find_object(tag,object_id):
+  ##print tag + ":========================================1:" + object_id
+  typeInfo = id_types[tag]
+  idFile = typeInfo[1]
+  object_id = object_id.lower()
+  ## 如果包含tag就去掉
+  # if(id_tags.__contains__(object_id[0:object_id.find("_")])):
+  #   object_id = object_id.lower()[object_id.find("_") + 1:]
+  for line in open("./" + idFile, "r"):
+    if len(line.strip()) != 0:
+      data = line[0:line.rfind("=")]
+      varname = data.strip();
+      ## 去掉tag后对比
+      if varname[varname.find("_") + 1:].lower() == object_id:
+        return int(line[line.rfind("=") + 1:])
+  print tag + ":========================================2:" + object_id
+  return -1
 
 s0  =  0
 s1  =  1
@@ -569,7 +619,7 @@ reg63  = opmask_register|63
 
 reg65  = opmask_register|65
 
-spf_all_teams_are_enemy                      = 0x00000001, 
+spf_all_teams_are_enemy                      = 0x00000001,
 spf_is_horseman                              = 0x00000002,
 spf_examine_all_spawn_points                 = 0x00000004,
 spf_team_0_spawn_far_from_entry_32           = 0x00000008,

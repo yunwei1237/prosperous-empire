@@ -23,7 +23,7 @@ def save_parties(parties):
     menu_no = 0
     menu_param = party[3]
     if (type(menu_param) == types.StringType):
-      menu_no = find_object(game_menus,menu_param)
+      menu_no = find_object("mnu",menu_param)
       if (menu_no < 0):
         print "Error: Unable to find menu-id :" + menu_param
     else:
@@ -34,7 +34,7 @@ def save_parties(parties):
     ai_behavior_object = 0
     ai_param = party[8]
     if (type(ai_param) == types.StringType):
-      ai_behavior_object = find_object(parties,ai_param)
+      ai_behavior_object = find_object("p",ai_param)
       if (ai_behavior_object < 0):
         print "Error: Unable to find party-id :" + ai_param
     else:

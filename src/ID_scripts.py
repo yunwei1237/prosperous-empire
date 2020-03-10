@@ -567,5 +567,9 @@ script_refresh_center_inventories = 565
 script_refresh_center_armories = 566
 script_refresh_center_weaponsmiths = 567
 script_refresh_center_stables = 568
+script_get_prisoner_prices = 569
+script_update_center_wealth = 570
+script_create_patrol_party = 571
+script_update_patrol_partys_for_all = 572
 
 
