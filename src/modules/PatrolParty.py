@@ -27,16 +27,20 @@ village_patrol_strength = 2
 slot_party_patrol_num     = 400
 slot_party_protect_center = 401
 
+
+## args
 '''
     巡逻队
 '''
 spt_patrol             = 7
 
 patrolParty = {
-    "name":"patrol party",
-    "strings":[{
+    "name":"PatrolParty",
+    "enable":True,
+    "dependentOn":["PatrolParty"],
+    "strings":{
         "s5_s_patrol_party":"{s5}'s patrol Party",
-    }],
+    },
     "map_trigger":[
         (24,[
             (call_script,"script_update_patrol_partys_for_all"),
