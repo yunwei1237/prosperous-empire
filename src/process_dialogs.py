@@ -191,6 +191,9 @@ def save_sentences(variable_list,variable_uses,sentences,tag_uses,quick_strings,
 # In order to remove cookies not used anymore, edit the cookies_registery.py and remove all entries.
 
 print "exporting triggers..."
+
+preprocessDialogs()
+
 variable_uses = []
 variables = load_variables(export_dir,variable_uses)
 tag_uses = load_tag_uses(export_dir)

@@ -39,15 +39,14 @@ spt_patrol             = 7
     每24小时会更新巡逻队（补充士兵，添加经验，贩卖俘虏）
     此巡逻队只为据点生成，包括，首都（6队，每队至少80人），城镇（4队，每队至少80人），城堡（2队，每队至少60人），和村庄（1队，每队至少40人）.
     
-    人数超过限制就不会再补充士兵，如果超过是不限制的。
+    人数超过限制和金钱（据点的钱）不够时就不会再补充士兵，如果超过是不限制的。
     队数如果少于限制数量，就会创建以补足数量。
     士兵每天都会有经验加成
+    俘虏贩卖金币会保存到据点
     
 '''
 patrolParty = {
     "name":"PatrolParty",
-    "enable":True,
-    "dependentOn":["PatrolParty"],
     "strings":{
         "s5_s_patrol_party":"{s5}'s patrol Party",
     },
@@ -215,6 +214,7 @@ patrolParty = {
                 (try_end),
                 (try_begin),
                     (lt,":cur_size",":need_size"),
+                    (party_slot_ge,":center_no",slot_town_wealth,500),
                     (call_script, "script_update_center_wealth", ":center_no",500,-1),
                     (call_script, "script_cf_reinforce_party", ":party_no"),
                 (try_end),

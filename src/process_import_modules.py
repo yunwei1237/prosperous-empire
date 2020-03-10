@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from import_modules import modules
+from module_dialogs import dialogs
 from module_scripts import scripts
 from module_simple_triggers import simple_triggers
 from module_strings import strings
@@ -43,15 +44,16 @@ def preprocessString():
     '''
     for module in modules:
         if checkDependentOn(module):
-            print "module：\t" + module["name"]
-            print "------------------------------------------------------------------"
-            print "process strings"
-            print "before size:" + str(len(strings))
-            for (k, v) in module["strings"].items():
-                print "add string : (" + k + "," + v + ")"
-                strings.append((k, v));
-            print "process strings end"
-            print "after size:" + str(len(strings))
+            if module.__contains__("strings"):
+                print "module：\t" + module["name"]
+                print "------------------------------------------------------------------"
+                print "process strings"
+                print "before size:" + str(len(strings))
+                for (k, v) in module["strings"].items():
+                    print "add string : (" + k + "," + v + ")"
+                    strings.append((k, v));
+                print "process strings end"
+                print "after size:" + str(len(strings))
     print "------------------------------------------------------------------"
 def preprocessMapTrigger():
     '''
@@ -60,15 +62,16 @@ def preprocessMapTrigger():
     '''
     for module in modules:
         if checkDependentOn(module):
-            print "module：\t" + module["name"]
-            print "------------------------------------------------------------------"
-            print "process map_trigger"
-            print "before size:" + str(len(simple_triggers))
-            for object in module["map_trigger"]:
-                print "add a map trigger"
-                simple_triggers.append(object)
-            print "process map_trigger end"
-            print "after size:" + str(len(simple_triggers))
+            if module.__contains__("map_trigger"):
+                print "module：\t" + module["name"]
+                print "------------------------------------------------------------------"
+                print "process map_trigger"
+                print "before size:" + str(len(simple_triggers))
+                for object in module["map_trigger"]:
+                    print "add a map trigger"
+                    simple_triggers.append(object)
+                print "process map_trigger end"
+                print "after size:" + str(len(simple_triggers))
     print "------------------------------------------------------------------"
 
 def preprocessScripts():
@@ -87,4 +90,23 @@ def preprocessScripts():
                 scripts.append(object)
             print "process scripts end"
             print "after size:" + str(len(scripts))
+    print "------------------------------------------------------------------"
+
+def preprocessDialogs():
+    '''
+        预处理对话模块
+    :return:
+    '''
+    for module in modules:
+        if checkDependentOn(module):
+            if module.__contains__("dialogs"):
+                print "module：\t" + module["name"]
+                print "------------------------------------------------------------------"
+                print "process dialogs"
+                print "before size:" + str(len(dialogs))
+                for object in module["dialogs"]:
+                    print "add a dialog ："
+                    dialogs.append(object)
+                print "process dialogs end"
+                print "after size:" + str(len(dialogs))
     print "------------------------------------------------------------------"
