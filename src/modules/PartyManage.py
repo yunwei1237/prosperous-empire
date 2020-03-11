@@ -23,17 +23,31 @@ adjutant_least_int_level = 10 ##　智力10以上才能做副官
 ## slot_party_team_duty args
 sptd_none = 0 ##　无职位
 sptd_adjutant         = 1 ## 副官 整理部队，管理任命职责人员（军备，后勤，军医等等）
-sptd_armament         = 2 ## 军备（囤积箭矢，保存战利品）
-sptd_chef             = 3 ## 厨师（基础士气，管理食物，自动购买）
-sptd_accountant       = 4 ## 会计（保存金币，战败后几乎不丢失钱财）
-sptd_adviser          = 5 ## 谋士（提供各种建议）
+sptd_adviser          = 2 ## 谋士（提供各种建议）
+sptd_armament         = 3 ## 军备（囤积箭矢，保存战利品）
+sptd_chef             = 4 ## 厨师（基础士气，管理食物，自动购买）
+sptd_accountant       = 5 ## 会计（保存金币，战败后几乎不丢失钱财）
 sptd_military_surgeon = 6 ## 军医（减少死亡，恢复体力）
 sptd_veterinarian     = 7 ## 兽医（减少死亡，战场恢复体力，治愈马匹）
 sptd_siege_division   = 8 ## 攻城师（加快攻城建筑）
 sptd_coach            = 9 ## 教练（增加经验）
 
+sptd_end            = 10 ## 职位结束标识
+
 partyManage={
     "name":"partyManage",
+    "strings":{
+        "sptd_none":"none",
+        "sptd_adjutant":"adjutant",
+        "sptd_adviser":"adviser",
+        "sptd_armament":"armament",
+        "sptd_chef":"chef",
+        "sptd_accountant":"accountant",
+        "sptd_military_surgeon":"military surgeon",
+        "sptd_veterinarian":"veterinarian",
+        "sptd_siege_division":"siege division",
+        "sptd_coach":"coach",
+    },
     "dialogs":[
         ### 【副官功能】=============================================================================================
         [anyone | plyr, "member_talk", [],"I want to appoint you as my adjutant.", "adjutant_appoint_talk", [
@@ -107,92 +121,6 @@ partyManage={
         ###### [军队整理]
         [anyone | plyr, "adjutant_team_talk", [],"Please help me organize the team.", "adjutant_sort_team_talk", []],
         [anyone, "adjutant_sort_team_talk", [], "As you wish", "close_window", []],
-        ###### [任命军备官]【物品管理】
-        [anyone | plyr, "adjutant_team_talk", [
-            ## 查找并取消任命
-            (party_get_num_companion_stacks,":companions_stack","p_main_party"),
-            (try_for_range,":i_stack",":companions_stack"),
-                (party_stack_get_troop_id,":troop",":i_stack"),
-                (party_slot_eq,":troop",slot_party_team_duty,sptd_armament),
-                (party_set_slot,":troop",slot_party_team_duty,sptd_none),
-            (try_end),
-        ],"I want to dismiss a armament", "close_window", []],
-        [anyone | plyr, "adjutant_team_talk", [],"I want to appoint a armament", "adjutant_appoint_armament_talk", []],
-        [anyone, "adjutant_appoint_armament_talk", [], "Who do you appoint ?", "adjutant_appoint_armament_talk_choice", []],
-        ## 不选择的选项（玩家点击失误时，取消的选项）
-        [anyone | plyr, "adjutant_appoint_armament_talk_choice", [], "none", "close_window", []],
-        ## 给玩家一个列表，供玩家选择
-        [anyone | plyr | repeat_for_troops, "adjutant_appoint_armament_talk_choice", [
-            (store_repeat_object,":troop"),
-            ## 是否在玩家队伍中
-            (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
-            ## 保存队员名称
-            (str_store_troop_name,s1,":troop"),
-            ## 保存队员技能等级
-            (store_skill_level,reg1,":troop",skl_inventory_management),
-            ## 技能等级至少为1
-            (gt,reg1,0),
-        ], "{s1} (inventory management {reg1})", "close_window", [
-            (party_set_slot,"$g_talk_troop",slot_party_team_duty,sptd_armament),
-        ]],
-
-        ###### [任命厨师长]【武器掌握】
-        [anyone | plyr, "adjutant_team_talk", [
-            ## 查找并取消任命
-            (party_get_num_companion_stacks,":companions_stack","p_main_party"),
-            (try_for_range,":i_stack",":companions_stack"),
-                (party_stack_get_troop_id,":troop",":i_stack"),
-                (party_slot_eq,":troop",slot_party_team_duty,sptd_chef),
-                (party_set_slot,":troop",slot_party_team_duty,sptd_none),
-            (try_end),
-        ],"I want to dismiss a chef", "close_window", []],
-        [anyone | plyr, "adjutant_team_talk", [], "I want to appoint a chef", "adjutant_appoint_chef_talk", []],
-        [anyone, "adjutant_appoint_chef_talk", [], "Who do you appoint ?", "adjutant_appoint_chef_talk_choice",[]],
-        ## 不选择的选项（玩家点击失误时，取消的选项）
-        [anyone | plyr, "adjutant_appoint_chef_talk_choice", [], "none", "close_window", []],
-        ## 给玩家一个列表，供玩家选择
-        [anyone | plyr | repeat_for_troops, "adjutant_appoint_chef_talk_choice", [
-            (store_repeat_object, ":troop"),
-            ## 是否在玩家队伍中
-            (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
-            ## 保存队员名称
-            (str_store_troop_name, s1, ":troop"),
-            ## 保存队员技能等级
-            (store_skill_level, reg1, ":troop", skl_weapon_master),
-            ## 技能等级至少为1
-            (gt,reg1,0),
-        ], "{s1} (inventory management {reg1})", "close_window", [
-             (party_set_slot, "$g_talk_troop", slot_party_team_duty, sptd_chef),
-         ]],
-
-        ###### [任命会计]【交易】
-        [anyone | plyr, "adjutant_team_talk", [
-            ## 查找并取消任命
-            (party_get_num_companion_stacks,":companions_stack","p_main_party"),
-            (try_for_range,":i_stack",":companions_stack"),
-                (party_stack_get_troop_id,":troop",":i_stack"),
-                (party_slot_eq,":troop",slot_party_team_duty,sptd_accountant),
-                (party_set_slot,":troop",slot_party_team_duty,sptd_none),
-            (try_end),
-        ],"I want to dismiss a chef", "close_window", []],
-        [anyone | plyr, "adjutant_team_talk", [], "I want to appoint a accountant", "adjutant_appoint_accountant_talk", []],
-        [anyone, "adjutant_appoint_accountant_talk", [], "Who do you appoint ?", "adjutant_appoint_accountant_talk_choice",[]],
-        ## 不选择的选项（玩家点击失误时，取消的选项）
-        [anyone | plyr, "adjutant_appoint_accountant_talk_choice", [], "none", "close_window", []],
-        ## 给玩家一个列表，供玩家选择
-        [anyone | plyr | repeat_for_troops, "adjutant_appoint_accountant_talk_choice", [
-            (store_repeat_object, ":troop"),
-            ## 是否在玩家队伍中
-            (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
-            ## 保存队员名称
-            (str_store_troop_name, s1, ":troop"),
-            ## 保存队员技能等级
-            (store_skill_level, reg1, ":troop", skl_trade),
-            ## 技能等级至少为1
-            (gt,reg1,0),
-        ], "{s1} (inventory management {reg1})", "close_window", [
-             (party_set_slot, "$g_talk_troop", slot_party_team_duty, sptd_accountant),
-         ]],
 
         ###### [任命谋士]【智力10以上和说服力】（可以任命多个）
         [anyone | plyr, "adjutant_team_talk", [
@@ -230,18 +158,59 @@ partyManage={
             (try_end),
          ]],
 
+        ### 任命（非副官和谋士的其它所有职位）
         ###### [任命军医]【手术，急救，疗伤，任何一项】
-        [anyone | plyr, "adjutant_team_talk", [
-            ## 查找并取消任命
+        [anyone | plyr | repeat_for_100, "adjutant_team_talk", [
+            (store_repeat_object,":duty_no"),
+            ## 确保不是副官和谋士
+            (is_between,sptd_armament,sptd_end),
+            ## 查找当前职位的人员
+            (assign,":staff",-1),
             (party_get_num_companion_stacks, ":companions_stack", "p_main_party"),
             (try_for_range, ":i_stack", ":companions_stack"),
-            (party_stack_get_troop_id, ":troop", ":i_stack"),
-            (party_slot_eq, ":troop", slot_party_team_duty, sptd_military_surgeon),
-            (party_set_slot, ":troop", slot_party_team_duty, sptd_none),
+                (party_stack_get_troop_id, ":troop", ":i_stack"),
+                (party_slot_eq, ":troop", slot_party_team_duty, reg1),
+                (assign,":staff",":troop"),
             (try_end),
-        ], "I want to dismiss a military surgeon", "close_window", []],
-        [anyone | plyr, "adjutant_team_talk", [], "I want to appoint a military surgeon", "adjutant_appoint_military_surgeon_talk",
-         []],
+            ## 如果职员不为空
+            (gt,":staff",0),
+            ## 计算出职位的字符串编号
+            (store_add,":str_no","str_sptd_none",":duty_no"),
+            (str_store_string,s1,":str_no"),
+            ## 计算出职位的字符串编号
+            (assign,reg1,":duty_no"),
+            (assign,reg2,":staff"),
+            ## 给玩家显示下要解雇的名称，方便玩家判断
+            (str_store_troop_name,s2,reg2),
+        ], "I want to dismiss {s1} ({s2})", "adjutant_dismiss_talk", []],
+        ## 提示玩家要解雇的人员
+        [anyone, "adjutant_dismiss_talk", [
+            (str_store_troop_name,s1,reg2),
+        ], "I will inform {s1}", "close_window",[
+            (party_set_slot, reg2, slot_party_team_duty, sptd_none),
+        ]],
+        ## 招募人员
+        [anyone | plyr | repeat_for_100, "adjutant_team_talk", [
+            (store_repeat_object,":duty_no"),
+            ## 确保不是副官和谋士
+            (is_between,sptd_armament,sptd_end),
+            ## 查找当前职位的人员
+            (assign,":staff",-1),
+            (party_get_num_companion_stacks, ":companions_stack", "p_main_party"),
+            (try_for_range, ":i_stack", ":companions_stack"),
+                (party_stack_get_troop_id, ":troop", ":i_stack"),
+                (party_slot_eq, ":troop", slot_party_team_duty, reg1),
+                (assign,":staff",":troop"),
+            (try_end),
+            ## 如果职员为空才能再次招募和解雇完全相反
+            (le,":staff",0),
+            ## 计算出职位的字符串编号
+            (store_add,":str_no","str_sptd_none",":duty_no"),
+            (str_store_string,s1,":str_no"),
+            ## 获得职位编号
+            (assign,reg10,":duty_no"),
+        ], "I want to appoint a {s1}", "adjutant_appoint_military_surgeon_talk",[]],
+        ## 提示玩家进入选择职位的列表
         [anyone, "adjutant_appoint_military_surgeon_talk", [], "Who do you appoint ?",
          "adjutant_appoint_military_surgeon_talk_choice", []],
         ## 不选择的选项（玩家点击失误时，取消的选项）
@@ -251,18 +220,89 @@ partyManage={
             (store_repeat_object, ":troop"),
             ## 是否在玩家队伍中
             (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
+            ## 不同职位的条件判断(是否符合当前职位)
+            (assign,":is_fit",0),
+            ## 保存不同职业的描述信息
+            (str_clear,s2),
+            (try_begin),
+                ## 军备官
+                (eq,reg10,sptd_armament),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_inventory_management),
+                ## 技能等级至少为1
+                (gt, reg1, 0),
+                (assign,":is_fit",1),
+                (assign,s2,"@inventory management:{reg1}"),
+            (else_try),
+                ## 厨师官
+                (eq, reg10, sptd_chef),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_weapon_master),
+                ## 技能等级至少为1
+                (gt, reg1, 0),
+                (assign, ":is_fit", 1),
+                (assign,s2,"@weapon master:{reg1}"),
+            (else_try),
+                ## 会计官
+                (eq, reg10, sptd_accountant),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_trade),
+                ## 技能等级至少为1
+                (gt, reg1, 0),
+                (assign, ":is_fit", 1),
+                (assign,s2,"@trade:{reg1}"),
+            (else_try),
+                ## 军医官
+                (this_or_next|eq, reg10, sptd_military_surgeon),
+                ## 兽医官
+                (eq, reg10, sptd_veterinarian),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_surgery),  ## 手术
+                (store_skill_level, reg2, ":troop", skl_first_aid),  ## 急救
+                (store_skill_level, reg3, ":troop", skl_wound_treatment),  ## 疗伤
+                ## 技能等级至少为1
+                (this_or_next | gt, reg1, 0),
+                (this_or_next | gt, reg2, 0),
+                (gt, reg3, 0),
+                (assign, ":is_fit", 1),
+                (try_begin),
+                    (gt,reg1,0),
+                    (str_store_string,s2,"@surgery:{reg1} "),
+                (else_try),
+                    (gt,reg2,0),
+                    (str_store_string,s2,"@first aid:{reg2} "),
+                (else_try),
+                    (gt, reg3, 0),
+                    (str_store_string, s2, "@wound treatment:{reg3} "),
+                (try_end),
+            (else_try),
+                ## 攻城师
+                (eq, reg10, sptd_siege_division),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_engineer),  ## 工程学
+                ## 技能等级至少为1
+                (gt, reg1, 0),
+                (assign, ":is_fit", 1),
+                (assign,s2,"@engineer:{reg1}"),
+            (else_try),
+                ## 教练
+                (eq, reg10, sptd_coach),
+                ## 保存队员技能等级
+                (store_skill_level, reg1, ":troop", skl_trainer),  ## 教练
+                ## 技能等级至少为1
+                (gt, reg1, 0),
+                (assign, ":is_fit", 1),
+                (assign, s2, "@trainer:{reg1}"),
+            (try_end),
+            ## 如果符合任何一个条件
+            (eq,":is_fit",1),
             ## 保存队员名称
             (str_store_troop_name, s1, ":troop"),
-            ## 保存队员技能等级
-            (store_skill_level, reg1, ":troop", skl_surgery), ## 手术
-            (store_skill_level, reg2, ":troop", skl_first_aid), ## 急救
-            (store_skill_level, reg3, ":troop", skl_wound_treatment), ## 疗伤
-            ## 技能等级至少为1
-            (this_or_next|gt,reg1,0),
-            (this_or_next|gt,reg2,0),
-            (gt,reg3,0),
-        ], "{s1} (surgery {reg1},first aid {reg2},wound treatment {reg3})", "close_window", [
-             (party_set_slot, "$g_talk_troop", slot_party_team_duty, sptd_military_surgeon),
+            (assign,reg1,":troop"),
+        ], "{s1} ({s2})", "close_window", [
+             ## reg1 玩家选择的人员编号
+             ## reg10 代表职位的编号，也就是以sptd_开头的变量
+             (party_set_slot, reg1, slot_party_team_duty, reg10),
          ]],
         ### 【副官功能】=============================================================================================
     ],
@@ -271,5 +311,16 @@ partyManage={
     ],
 }
 
+
+
+sptd_adjutant         = 1 ## 副官 整理部队，管理任命职责人员（军备，后勤，军医等等）
+sptd_adviser          = 2 ## 谋士（提供各种建议）
+sptd_armament         = 3 ## 军备（囤积箭矢，保存战利品）
+sptd_chef             = 4 ## 厨师（基础士气，管理食物，自动购买）
+sptd_accountant       = 5 ## 会计（保存金币，战败后几乎不丢失钱财）
+sptd_military_surgeon = 6 ## 军医（减少死亡，恢复体力）
+sptd_veterinarian     = 7 ## 兽医（减少死亡，战场恢复体力，治愈马匹）
+sptd_siege_division   = 8 ## 攻城师（加快攻城建筑）
+sptd_coach            = 9 ## 教练（增加经验）
 
 

@@ -1,4 +1,4 @@
-672
+680
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -671,3 +671,11 @@ qstr_{!}DEBUG____Total_pro {!}DEBUG_--_Total_production_for_{s4}:_{reg4}
 qstr_{!}DEBUG____Total_ru {!}DEBUG_--_Total_rural_production_for_{s4}_region:_{reg4}
 qstr_{!}DEBUG____Total_tr {!}DEBUG_--_Total_trade_for_{s4}:_{reg4}
 qstr_{!}DEBUG____Total_at {!}DEBUG_--_Total_attacks_for_{s4}:_{reg4}
+qstr_inventory_management inventory_management:{reg1}
+qstr_weapon_master:{reg1} weapon_master:{reg1}
+qstr_trade:{reg1} trade:{reg1}
+qstr_surgery:{reg1}_ surgery:{reg1}_
+qstr_first_aid:{reg2}_ first_aid:{reg2}_
+qstr_wound_treatment:{reg wound_treatment:{reg3}_
+qstr_engineer:{reg1} engineer:{reg1}
+qstr_trainer:{reg1} trainer:{reg1}
