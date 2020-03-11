@@ -199,6 +199,9 @@ variables = load_variables(export_dir,variable_uses)
 tag_uses = load_tag_uses(export_dir)
 quick_strings = load_quick_strings(export_dir)
 #compile_variables(variables)
+
+preprocessTrigger()
+
 save_triggers(variables,variable_uses,triggers,tag_uses,quick_strings)
 print "exporting dialogs..."
 (input_states,output_states) = compile_sentence_tokens(dialogs)

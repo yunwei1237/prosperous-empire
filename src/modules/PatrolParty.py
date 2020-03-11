@@ -50,7 +50,7 @@ patrolParty = {
     "strings":{
         "s5_s_patrol_party":"{s5}'s patrol Party",
     },
-    "map_trigger":[
+    "simple_triggers":[
         (24,[
             (call_script,"script_update_patrol_partys_for_all"),
         ]),

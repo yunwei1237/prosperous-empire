@@ -2,9 +2,12 @@
 
 from import_modules import modules
 from module_dialogs import dialogs
+from module_mission_templates import mission_templates
 from module_scripts import scripts
 from module_simple_triggers import simple_triggers
 from module_strings import strings
+from module_triggers import triggers
+
 
 def checkDependentOn(checkModule):
     '''
@@ -50,28 +53,47 @@ def preprocessString():
                 print "process strings"
                 print "before size:" + str(len(strings))
                 for (k, v) in module["strings"].items():
-                    print "add string : (" + k + "," + v + ")"
+                    print "add string : " + k.ljust(30) + " = " + v + ""
                     strings.append((k, v));
                 print "process strings end"
                 print "after size:" + str(len(strings))
     print "------------------------------------------------------------------"
-def preprocessMapTrigger():
+def preprocessSimpleTrigger():
     '''
-        预处理地图触发器模块
+        预处理简单触发器模块
     :return:
     '''
     for module in modules:
         if checkDependentOn(module):
-            if module.__contains__("map_trigger"):
+            if module.__contains__("simple_triggers"):
                 print "module：\t" + module["name"]
                 print "------------------------------------------------------------------"
-                print "process map_trigger"
+                print "process simple_triggers"
                 print "before size:" + str(len(simple_triggers))
-                for object in module["map_trigger"]:
-                    print "add a map trigger"
+                for object in module["simple_triggers"]:
+                    print "add a trigger"
                     simple_triggers.append(object)
-                print "process map_trigger end"
+                print "process simple_triggers end"
                 print "after size:" + str(len(simple_triggers))
+    print "------------------------------------------------------------------"
+
+def preprocessTrigger():
+    '''
+        预处理简单触发器模块
+    :return:
+    '''
+    for module in modules:
+        if checkDependentOn(module):
+            if module.__contains__("triggers"):
+                print "module：\t" + module["name"]
+                print "------------------------------------------------------------------"
+                print "process triggers"
+                print "before size:" + str(len(triggers))
+                for object in module["triggers"]:
+                    print "add a trigger"
+                    simple_triggers.append(object)
+                print "process triggers end"
+                print "after size:" + str(len(triggers))
     print "------------------------------------------------------------------"
 
 def preprocessScripts():
@@ -105,8 +127,61 @@ def preprocessDialogs():
                 print "process dialogs"
                 print "before size:" + str(len(dialogs))
                 for object in module["dialogs"]:
-                    print "add a dialog ："
+                    print "add a dialog:" + object[1]+":"+object[4]+"\t'"+object[3]+"'"
                     dialogs.append(object)
                 print "process dialogs end"
                 print "after size:" + str(len(dialogs))
+    print "------------------------------------------------------------------"
+
+
+def preprocessMissionTemplates():
+    '''
+        预处理战场模板模块
+    :return:
+    '''
+    for module in modules:
+        if checkDependentOn(module):
+            if module.__contains__("mission_templates"):
+                print "module：\t" + module["name"]
+                print "------------------------------------------------------------------"
+                print "process mission_templates"
+                for (key,object) in module["mission_templates"].items():
+                    ## mission_templates
+                    if key == "create_mission_templates" and len(object) != 0:
+                        create_mission_templates = object
+                        print "process create_mission_templates"
+                        addnum = len(mission_templates)
+                        for mission_template in create_mission_templates:
+                            print "add a mission template:" + mission_template[0]
+                            mission_templates.append(mission_template)
+                        print "add mission template nums: " + str(len(mission_templates) - addnum)
+                    ## spawns
+                    elif key == "add_mission_template_spawns" and len(object) != 0:
+                        add_mission_template_spawns = object;
+                        print "process add_mission_template_spawns"
+                        for (mts_name,spawns) in add_mission_template_spawns.items():
+                            for mission_template in mission_templates:
+                                if mts_name == mission_template[0]:
+                                    if len(spawns) != 0:
+                                        addnum = len(mission_template[4])
+                                        for spawn in spawns:
+                                            print "in mission template ["+ mts_name +"] add a spawn"
+                                            mission_template[4].append(spawn)
+                                        print "add mission template spawn nums: " + str(len(mission_template[4]) - addnum)
+                    ## triggers
+                    elif key == "add_mission_template_triggers" and len(object) != 0:
+                        print "process add_mission_template_triggers"
+                        add_mission_template_triggers = object
+                        for (mts_name,trgs) in add_mission_template_triggers.items():
+                            for mission_template in mission_templates:
+                                if mts_name == mission_template[0]:
+                                    if len(trgs) != 0:
+                                        addnum = len(mission_template[5])
+                                        for trg in trgs:
+                                            print "in mission template ["+ mts_name +"] add a trigger"
+                                            mission_template[5].append(trg)
+                                        print "add mission template trigger nums: " + str(len(mission_template[5]) -addnum)
+                    # else:
+                    #     print "Error in mission_templates not key: " + key
+                print "process mission_templates end"
     print "------------------------------------------------------------------"

@@ -50,8 +50,10 @@ from module_troops import *
 
 
 
-for i in repeatRandomTroop(18):
-    print i
+# for i in repeatRandomTroop(18):
+#     print i
+#
+from process_import_modules import preprocessMissionTemplates
 
-
+preprocessMissionTemplates()
 

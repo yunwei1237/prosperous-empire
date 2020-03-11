@@ -60,7 +60,12 @@ save_python_header()
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)
 tag_uses = load_tag_uses(export_dir)
+
 quick_strings = load_quick_strings(export_dir)
+
+##
+preprocessMissionTemplates()
+
 save_mission_templates(variables,variable_uses,tag_uses,quick_strings)
 save_variables(export_dir,variables,variable_uses)
 save_tag_uses(export_dir,tag_uses)

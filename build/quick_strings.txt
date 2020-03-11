@@ -1,4 +1,4 @@
-680
+682
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -333,6 +333,8 @@ qstr_You_gain_right_to_ru You_gain_right_to_rule.
 qstr_You_lose_right_to_ru You_lose_right_to_rule.
 qstr_{!}DEBUG___{s4}_faction_cha {!}DEBUG_-_{s4}_faction_changed_in_indictment
 qstr_{!}{s9} {!}{s9}
+qstr_buy_arrows_{reg1}. buy_arrows_{reg1}.
+qstr_use_arrows_{reg1}. use_arrows_{reg1}.
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial

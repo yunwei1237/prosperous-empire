@@ -18,7 +18,11 @@ prosperous-empire
 一个列表，该module在编写时依赖了别的module时，就要将依赖的module名称保存到该列表，系统会在编译时提示依赖的module是否开启了，或者是否存在。如果使用了系统自带的数据（脚本，字符串，触发器等等），不必填写。
 ##### strings
 一个字典（dict）,key代表字符串id,val代表字符串内容，在编译时，将字符串写入到module_strings.py中的strings的list中。将字符串写入到字典中，和写入module_strings.py中的strings集合中是一样的。
-##### map_trigger
-一个列表，列表中每一个项都是一个地图触发器，也就是simple_trigger。编译前会自动加入到module_simple_trigger.py文件中的simple_triggers;
+##### simple_triggers
+一个列表，列表中每一个项都是一个简单触发器，也就是simple_trigger。编译前会自动加入到module_simple_trigger.py文件中的simple_triggers。
+##### triggers
+一个列表，列表中每一个项都是一个复杂触发器，也就是trigger。编译前会自动加入到module_trigger.py文件中的triggers。
 ##### scripts
 一个列表，列表中每一个项都是一个脚本，也就是script。编译前会自动加入到module_scripts.py文件中的scripts。
+##### dialogs
+一个列表，列表中每一个项都是一句对话，也就是dialog。编译前会自动加入到module_dialogs.py文件中的dialogs。

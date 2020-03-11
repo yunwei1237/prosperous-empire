@@ -7,9 +7,11 @@
 ## 职责，同伴在队伍的职责
 from header_common import *
 from header_dialogs import *
+from header_mission_templates import af_override_horse, mtef_visitor_source
 from header_operations import *
 from header_skills import *
 from module_constants import *
+from header_triggers import *
 
 slot_party_team_duty = 405
 
@@ -308,19 +310,81 @@ partyManage={
     ],
     "scripts":[
 
+        ## 更新人物的财产
+        ("update_troop_wealth",
+         [
+             (store_script_param_1, ":troop"),
+             (store_script_param_2, ":value"),
+             ## 0:失去钱 1：获得钱
+             (store_script_param, ":type",3),
+             (troop_get_slot,":wealth",":troop",slot_troop_wealth),
+             (try_begin),
+                (gt,":type",0),
+                (val_add,":wealth",":value"),
+                (troop_add_gold, ":troop", ":value"),
+             (else_try),
+                (val_sub,":wealth",":value"),
+                (troop_remove_gold, ":troop", ":value"),
+             (try_end),
+             (troop_set_slot,":troop",slot_troop_wealth,":wealth"),
+             (play_sound, "snd_money_received"),
+         ]),
+        ## 军备官功能
+
+        ## 收集和使用箭矢
+        ("collect_or_use_arrows",[
+            (store_script_param_1,":nums"),
+            (store_script_param_2,":collect_or_use"),
+            (assign,reg1,":nums"),
+            (try_begin),
+                (gt,":collect_or_use",0),
+                (val_add,"$g_player_arrows",":nums"),
+            (call_script,"script_update_troop_wealth","trp_player",),
+                (display_message,"@buy arrows {reg1}."),
+            (else_try),
+                (val_sub,"$g_player_arrows",":nums"),
+                (display_message,"@use arrows {reg1}."),
+            (try_end),
+        ]),
     ],
+    "simple_triggers":[
+        ## 每24小时购买一次箭矢
+        (24,[
+            (party_is_in_any_town,"p_main_party"),
+            (assign,":has_armament",0),
+            (party_stack_get_size,":stack","p_main_party"),
+            (try_for_range,":i_stack",0,":stack"),
+            (party_stack_get_troop_id,":troop",":i_stack"),
+            (troop_is_hero,":troop"),
+            (party_slot_eq,":troop",slot_party_team_duty,sptd_armament),
+            (assign,":has_armament",1),
+            (try_end),
+            ## 如果有军备官
+            (eq,":has_armament",1),
+            ## 购买箭矢(每次500支，每支1金币)
+            (call_script,"script_collect_or_use_arrows",500,1),
+        ]),
+    ],
+    "mission_templates":{
+        ## 创建新的战斗模板
+        "create_mission_templates":[
+            ("party_test",0,-1,"test mt",[],[]),
+        ],
+        ## 为战斗模板添加出生源信息
+        "add_mission_template_spawns":{
+            ## 为lead_charge战斗模板添加触发器，[]中是一个触发器列表
+            "lead_charge":[
+                (31,mtef_visitor_source,af_override_horse,0,1,[]),
+            ]
+        },
+        ## 为战斗模板添加触发器
+        "add_mission_template_triggers":{
+            ## 为lead_charge战斗模板添加触发器，[]中是一个触发器列表
+            "lead_charge":[
+                (0.1, 0, ti_once, [(map_free,0)], [(dialog_box,"str_tutorial_map1")]),
+            ]
+        },
+    },
 }
 
-
-
-sptd_adjutant         = 1 ## 副官 整理部队，管理任命职责人员（军备，后勤，军医等等）
-sptd_adviser          = 2 ## 谋士（提供各种建议）
-sptd_armament         = 3 ## 军备（囤积箭矢，保存战利品）
-sptd_chef             = 4 ## 厨师（基础士气，管理食物，自动购买）
-sptd_accountant       = 5 ## 会计（保存金币，战败后几乎不丢失钱财）
-sptd_military_surgeon = 6 ## 军医（减少死亡，恢复体力）
-sptd_veterinarian     = 7 ## 兽医（减少死亡，战场恢复体力，治愈马匹）
-sptd_siege_division   = 8 ## 攻城师（加快攻城建筑）
-sptd_coach            = 9 ## 教练（增加经验）
-
-
+  

@@ -401,19 +401,17 @@ def find_object(tag,object_id):
   ##print tag + ":========================================1:" + object_id
   typeInfo = id_types[tag]
   idFile = typeInfo[1]
+  idType = typeInfo[0]
   object_id = object_id.lower()
-  ## 如果包含tag就去掉
-  # if(id_tags.__contains__(object_id[0:object_id.find("_")])):
-  #   object_id = object_id.lower()[object_id.find("_") + 1:]
   for line in open("./" + idFile, "r"):
     if len(line.strip()) != 0:
       data = line[0:line.rfind("=")]
       varname = data.strip();
       ## 去掉tag后对比
       if varname[varname.find("_") + 1:].lower() == object_id:
-        return int(line[line.rfind("=") + 1:])
+        return (int(line[line.rfind("=") + 1:]),idType)
   print tag + ":========================================2:" + object_id
-  return -1
+  return (-1,idType)
 
 s0  =  0
 s1  =  1

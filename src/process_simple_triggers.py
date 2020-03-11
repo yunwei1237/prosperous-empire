@@ -2,7 +2,7 @@ from module_info import *
 from module_simple_triggers import *
 
 from process_common import *
-from process_import_modules import preprocessMapTrigger
+from process_import_modules import preprocessSimpleTrigger
 from process_operations import *
 
 
@@ -22,7 +22,7 @@ def save_simple_triggers(variable_list,variable_uses,triggers,tag_uses,quick_str
 
 print "exporting simple triggers..."
 
-preprocessMapTrigger()
+preprocessSimpleTrigger()
 
 variable_uses = []
 variables = load_variables(export_dir,variable_uses)
