@@ -1,5 +1,6 @@
 
 # -*- coding: utf-8 -*-
+import os
 
 from header_common import find_object
 
@@ -53,7 +54,9 @@ from module_troops import *
 # for i in repeatRandomTroop(18):
 #     print i
 #
-from process_import_modules import preprocessMissionTemplates
+# from process_import_modules import preprocessMissionTemplates
+#
+# preprocessMissionTemplates()
 
-preprocessMissionTemplates()
 
+print os.path.abspath("..")

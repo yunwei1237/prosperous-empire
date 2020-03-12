@@ -7,7 +7,7 @@
 ###################################################
 
 #client events
-from module_info import export_dir
+from module_info import export_dir, src_dir
 
 multiplayer_event_set_item_selection                          = 0
 multiplayer_event_set_bot_selection                           = 1
@@ -403,7 +403,7 @@ def find_object(tag,object_id):
   idFile = typeInfo[1]
   idType = typeInfo[0]
   object_id = object_id.lower()
-  for line in open("./" + idFile, "r"):
+  for line in open(src_dir  + idFile, "r"):
     if len(line.strip()) != 0:
       data = line[0:line.rfind("=")]
       varname = data.strip();
