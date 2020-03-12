@@ -29,7 +29,9 @@ python src/process_simple_triggers.py
 python src/process_dialogs.py
 python src/process_global_variables_unused.py
 python src/process_postfx.py
-@del src/*.pyc
+
+::del src/*.pyc
+
 echo.
 echo ______________________________
 echo.
