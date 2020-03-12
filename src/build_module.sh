@@ -1,3 +1,5 @@
+#!/bin/bash
+
 python process_init.py
 python process_import_modules.py
 python process_global_variables.py
