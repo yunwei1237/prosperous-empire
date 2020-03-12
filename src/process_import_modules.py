@@ -15,6 +15,10 @@ def checkDependentOn(checkModule):
     :param checkModule:
     :return:
     '''
+
+    if checkModule.__contains__("enable") and not checkModule["enable"]:
+        return False
+
     ## 如果没有需要检测的数据就直接返回
     if(not checkModule.__contains__("dependentOn") or len(checkModule["dependentOn"]) == 0):
         return True
