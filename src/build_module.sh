@@ -31,8 +31,8 @@ python process_dialogs.py
 python process_global_variables_unused.py
 python process_postfx.py
 rm -fr *.pyc
-echo.
+echo .
 echo ______________________________
-echo.
+echo .
 echo Script processing has ended.
 echo Press any key to exit. . .
