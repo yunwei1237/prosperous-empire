@@ -3,18 +3,17 @@ from header_troops import *
 from module_items import *
 from module_troops import *
 
+from modules.PartyManage import partyManage
+from modules.PatrolParty import patrolParty
+from modules.TestMode import testMode
+
 '''
     配置所有modules
 '''
-from modules.PartyManage import partyManage
-from modules.PatrolParty import patrolParty
 
 modules = [
-    patrolParty,partyManage
+    patrolParty,partyManage,testMode
 ]
-
-
-
 
 
 def mergeList(*lists):
@@ -41,6 +40,9 @@ def repeatTroop(start,end,troop):
     return troops
 
 
+'''
+    以下是一些额外功能
+'''
 
 def repeatArcher1(size,name = "archer_{}"):
     return repeatTroop(1,size + 1,[name,"Nord Huntsman","Nord Huntsmen",tf_guarantee_ranged|tf_guarantee_boots|tf_guarantee_armor,0,0,fac_kingdom_4,[itm_arrows,itm_rawhide_coat,itm_hatchet,itm_hunting_bow,itm_hide_boots],str_10 | agi_5 | int_4 | cha_4|level(11),wp_one_handed (60) | wp_two_handed (60) | wp_polearm (60) | wp_archery (70) | wp_crossbow (60) | wp_throwing (60),knows_ironflesh_1|knows_power_draw_1|knows_athletics_2,nord_face_young_1, nord_face_old_2])

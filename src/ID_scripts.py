@@ -572,7 +572,8 @@ script_get_prisoner_prices = 570
 script_update_center_wealth = 571
 script_create_patrol_party = 572
 script_update_patrol_partys_for_all = 573
-script_update_troop_wealth = 574
-script_collect_or_use_arrows = 575
+script_update_all_patrol_party_faction = 574
+script_update_troop_wealth = 575
+script_collect_or_use_arrows = 576
 
 

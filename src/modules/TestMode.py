@@ -76,7 +76,7 @@ testMode = {
             (troop_add_item, "trp_player", "itm_light_lance", 0),
 
             (set_visitor,0,"trp_player"),
-            (set_visitors,0,"swadian_knight",1),
+            (set_visitors,0,"trp_swadian_knight",1),
             (set_visitors, 3, "trp_looter", 10),
             (set_visitors, 3, "trp_bandit", 10),
             (set_party_battle_mode),
