@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from header_game_menus import *
 from header_mission_templates import *
 from module_mission_templates import *
@@ -7,8 +9,7 @@ testMode = {
     "enable":True,
     "mission_templates":{
         "create_mission_templates":[
-            (
-                "test_alley_fight", mtf_battle_mode, charge,
+            ("test_alley_fight", mtf_battle_mode, charge,
                 "test alley fight",
                 [
                     (0, mtef_team_0 | mtef_use_exact_number, af_override_horse, aif_start_alarmed, 20, []),
@@ -17,8 +18,7 @@ testMode = {
                 [
                     common_battle_init_banner,
                     common_inventory_not_available,
-                ],
-            )
+                ],)
         ],
     },
     "game_menus":{

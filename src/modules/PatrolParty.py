@@ -248,7 +248,7 @@ patrolParty = {
                         (party_prisoner_stack_get_troop_id,":troop",":party_no",":index"),
                         (store_faction_of_troop,":troop_faction",":troop"),
                         ## 本栏中俘虏的个数
-                        (party_prisoner_stack_get_size,":cur_stack_size","::party_no",":index"),
+                        (party_prisoner_stack_get_size,":cur_stack_size",":party_no",":index"),
                         (try_begin),
                             (str_store_faction_name,s1,":party_faction"),
                             (str_store_faction_name,s2,":troop_faction"),
