@@ -35,7 +35,7 @@ testMode = {
                 ]
               ),
         ],
-        "add_game_menus":{
+        "add_game_menu_options":{
             "start_game_0":{
                 "after":{
                     "continue":[

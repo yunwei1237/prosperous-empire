@@ -3,6 +3,7 @@ import os
 
 from import_modules import modules, export_dir
 from module_dialogs import dialogs
+from module_game_menus import game_menus
 from module_mission_templates import mission_templates
 from module_scripts import scripts
 from module_simple_triggers import simple_triggers
@@ -231,3 +232,22 @@ def checkInfoExists(lines,info):
         if line.strip() == info.strip():
             return True
     return False
+
+def preprocessGameMenus():
+    for module in modules:
+        if checkDependentOn(module):
+            if module.__contains__("game_menus"):
+                for (key,infos) in module["game_menus"]:
+                    if "create_game_menus" == key:
+                        game_menus.extend(infos)
+                    elif "add_game_menu_options" == key:
+                        for (parent,menus) in infos.items():
+                            for (type,options) in menus.items():
+                                if "after" == type:
+                                    print "add after option"
+                                elif "before" == type:
+                                    print "add before option"
+                                elif "replace" == type:
+                                    print "replace options"
+
+
