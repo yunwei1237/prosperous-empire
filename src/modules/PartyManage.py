@@ -38,6 +38,7 @@ sptd_end            = 10 ## 职位结束标识
 
 partyManage={
     "name":"partyManage",
+    "enable":True,
     "strings":{
         "sptd_none":"none",
         "sptd_adjutant":"adjutant",
@@ -385,6 +386,20 @@ partyManage={
             ]
         },
     },
+    "internationals":{
+        "cns":{
+            "game_strings":{
+                "str_sptd_none":"无 职 位",
+                "str_sptd_adjutant":"副 官",
+                "str_sptd_adviser":"谋 士",
+                "str_sptd_armament":"军 需 官",
+                "str_sptd_chef":"厨 师 长",
+                "str_sptd_accountant":"会 计 员",
+                "str_sptd_military_surgeon":"军 医 官",
+                "str_sptd_veterinarian":"兽 医 官",
+                "str_sptd_siege_division":"攻 城 官",
+                "str_sptd_coach":"教 练",
+            }
+        }
+    }
 }
-
-  

@@ -59,4 +59,23 @@ from module_troops import *
 # preprocessMissionTemplates()
 
 
-print os.path.abspath("..")
+# print os.path.abspath("..")
+
+
+# def body_armor2(x):
+#   return (((bignum | x) & ibf_armor_mask) << ibf_body_armor_bits)
+#
+# def body_armor3(x):
+#   return ((x & ibf_armor_mask) << ibf_body_armor_bits)
+#
+# print "2:" + str(body_armor2(255))
+#
+#
+# print "3:" + str(body_armor3(256))
+
+
+
+print str((bignum | 10000))
+
+
+print bin(0x40000000000000000000000000000000 | 2)

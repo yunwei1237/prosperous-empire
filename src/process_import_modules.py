@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
 
-from import_modules import modules
+from import_modules import modules, export_dir
 from module_dialogs import dialogs
 from module_mission_templates import mission_templates
 from module_scripts import scripts
@@ -189,3 +190,44 @@ def preprocessMissionTemplates():
                     #     print "Error in mission_templates not key: " + key
                 print "process mission_templates end"
     print "------------------------------------------------------------------"
+
+
+def preprocessInternational():
+    '''
+        处理汉化功能
+        将汉化信息写入到导出目录的languages对应的汉化文件夹中的文件里
+    :return:
+    '''
+    for module in modules:
+        if checkDependentOn(module):
+            if module.__contains__("internationals"):
+                for (key,fileInfo) in module.items():
+                    if "internationals" == key:
+                        for (fold,files) in fileInfo.items():
+                            csvPath = export_dir + "languages/" + fold + "/"
+                            if not os.path.exists(csvPath):
+                                print "Error path not exists :" + csvPath
+                                continue
+                            for (filename,infos) in files.items():
+                                csvFile = csvPath + filename + ".csv"
+                                print "process file :" + csvFile
+                                file = open(csvFile,"a")
+                                lines = open(csvFile,"r").readlines()
+                                for (k,v) in infos.items():
+                                    info = "{}|{} ".format(k.strip(),v.strip())
+                                    if not checkInfoExists(lines,info):
+                                        file.writelines("\n"+info)
+                                        print "write: "+info
+                                    else:
+                                        print "skip write: "+info
+                                file.close()
+                                print "process file over:" + csvFile
+
+'''
+    检测内容在文件数据中是否已经存在
+'''
+def checkInfoExists(lines,info):
+    for line in lines:
+        if line.strip() == info.strip():
+            return True
+    return False

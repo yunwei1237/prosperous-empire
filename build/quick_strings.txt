@@ -1,4 +1,4 @@
-682
+690
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -333,6 +333,13 @@ qstr_You_gain_right_to_ru You_gain_right_to_rule.
 qstr_You_lose_right_to_ru You_lose_right_to_rule.
 qstr_{!}DEBUG___{s4}_faction_cha {!}DEBUG_-_{s4}_faction_changed_in_indictment
 qstr_{!}{s9} {!}{s9}
+qstr_create_:{s1}_patrol_ create_:{s1}_patrol_party
+qstr_party_faction_name__ party_faction_name_({s1})_____troop_faction_name_({s2}_troop:{s3})
+qstr_do_add_troops_{reg1} do_add_troops({reg1}):{s1}
+qstr_do_remove_prisoners: do_remove_prisoners:{s1}
+qstr_add_money_{reg1}__:{ add_money({reg1})_:{s1}
+qstr_need_size_{reg2} need_size_{reg2}
+qstr_add_party:{s1} add_party:{s1}
 qstr_buy_arrows_{reg1}. buy_arrows_{reg1}.
 qstr_use_arrows_{reg1}. use_arrows_{reg1}.
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
@@ -558,6 +565,7 @@ qstr_{!}DEBUG___{s4}_faction_chang {!}DEBUG_-_{s4}_faction_changed_from_slot_tro
 qstr_{s1}_has_switched_fr {s1}_has_switched_from_{s2}_to_{s3}.
 qstr_{!}DEBUG_:_{s2}_is_b {!}DEBUG_:_{s2}_is_besieging_by_{s3}
 qstr_{!}DEBUG___Checking_ {!}DEBUG_-_Checking_fire_at_{s4}_for_{s5}_-_current_time_{reg3},_last_nearby_fire_{reg4}
+qstr__start_exec_script_u _start_exec_script_update_patrol_partys_for_all
 qstr_{!}DEBUG____Wanted_b {!}DEBUG_--_Wanted_bandits_spotted_by_{s4}
 qstr_{reg65?my_Lady:my_Lo {reg65?my_Lady:my_Lord}
 qstr_{reg65?My_Lady:My_Lo {reg65?My_Lady:My_Lord}

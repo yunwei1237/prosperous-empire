@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from module_info import *
 from process_operations import *
 import os
@@ -35,3 +37,7 @@ try:
   save_variables(export_dir, variables, variable_uses)
 except:
   print "variables.txt not found. Creating new variables.txt file"
+
+## 汉化
+print "Internationaling..."
+preprocessInternational()

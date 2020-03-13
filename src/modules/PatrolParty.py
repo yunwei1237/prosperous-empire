@@ -312,4 +312,11 @@ patrolParty = {
             (try_end),
         ])
     ],
+    "internationals":{
+        "cns":{
+            "game_strings":{
+                "str_s5_s_patrol_party":"{s5} 的 巡 逻 队",
+            }
+        }
+    }
 }
