@@ -1,0 +1,54 @@
+trade	 			交易
+leadership 			统领		skl_leadership  		knows_leadership_1
+prisoner_management 	 	俘虏		skl_prisoner_management 	knows_prisoner_management_1
+first_aid  			急救
+surgery 			手术
+wound_treatment 		疗伤
+inventory_management		物品管理
+spotting 			侦察
+pathfinding			向导						knows_pathfinding_1
+tactics 			战术
+tracking 			跟踪
+trainer 			教练
+horse_archery 			骑射						knows_horse_archery_5
+riding 				骑术		skl_riding		        knows_riding_
+athletics 			跑动						knows_athletics_
+shield 				盾防						knows_shield_
+weapon_master	 		武器掌握	skl_weapon_master
+power_draw 			强弓						knows_power_draw_4	
+power_throw	 		强掷						knows_power_throw_4
+power_strike 			强击						knows_power_strike_
+ironflesh 			铁骨						knows_ironflesh_
+persuasion			说服		skl_persuasion			knows_persuasion
+
+(troop_raise_skill, "trp_player","skl_leadership",1), ###提高troop技能
+
+wp_one_handed	单手武器熟练度	(troop_raise_proficiency, "trp_player",wpt_one_handed_weapon,10),
+wp_two_handed	双手武器熟练度	(troop_raise_proficiency, "trp_player",wpt_two_handed_weapon,10),
+wp_polearm 	长杆武器熟练度	(troop_raise_proficiency, "trp_player",wpt_polearm,10),
+wp_archery 	弓箭武器熟练度	(troop_raise_proficiency, "trp_player",wpt_archery,10),
+wp_crossbow 	弩武器熟练度	(troop_raise_proficiency, "trp_player",wpt_crossbow,10),
+wp_throwing 	投掷武器熟练度	(troop_raise_proficiency, "trp_player",wpt_throwing,10),
+wp_firearm 	火器武器熟练度	(troop_raise_proficiency, "trp_player",wpt_firearm,10),
+
+attribute_points = 0 属性点
+skill_points = 0 技能点
+weapon_points = 0 武器点
+
+strength = 30 力量 	(troop_raise_attribute, "trp_player",ca_strength,1),
+agility = 21 敏捷	(troop_raise_attribute, "trp_player",ca_agility,1),
+intelligence = 5 智力	(troop_raise_attribute, "trp_player",ca_intelligence,1),
+charisma = 4 统领	(troop_raise_attribute, "trp_player",ca_charisma,1),	
+
+
+
+tf_guarantee_all	保证所有+射击
+tf_guarantee_all_wo_ranged 保证所有+近战	
+tf_guarantee_ranged	保证射击
+tf_mounted		保证骑在马上
+tf_guarantee_armor	保证铠甲
+tf_guarantee_boots	保证靴子
+tf_guarantee_helmet	保证头盔
+tf_guarantee_shield	保证盾牌
+tf_guarantee_horse	保证马匹
+tf_guarantee_gloves	保证手套
