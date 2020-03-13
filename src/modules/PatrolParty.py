@@ -54,10 +54,16 @@ patrolParty = {
         (6,[
 
             ## todo 统计被打败的队伍,从slot中减去
-            ## todo 转变阵营的据点的巡逻队也要转换阵营
             (display_message,"@ start exec script_update_patrol_partys_for_all"),
             (call_script,"script_update_patrol_partys_for_all"),
         ]),
+
+        (1,[
+            ## 转变阵营的据点的巡逻队也要转换阵营(1个小时检测一次)
+            ## 如果能够在阵营转换时就检测应该效果最好（但是可能需要修改系统代码）
+            (call_script,"script_update_all_patrol_party_faction"),
+            ## 统计被打败的队伍,从slot中减去
+        ])
     ],
     "scripts":[
         ("reinforce_party",
@@ -242,7 +248,7 @@ patrolParty = {
                         (party_prisoner_stack_get_troop_id,":troop",":party_no",":index"),
                         (store_faction_of_troop,":troop_faction",":troop"),
                         ## 本栏中俘虏的个数
-                        (party_stack_get_size,":cur_stack_size",":index"),
+                        (party_prisoner_stack_get_size,":cur_stack_size","::party_no",":index"),
                         (try_begin),
                             (str_store_faction_name,s1,":party_faction"),
                             (str_store_faction_name,s2,":troop_faction"),
@@ -310,7 +316,20 @@ patrolParty = {
                 (store_mul,":xp",":times",100),
                 (party_upgrade_with_xp, ":party_no", ":xp", 0),
             (try_end),
-        ])
+        ]),
+        ## 转变阵营的据点的巡逻队也要转换阵营
+        ("update_all_patrol_party_faction",[
+            (try_for_parties,":party_no"),
+                (party_slot_eq,":party_no",slot_party_type,spt_patrol),
+                (party_get_slot,":center_no",":party_no",slot_party_protect_center),
+                (store_faction_of_party,":center_faction",":center_no"),
+                (party_set_faction, ":party_no", ":center_faction"),
+            (try_end),
+        ]),
+        ## 统计被打败的队伍,从slot中减去
+        # ("",[
+        #
+        # ]),
     ],
     "internationals":{
         "cns":{
