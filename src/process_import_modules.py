@@ -46,6 +46,8 @@ def checkDependentOn(checkModule):
     if(errorNum > 0):
         return False
     return True
+
+
 def preprocessString():
     '''
         预处理字符串模块
@@ -57,13 +59,13 @@ def preprocessString():
                 print "module：\t" + module["name"]
                 print "------------------------------------------------------------------"
                 print "process strings"
-                print "before size:" + str(len(strings))
-                for (k, v) in module["strings"].items():
-                    print "add string : " + k.ljust(30) + " = " + v + ""
-                    strings.append((k, v));
+                for string in module["strings"]:
+                    print "add string : " + str(string)
+                    strings.append(string);
                 print "process strings end"
-                print "after size:" + str(len(strings))
+                print "add size:" + str(len(module["strings"]))
     print "------------------------------------------------------------------"
+
 def preprocessSimpleTrigger():
     '''
         预处理简单触发器模块
@@ -212,42 +214,81 @@ def preprocessInternational():
                             for (filename,infos) in files.items():
                                 csvFile = csvPath + filename + ".csv"
                                 print "process file :" + csvFile
-                                file = open(csvFile,"a")
-                                lines = open(csvFile,"r").readlines()
-                                for (k,v) in infos.items():
-                                    info = "{}|{} ".format(k.strip(),v.strip())
-                                    if not checkInfoExists(lines,info):
-                                        file.writelines("\n"+info)
-                                        print "write: "+info
-                                    else:
-                                        print "skip write: "+info
-                                file.close()
+                                for str in infos:
+                                    replaceIfExists(csvFile,str)
                                 print "process file over:" + csvFile
 
 '''
     检测内容在文件数据中是否已经存在
 '''
-def checkInfoExists(lines,info):
-    for line in lines:
-        if line.strip() == info.strip():
-            return True
-    return False
+def replaceIfExists(csvFile,str):
+    ## 读取文件内容
+    file = open(csvFile,"r")
+    lines = file.readlines()
+    file.close()
+
+    info = str + " \n"
+    isReplace = False
+
+    index = 0;
+    while(index < len(lines)):
+        line = lines[index]
+        ## 删除指定key的行
+        if len(line) != 0 and line.split("|")[0].strip() == str.split("|")[0].strip():
+            lines[index] = info
+            isReplace = True
+            print "replace: " + info
+        index += 1
+    if not isReplace:
+        lines.append(info)
+        print "write: " + info
+    ## 定入文件中
+    file = open(csvFile,"w")
+    file.writelines(lines)
+    file.close()
+
 
 def preprocessGameMenus():
+    '''
+        处理游戏中的菜单
+    :return:
+    '''
     for module in modules:
         if checkDependentOn(module):
             if module.__contains__("game_menus"):
-                for (key,infos) in module["game_menus"]:
+                for (key,infos) in module["game_menus"].items():
                     if "create_game_menus" == key:
                         game_menus.extend(infos)
-                    elif "add_game_menu_options" == key:
+                        print "add game menu num: " + str(len(infos))
+                for (key,infos) in module["game_menus"].items():
+                    if "add_game_menu_options" == key:
                         for (parent,menus) in infos.items():
                             for (type,options) in menus.items():
-                                if "after" == type:
-                                    print "add after option"
-                                elif "before" == type:
-                                    print "add before option"
-                                elif "replace" == type:
-                                    print "replace options"
+                                index = findGameMenuByMenuId(parent)
+                                system_options = game_menus[index][5]
+                                for (optionId,opts) in options.items():
+                                    optionIdIndex = findGameMenuOptionByOptionId(system_options, optionId)
+                                    for option in opts:
+                                        if "after" == type:
+                                            print "add option["+ option[0] +"] after "+ parent +"'s[" + optionId + "] option"
+                                            game_menus[index][5].insert(optionIdIndex + 1, option)
+                                        elif "before" == type:
+                                            print "add option[" + option[0] + "] before "+ parent+"'s[" + optionId + "] option"
+                                            game_menus[index][5].insert(optionIdIndex, option)
+                                        elif "replace" == type:
+                                            print "replace option[" + option[0] + "(deleted)] after "+ parent +"' [" + optionId + "] option"
+                                            del game_menus[index][5][optionIdIndex]
+                                            game_menus[index][5].insert(optionIdIndex, option)
 
 
+def findGameMenuByMenuId(menuId):
+    for index in range(len(game_menus)):
+        if game_menus[index][0] == menuId:
+            return index;
+    raise Exception("Error game menu id: " + menuId)
+
+def findGameMenuOptionByOptionId(options,optionId):
+    for index in range(len(options)):
+        if(options[index][0] == optionId):
+            return index
+    raise Exception("Error game menu option id: " + optionId)

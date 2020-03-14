@@ -2832,15 +2832,15 @@ str_server_s0|[!]： {s0}
 str_disallow_ranged_weapons|禁 止 远 程 武 器 
 str_ranged_weapons_are_disallowed|远 程 武 器 被 禁 止。 
 str_ranged_weapons_are_allowed|远 程 武 器 被 允 许。 
-str_duel_starts_in_reg0_seconds|决 斗 {reg0} 秒 钟 后 开 始……
-str_s5_s_patrol_party|{s5} 的 巡 逻 队 
-str_sptd_adjutant|副 官 
-str_sptd_coach|教 练 
-str_sptd_chef|厨 师 长 
+str_duel_starts_in_reg0_seconds|决 斗 {reg0} 秒 钟 后 开 始……str_s5_s_patrol_party|{s5}的 巡 逻 队 
 str_sptd_none|无 职 位 
-str_sptd_veterinarian|兽 医 官 
+str_sptd_adjutant|副 官 
 str_sptd_adviser|谋 士 
-str_sptd_military_surgeon|军 医 官 
-str_sptd_siege_division|攻 城 官 
 str_sptd_armament|军 需 官 
+str_sptd_chef|厨 师 长 
 str_sptd_accountant|会 计 员 
+str_sptd_military_surgeon|军 医 官 
+str_sptd_veterinarian|兽 医 官 
+str_sptd_siege_division|攻 城 官 
+str_sptd_coach|教 练 
+str_s5_s_patrol_party|{s5}的 巡 逻 队 

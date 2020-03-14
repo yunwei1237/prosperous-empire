@@ -39,6 +39,9 @@ def save_python_header():
   ofile.close()
 
 print "Exporting game menus data..."
+
+preprocessGameMenus()
+
 save_python_header()
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)

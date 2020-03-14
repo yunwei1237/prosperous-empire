@@ -700,3 +700,5 @@ mno_establish|将 {s4}建 为 你 的 都 城
 mno_continue|暂 缓…… 
 menu_notification_relieved_as_marshal|{s4}想 要 通 知 你 不 再 需 要 你 继 续 担 当 元 帅 之 职 了。 不 过， 在 过 去 的{reg4} 天 里 你 为 了 国 家 的 利 益 表 现 英 勇， 为 了 表 示 对 你 的 敬 意， {reg8?她:他} 赏 赐 给 你{reg5} 第 纳 尔。 
 mno_continue|继 续 
+mno_test_alley|测 试 【 武 道 场 】 
+mno_test_map|测 试 【 大 地 图 】 

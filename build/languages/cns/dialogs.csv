@@ -2667,3 +2667,18 @@ dlga_mayor_wealth_comparison_4:mayor_wealth_comparison_5|就 城 镇 的 商 旅
 dlga_mayor_wealth_comparison_5:mayor_pretalk|就 往 来 的 旅 人 和 客 商 受 到 攻 击 的 次 数 来 说， 最 危 险 的 城 镇 当 然 是 {s4}， 至 于 我 们 {s5}， 有 {reg4}个 城 镇 遭 受 的 匪 患 比 我 们 要 严 重， 而 遭 受 匪 患 侵 扰 轻 于 我 们 的 城 镇 则 有 {reg5}个。
 dlga_free:close_window|再 见。 
 dlga_free:close_window.1|【 离 开 】
+dlga_member_talk:adjutant_appoint_talk|我 想 要 任 命 你 为 我 的 副 官 ( 智 力 : {reg1} ) 
+dlga_member_talk:adjutant_dismiss_talk|我 不 需 要 你 做 副 官 了 
+dlga_member_talk:adjutant_team_into_talk|让 我 们 来 讨 论 下 军 队 的 事 务 
+dlga_adjutant_team_into_talk:adjutant_team_talk|好 的 , 老 大 
+dlga_adjutant_appoint_talk:close_window|我 很 荣 幸 能 够 做 这 个 工 作 
+dlga_adjutant_appoint_talk:close_window.1|我 不 能 胜 任 这 个 工 作 
+dlga_adjutant_appoint_talk:close_window.2|已 经 有 人 在 做 这 个 工 作 了 ( {s1} ) 
+dlga_adjutant_appoint_talk:close_window.3|我 已 经 有 一 个 很 重 要 的 工 作 了 
+dlga_adjutant_dismiss_talk:close_window|好 的 ， 老 大 
+dlga_adjutant_team_talk:adjutant_sort_team_talk|请 帮 我 整 理 下 军 队 
+dlga_adjutant_sort_team_talk:close_window|如 你 所 愿 
+dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice|我 想 任 命 一 个 谋 士 
+dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice.1|我 想 解 雇 一 个 谋 士 
+dlga_adjutant_appoint_adviser_into_talk_choice:close_window|不 用 了 
+dlga_adjutant_appoint_adviser_into_talk_choice:adjutant_appoint_adviser_talk_choice|您 想 指 定 谁 ？ 

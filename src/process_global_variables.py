@@ -102,5 +102,14 @@ def compile_all_global_vars(variable_list,variable_uses, triggers, sentences, ga
 print "Compiling all global variables..."
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)
+
+preprocessTrigger()
+preprocessDialogs()
+preprocessGameMenus()
+preprocessMissionTemplates()
+preprocessScripts()
+preprocessSimpleTrigger()
+
+
 compile_all_global_vars(variables, variable_uses,triggers, dialogs, game_menus, mission_templates, scripts, simple_triggers)
 save_variables(export_dir, variables,variable_uses)

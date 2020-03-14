@@ -75,7 +75,10 @@ from module_troops import *
 
 
 
-print str((bignum | 10000))
+# print str((bignum | 10000))
+#
+#
+# print bin(0x40000000000000000000000000000000 | 2)
+from process_import_modules import preprocessGameMenus
 
-
-print bin(0x40000000000000000000000000000000 | 2)
+preprocessGameMenus()

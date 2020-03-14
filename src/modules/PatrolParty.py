@@ -47,9 +47,10 @@ spt_patrol             = 7
 '''
 patrolParty = {
     "name":"PatrolParty",
-    "strings":{
-        "s5_s_patrol_party":"{s5}'s patrol Party",
-    },
+    "enable":False,
+    "strings":[
+        ("s5_s_patrol_party","{s5}'s patrol Party"),
+    ],
     "simple_triggers":[
         (6,[
 
@@ -333,9 +334,9 @@ patrolParty = {
     ],
     "internationals":{
         "cns":{
-            "game_strings":{
-                "str_s5_s_patrol_party":"{s5} 的 巡 逻 队",
-            }
+            "game_strings":[
+                "str_s5_s_patrol_party|{s5}的 巡 逻 队",
+            ]
         }
     }
 }
