@@ -3210,5 +3210,6 @@ str_sptd_military_surgeon = 3208
 str_sptd_veterinarian = 3209
 str_sptd_siege_division = 3210
 str_sptd_coach = 3211
+str_doctor_skill_info = 3212
 
 
