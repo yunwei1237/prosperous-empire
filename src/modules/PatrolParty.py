@@ -47,7 +47,7 @@ spt_patrol             = 7
 '''
 patrolParty = {
     "name":"PatrolParty",
-    "enable":False,
+    "enable":True,
     "strings":[
         ("s5_s_patrol_party","{s5}'s patrol Party"),
     ],

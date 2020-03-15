@@ -569,5 +569,5 @@ partyManage={
                 "qstr_int_last_{reg1}|智 力 最 少 {reg1}",
             ],
         }
-    }
+    },
 }

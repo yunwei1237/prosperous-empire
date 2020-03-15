@@ -10,208 +10,177 @@ testMode = {
     "mission_templates":{
         "create_mission_templates":[
             (
-                "my_lead_charge", mtf_battle_mode | mtf_synch_inventory, charge,
-                "You lead your men to battle.",
+                "my_alley_fight", mtf_battle_mode, charge,
+                "Alley fight",
                 [
-                    (1, mtef_defenders | mtef_team_0, 0, aif_start_alarmed, 12, []),
-                    (0, mtef_defenders | mtef_team_0, 0, aif_start_alarmed, 0, []),
-                    (4, mtef_attackers | mtef_team_1, 0, aif_start_alarmed, 12, []),
-                    (4, mtef_attackers | mtef_team_1, 0, aif_start_alarmed, 0, []),
+                    (0, mtef_team_0 | mtef_use_exact_number, 0, aif_start_alarmed, 100, []),
+                    (1, mtef_visitor_source | mtef_team_1, 0, aif_start_alarmed, 200, []),
+                    (2, mtef_visitor_source | mtef_team_1, 0, aif_start_alarmed, 200, []),
+                    (3, mtef_visitor_source | mtef_team_1, 0, aif_start_alarmed, 200, []),
                 ],
                 [
+                    common_battle_init_banner,
+
+                    common_inventory_not_available,
+
                     (ti_on_agent_spawn, 0, 0, [],
                      [
                          (store_trigger_param_1, ":agent_no"),
-                         (call_script, "script_agent_reassign_team", ":agent_no"),
-
-                         (assign, ":initial_courage_score", 5000),
-
-                         (agent_get_troop_id, ":troop_id", ":agent_no"),
-                         (store_character_level, ":troop_level", ":troop_id"),
-                         (val_mul, ":troop_level", 35),
-                         (val_add, ":initial_courage_score", ":troop_level"),  # average : 20 * 35 = 700
-
-                         (store_random_in_range, ":randomized_addition_courage", 0, 3000),  # average : 1500
-                         (val_add, ":initial_courage_score", ":randomized_addition_courage"),
-
-                         (agent_get_party_id, ":agent_party", ":agent_no"),
-                         (party_get_morale, ":cur_morale", ":agent_party"),
-
-                         (store_sub, ":morale_effect_on_courage", ":cur_morale", 70),
-                         (val_mul, ":morale_effect_on_courage", 30),  # this can effect morale with -2100..900
-                         (val_add, ":initial_courage_score", ":morale_effect_on_courage"),
-
-                         # average = 5000 + 700 + 1500 = 7200; min : 5700, max : 8700
-                         # morale effect = min : -2100(party morale is 0), average : 0(party morale is 70), max : 900(party morale is 100)
-                         # min starting : 3600, max starting  : 9600, average starting : 7200
-                         (agent_set_slot, ":agent_no", slot_agent_courage_score, ":initial_courage_score"),
-                     ]),
-
-                    common_battle_init_banner,
-
-                    (ti_on_agent_killed_or_wounded, 0, 0, [],
-                     [
-                         (store_trigger_param_1, ":dead_agent_no"),
-                         (store_trigger_param_2, ":killer_agent_no"),
-                         (store_trigger_param_3, ":is_wounded"),
+                         (get_player_agent_no, ":player_agent"),
+                         (neq, ":agent_no", ":player_agent"),
+                         (assign, "$g_main_attacker_agent", ":agent_no"),
+                         (agent_ai_set_aggressiveness, ":agent_no", 199),
 
                          (try_begin),
-                         (ge, ":dead_agent_no", 0),
-                         (neg | agent_is_ally, ":dead_agent_no"),
-                         (agent_is_human, ":dead_agent_no"),
-                         (agent_get_troop_id, ":dead_agent_troop_id", ":dead_agent_no"),
-                         ##          (str_store_troop_name, s6, ":dead_agent_troop_id"),
-                         ##          (assign, reg0, ":dead_agent_no"),
-                         ##          (assign, reg1, ":killer_agent_no"),
-                         ##          (assign, reg2, ":is_wounded"),
-                         ##          (agent_get_team, reg3, ":dead_agent_no"),
-                         # (display_message, "@{!}dead agent no : {reg0} ; killer agent no : {reg1} ; is_wounded : {reg2} ; dead agent team : {reg3} ; {s6} is added"),
-                         (party_add_members, "p_total_enemy_casualties", ":dead_agent_troop_id", 1),
-                         # addition_to_p_total_enemy_casualties
-                         (eq, ":is_wounded", 1),
-                         (party_wound_members, "p_total_enemy_casualties", ":dead_agent_troop_id", 1),
+                         (agent_get_troop_id, ":troop_no", ":agent_no"),
+                         (is_between, ":troop_no", "trp_swadian_merchant", "trp_startup_merchants_end"),
+                         (agent_set_team, ":agent_no", 7),
+                         (team_set_relation, 0, 7, 0),
+                         (try_end),
+                     ]),
+
+                    (0, 0, 0,
+                     [
+                         (eq, "$talked_with_merchant", 0),
+                     ],
+                     [
+                         (get_player_agent_no, ":player_agent"),
+                         (agent_get_position, pos0, ":player_agent"),
+
+                         (try_for_agents, ":agent_no"),
+                         (agent_get_troop_id, ":troop_no", ":agent_no"),
+                         (is_between, ":troop_no", "trp_swadian_merchant", "trp_startup_merchants_end"),
+                         (agent_set_scripted_destination, ":agent_no", pos0),
+                         (agent_get_position, pos1, ":agent_no"),
+                         (get_distance_between_positions, ":dist", pos0, pos1),
+                         (le, ":dist", 200),
+                         (assign, "$talk_context", tc_back_alley),
+                         (start_mission_conversation, ":troop_no"),
+                         (try_end),
+                     ]),
+
+                    (1, 0, 0, [],
+                     [
+                         (get_player_agent_no, ":player_agent"),
+                         (ge, "$g_main_attacker_agent", 0),
+                         (ge, ":player_agent", 0),
+                         (agent_is_active, "$g_main_attacker_agent"),
+                         (agent_is_active, ":player_agent"),
+                         (agent_get_position, pos0, ":player_agent"),
+                         (agent_get_position, pos1, "$g_main_attacker_agent"),
+                         (get_distance_between_positions, ":dist", pos0, pos1),
+                         (ge, ":dist", 5),
+                         (agent_set_scripted_destination, "$g_main_attacker_agent", pos0),
+                     ]),
+
+                    (ti_tab_pressed, 0, 0, [],
+                     [
+                         (finish_mission),
+                     ]),
+
+                    (0, 0, 0, [],
+                     [
+                         (key_is_down,key_c),
+                         (display_message, "str_cannot_leave_now"),
+                     ]),
+
+                    (0, 0, ti_once, [],
+                     [
+                         (call_script, "script_music_set_situation_with_culture", mtf_sit_ambushed),
+                         (set_party_battle_mode),
+                     ]),
+
+                    (0, 0, ti_once,
+                     [
+                         (neg | main_hero_fallen),
+                         (num_active_teams_le, 1),
+                     ],
+                     [
+                         (store_faction_of_party, ":starting_town_faction", "$g_starting_town"),
+
+                         (try_begin),
+                         (eq, ":starting_town_faction", "fac_kingdom_1"),
+                         (assign, ":troop_of_merchant", "trp_swadian_merchant"),
+                         (else_try),
+                         (eq, ":starting_town_faction", "fac_kingdom_2"),
+                         (assign, ":troop_of_merchant", "trp_vaegir_merchant"),
+                         (else_try),
+                         (eq, ":starting_town_faction", "fac_kingdom_3"),
+                         (assign, ":troop_of_merchant", "trp_khergit_merchant"),
+                         (else_try),
+                         (eq, ":starting_town_faction", "fac_kingdom_4"),
+                         (assign, ":troop_of_merchant", "trp_nord_merchant"),
+                         (else_try),
+                         (eq, ":starting_town_faction", "fac_kingdom_5"),
+                         (assign, ":troop_of_merchant", "trp_rhodok_merchant"),
+                         (else_try),
+                         (eq, ":starting_town_faction", "fac_kingdom_6"),
+                         (assign, ":troop_of_merchant", "trp_sarranid_merchant"),
                          (try_end),
 
-                         (call_script, "script_apply_death_effect_on_courage_scores", ":dead_agent_no",
-                          ":killer_agent_no"),
+                         (add_visitors_to_current_scene, 3, ":troop_of_merchant", 1, 0),
                      ]),
 
-                    common_battle_tab_press,
-
-                    (ti_question_answered, 0, 0, [],
-                     [(store_trigger_param_1, ":answer"),
-                      (eq, ":answer", 0),
-                      (assign, "$pin_player_fallen", 0),
-                      (try_begin),
-                      (store_mission_timer_a, ":elapsed_time"),
-                      (gt, ":elapsed_time", 20),
-                      (str_store_string, s5, "str_retreat"),
-                      (call_script, "script_simulate_retreat", 10, 20, 1),
-                      (try_end),
-                      (call_script, "script_count_mission_casualties_from_agents"),
-                      (finish_mission, 0), ]),
-
-                    (ti_before_mission_start, 0, 0, [],
+                    (1, 0, ti_once,
                      [
-                         (team_set_relation, 0, 2, 1),
-                         (team_set_relation, 1, 3, 1),
-                         (call_script, "script_place_player_banner_near_inventory_bms"),
+                         (eq, "$talked_with_merchant", 1),
+                     ],
+                     [
+                         (try_begin),
+                         (main_hero_fallen),
+                         (assign, "$g_killed_first_bandit", 0),
+                         (else_try),
+                         (assign, "$g_killed_first_bandit", 1),
+                         (try_end),
 
-                         (party_clear, "p_routed_enemies"),
+                         (finish_mission),
+                         (assign, "$g_main_attacker_agent", 0),
+                         (assign, "$talked_with_merchant", 1),
 
-                         (assign, "$g_latest_order_1", 1),
-                         (assign, "$g_latest_order_2", 1),
-                         (assign, "$g_latest_order_3", 1),
-                         (assign, "$g_latest_order_4", 1),
+                         (assign, "$current_startup_quest_phase", 1),
+
+                         (change_screen_return),
+                         (set_trigger_result, 1),
+
+                         (get_player_agent_no, ":player_agent"),
+                         (store_agent_hit_points, ":hit_points", ":player_agent"),
+
+                         (try_begin),
+                         (lt, ":hit_points", 90),
+                         (agent_set_hit_points, ":player_agent", 90),
+                         (try_end),
                      ]),
 
-                    (0, 0, ti_once, [], [(assign, "$g_battle_won", 0),
-                                         (assign, "$defender_reinforcement_stage", 0),
-                                         (assign, "$attacker_reinforcement_stage", 0),
-                                         (call_script, "script_place_player_banner_near_inventory"),
-                                         (call_script, "script_combat_music_set_situation_with_culture"),
-                                         (assign, "$g_defender_reinforcement_limit", 2),
-                                         ]),
-
-                    common_music_situation_update,
-                    common_battle_check_friendly_kills,
-
-                    (1, 0, 5, [
-
-                        # new (25.11.09) starts (sdsd = TODO : make a similar code to also helping ally encounters)
-                        # count all total (not dead) enemy soldiers (in battle area + not currently placed in battle area)
-                        (call_script, "script_party_count_members_with_full_health", "p_collective_enemy"),
-                        (assign, ":total_enemy_soldiers", reg0),
-
-                        # decrease number of agents already in battle area to find all number of reinforcement enemies
-                        (assign, ":enemy_soldiers_in_battle_area", 0),
-                        (try_for_agents, ":cur_agent"),
-                        (agent_is_human, ":cur_agent"),
-                        (agent_get_party_id, ":agent_party", ":cur_agent"),
-                        (try_begin),
-                        (neq, ":agent_party", "p_main_party"),
-                        (neg | agent_is_ally, ":cur_agent"),
-                        (val_add, ":enemy_soldiers_in_battle_area", 1),
-                        (try_end),
-                        (try_end),
-                        (store_sub, ":total_enemy_reinforcements", ":total_enemy_soldiers",
-                         ":enemy_soldiers_in_battle_area"),
-
-                        (try_begin),
-                        (lt, ":total_enemy_reinforcements", 15),
-                        (ge, "$defender_reinforcement_stage", 2),
-                        (eq, "$defender_reinforcement_limit_increased", 0),
-                        (val_add, "$g_defender_reinforcement_limit", 1),
-                        (assign, "$defender_reinforcement_limit_increased", 1),
-                        (try_end),
-                        # new (25.11.09) ends
-
-                        (lt, "$defender_reinforcement_stage", "$g_defender_reinforcement_limit"),
-                        (store_mission_timer_a, ":mission_time"),
-                        (ge, ":mission_time", 10),
-                        (store_normalized_team_count, ":num_defenders", 0),
-                        (lt, ":num_defenders", 6)],
-                     [(add_reinforcements_to_entry, 0, 7), (assign, "$defender_reinforcement_limit_increased", 0),
-                      (val_add, "$defender_reinforcement_stage", 1)]),
-
-                    (1, 0, 5, [(lt, "$attacker_reinforcement_stage", 2),
-                               (store_mission_timer_a, ":mission_time"),
-                               (ge, ":mission_time", 10),
-                               (store_normalized_team_count, ":num_attackers", 1),
-                               (lt, ":num_attackers", 6)],
-                     [(add_reinforcements_to_entry, 3, 7), (val_add, "$attacker_reinforcement_stage", 1)]),
-
-                    ##common_battle_check_victory_condition,
-                    ##common_battle_victory_display,
-
-                    (1, 4, ti_once, [(main_hero_fallen)],
+                    (1, 3, ti_once,
                      [
-                         (assign, "$pin_player_fallen", 1),
-                         (str_store_string, s5, "str_retreat"),
-                         (call_script, "script_simulate_retreat", 10, 20, 1),
-                         (assign, "$g_battle_result", -1),
-                         (set_mission_result, -1),
-                         (call_script, "script_count_mission_casualties_from_agents"),
-                         (finish_mission, 0)]),
+                         (main_hero_fallen),
+                     ],
+                     [
+                         (try_begin),
+                         (main_hero_fallen),
+                         (assign, "$g_killed_first_bandit", 0),
+                         (else_try),
+                         (assign, "$g_killed_first_bandit", 1),
+                         (try_end),
 
-                    common_battle_inventory,
+                         (finish_mission),
+                         (assign, "$g_main_attacker_agent", 0),
+                         (assign, "$talked_with_merchant", 1),
 
-                    # AI Triggers
-                    (0, 0, ti_once, [
-                        (store_mission_timer_a, ":mission_time"), (ge, ":mission_time", 2),
-                    ],
-                     [(call_script, "script_select_battle_tactic"),
-                      (call_script, "script_battle_tactic_init"),
-                      # (call_script, "script_battle_calculate_initial_powers"), #deciding run away method changed and that line is erased
-                      ]),
+                         (assign, "$current_startup_quest_phase", 1),
 
-                    (3, 0, 0, [
-                        (call_script, "script_apply_effect_of_other_people_on_courage_scores"),
-                    ], []),  # calculating and applying effect of people on others courage scores
+                         (change_screen_return),
+                         (set_trigger_result, 1),
 
-                    (3, 0, 0, [
-                        (try_for_agents, ":agent_no"),
-                        (agent_is_human, ":agent_no"),
-                        (agent_is_alive, ":agent_no"),
-                        (store_mission_timer_a, ":mission_time"),
-                        (ge, ":mission_time", 3),
-                        (call_script, "script_decide_run_away_or_not", ":agent_no", ":mission_time"),
-                        (try_end),
-                    ], []),  # controlling courage score and if needed deciding to run away for each agent
+                         (get_player_agent_no, ":player_agent"),
+                         (store_agent_hit_points, ":hit_points", ":player_agent"),
 
-                    (5, 0, 0, [
-                        (store_mission_timer_a, ":mission_time"),
-
-                        (ge, ":mission_time", 3),
-
-                        (call_script, "script_battle_tactic_apply"),
-                    ], []),  # applying battle tactic
-
-                    common_battle_order_panel,
-                    common_battle_order_panel_tick,
-
-                ],
-            ),
+                         (try_begin),
+                         (lt, ":hit_points", 90),
+                         (agent_set_hit_points, ":player_agent", 90),
+                         (try_end),
+                     ]),
+                ]),
         ],
     },
     "game_menus":{
@@ -234,7 +203,36 @@ testMode = {
                     "continue":[
                         ("test_alley",[],"TEST 【alley】",
                          [
-                            (call_script,"script_start_test_palyer"),
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_alley,20,20),
+                         ]),
+
+                         ("test_arena",[],"TEST 【arena】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_arena,20,20),
+                         ]),
+
+                        ("test_tavern",[],"TEST 【tavern】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_tavern,20,20),
+                         ]),
+
+                        ("test_prison",[],"TEST 【prison】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_prison,20,20),
+                         ]),
+                        ("test_castle",[],"TEST 【castle】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_castle,20,20),
+                         ]),
+
+                        ("test_center",[],"TEST 【center】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_center,20,20),
+                         ]),
+
+                        ("test_plain",[],"TEST 【plain】",
+                         [
+                             (call_script,"script_create_battle_for_player","scn_random_scene_plain",-1,20,20),
                         ]),
                         ("test_map",[],"TEST 【map】",
                          [
@@ -251,12 +249,14 @@ testMode = {
                             (troop_add_item, "trp_player", "itm_light_lance", 0),
 
                              (troop_raise_skill,"trp_player",skl_riding,10),
+                             (troop_raise_skill,"trp_player",skl_leadership,10),
 
                              (try_for_range,":npc","trp_npc1","trp_npc16"),
                                 (call_script,"script_recruit_troop_as_companion",":npc"),
                                 (troop_raise_skill,":npc",skl_persuasion,1),
                              (try_end),
                              (troop_add_gold,"trp_player",100000),
+
                              #(party_relocate_near_party,"p_town_1","p_main_party"),
                              (party_relocate_near_party,"p_main_party","p_town_2",3),
                              (change_screen_map),
@@ -278,7 +278,7 @@ testMode = {
                     "go_back":[
                         ("test_info",[],"TEST info",
                          [
-                            (call_script,"script_start_test_palyer"),
+
                         ]),
                     ],
                 },
@@ -286,7 +286,28 @@ testMode = {
         },
     },
     "scripts":[
-        ("start_test_palyer",[
+        ("create_battle_for_player",[
+            (store_script_param_1,":center"),
+            (store_script_param_2,":place"),
+            (store_script_param,":companies_nums",3),
+            (store_script_param,":enemies_nums",4),
+
+            #(party_get_slot, ":scene_no", "p_town_1", slot_town_alley),
+            (try_begin),
+                (gt,":place",0),
+                (party_get_slot, ":scene_no", ":center", ":place"),
+            (else_try),
+                (assign, ":scene_no", ":center"),
+            (try_end),
+
+
+            (modify_visitors_at_site, ":scene_no"),
+
+            (reset_visitors),
+            (set_visitor, 0, "trp_player"),
+
+            (party_add_members,"p_main_party","trp_swadian_knight",":companies_nums"),
+
             (troop_add_item, "trp_player", "itm_saddle_horse", 0),
             (troop_add_item, "trp_player", "itm_courser", 0),
             (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
@@ -295,25 +316,28 @@ testMode = {
             (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
             (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
             (troop_add_item, "trp_player", "itm_light_lance", 0),
-
-
-            (set_party_battle_mode),
+            (troop_raise_skill,"trp_player",skl_riding,10),
             (troop_equip_items,"trp_player"),
-            (jump_to_scene, "scn_random_scene_plain"),
-            (set_jump_mission,"mst_my_lead_charge"),
-            (set_visitor,0,"trp_player"),
-            (set_visitor,0,"trp_swadian_knight"),
-            (set_visitors, 4, "trp_looter", 10),
-            (set_visitors, 4, "trp_bandit", 10),
 
+
+            (val_mul,":enemies_nums",3),
+            (set_visitors, 2, "trp_bandit",":enemies_nums"),
+
+            (set_jump_mission, "mt_my_alley_fight"),
+            (jump_to_scene, ":scene_no"),
             (change_screen_mission),
         ]),
     ],
     "internationals":{
         "cns":{
             "game_menus":[
-                "mno_test_alley|测 试 【 武 道 场 】",
+                "mno_test_alley|测 试 【 街 道 】",
                 "mno_test_map|测 试 【 大 地 图 】",
+                "mno_test_arena|测 试 【 竞 技 场 】",
+                "mno_test_tavern|测 试 【 酒 馆 】",
+                "mno_test_prison|测 试 【 监 狱 】",
+                "mno_test_castle|测 试 【 大 厅 】",
+                "mno_test_center|测 试 【 地 形 】",
             ]
         }
     }

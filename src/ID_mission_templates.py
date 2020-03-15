@@ -48,4 +48,4 @@ mst_meeting_merchant = 46
 mst_town_fight = 47
 mst_multiplayer_duel = 48
 mst_party_test = 49
-mst_my_lead_charge = 50
+mst_my_alley_fight = 50
