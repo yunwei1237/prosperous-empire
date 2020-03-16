@@ -292,3 +292,9 @@ def findGameMenuOptionByOptionId(options,optionId):
         if(options[index][0] == optionId):
             return index
     raise Exception("Error game menu option id: " + optionId)
+
+
+
+
+
+
