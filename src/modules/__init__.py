@@ -27,4 +27,4 @@
 #
 # print names
 
-print ":#aa".split(":")
+#print ":#aa".split(":")
