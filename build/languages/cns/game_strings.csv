@@ -2844,3 +2844,4 @@ str_sptd_veterinarian|兽 医 官
 str_sptd_siege_division|攻 城 官 
 str_sptd_coach|教 练 
 str_s5_s_patrol_party|{s5}的 巡 逻 队 
+str_doctor_skill_info|手 术 :{reg1},急 救 :{reg2},疗 伤 :{reg3} 

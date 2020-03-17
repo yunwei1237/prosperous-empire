@@ -1,7 +1,10 @@
 #import string
 #import types
-
+from module_game_menus import game_menus
 from module_info import *
+from module_mission_templates import mission_templates
+from module_scene_props import scene_props
+from module_scripts import scripts
 from module_triggers import *
 from module_dialogs import *
 from module_simple_triggers import *
@@ -14,6 +17,8 @@ from process_operations import *
 
 
 #-------------------------------------------------------
+from process_smart_modules import preprocess
+
 
 def compile_all_global_vars(variable_list,variable_uses, triggers, sentences, game_menus, mission_templates, scripts, simple_triggers):
   temp_list = []
@@ -103,12 +108,12 @@ print "Compiling all global variables..."
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)
 
-preprocessTrigger()
-preprocessDialogs()
-preprocessGameMenus()
-preprocessMissionTemplates()
-preprocessScripts()
-preprocessSimpleTrigger()
+preprocess(triggers,"triggers")
+preprocess(dialogs,"dialogs")
+preprocess(game_menus,"game_menus")
+preprocess(mission_templates,"mission_templates")
+preprocess(scripts,"scripts")
+preprocess(simple_triggers,"simple_triggers")
 
 
 compile_all_global_vars(variables, variable_uses,triggers, dialogs, game_menus, mission_templates, scripts, simple_triggers)

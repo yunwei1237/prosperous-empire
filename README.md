@@ -3,7 +3,7 @@ prosperous-empire
 
 ## 功能列表：
 ### module功能
-每一个功能可以单独写在一个py文件中，包括 string,script,trigger,constans等待 [参看巡逻队功能](src/modules/PatrolParty.py)
+每一个功能可以单独写在一个py文件中，包括 string,script,trigger,constans等待 [参看巡逻队功能](resources/oldmodule/PatrolParty.py)
 创建一个功能只需要创建一个py文件，并在该文件中定义一个dict类型的变量，字典中每一个key代表一个数据集合，key不能随便定义，请参看key的语法。
 #### 使用步骤
 - 在modules（任何文件夹都可以）文件夹中创建一个py文件

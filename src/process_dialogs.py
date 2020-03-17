@@ -7,7 +7,7 @@ from module_dialogs import *
 
 from process_common import *
 from process_operations import *
-
+from process_smart_modules import preprocess
 
 speaker_pos = 0
 ipt_token_pos = 1
@@ -192,7 +192,7 @@ def save_sentences(variable_list,variable_uses,sentences,tag_uses,quick_strings,
 
 print "exporting triggers..."
 
-preprocessDialogs()
+preprocess(dialogs,"dialogs")
 
 variable_uses = []
 variables = load_variables(export_dir,variable_uses)
@@ -200,7 +200,7 @@ tag_uses = load_tag_uses(export_dir)
 quick_strings = load_quick_strings(export_dir)
 #compile_variables(variables)
 
-preprocessTrigger()
+preprocess(triggers,"triggers")
 
 save_triggers(variables,variable_uses,triggers,tag_uses,quick_strings)
 print "exporting dialogs..."

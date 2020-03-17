@@ -1,5 +1,5 @@
 stringsfile version 1
-3213
+3226
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3203,6 +3203,7 @@ str_ranged_weapons_are_disallowed Ranged_weapons_are_disallowed.
 str_ranged_weapons_are_allowed Ranged_weapons_are_allowed.
 str_duel_starts_in_reg0_seconds Duel_starts_in_{reg0}_seconds...
 str_s5_s_patrol_party {s5}'s_patrol_Party
+str_s5_s_patrol_party {s5}'s_patrol_Party
 str_sptd_none none
 str_sptd_adjutant adjutant
 str_sptd_adviser adviser
@@ -3213,3 +3214,15 @@ str_sptd_military_surgeon military_surgeon
 str_sptd_veterinarian veterinarian
 str_sptd_siege_division siege_division
 str_sptd_coach coach
+str_doctor_skill_info surgery:{reg1},first_aid:{reg2},wound_treatment:{reg3}
+str_sptd_none none
+str_sptd_adjutant adjutant
+str_sptd_adviser adviser
+str_sptd_armament armament
+str_sptd_chef chef
+str_sptd_accountant accountant
+str_sptd_military_surgeon military_surgeon
+str_sptd_veterinarian veterinarian
+str_sptd_siege_division siege_division
+str_sptd_coach coach
+str_doctor_skill_info surgery:{reg1},first_aid:{reg2},wound_treatment:{reg3}

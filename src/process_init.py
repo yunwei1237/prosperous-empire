@@ -4,6 +4,8 @@ from module_info import *
 from process_operations import *
 import os
 
+from process_smart_modules import preprocessInternational
+
 print "Initializing..."
 
 try:

@@ -6,6 +6,7 @@ from module_mission_templates import *
 
 from process_common import *
 from process_operations import *
+from process_smart_modules import preprocess
 
 mission_template_name_pos = 0
 mission_template_flags_pos = 1
@@ -58,7 +59,8 @@ def save_python_header():
 print "Exporting mission_template data..."
 
 ##
-preprocessMissionTemplates()
+preprocess(mission_templates,"mission_templates")
+
 
 save_python_header()
 variable_uses = []

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from header_troops import *
-from module_items import *
 from module_troops import *
 
 from modules.PartyManage import partyManage
@@ -15,6 +13,32 @@ from modules.TestMode import testMode
 modules = [
     patrolParty,partyManage,testMode
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def mergeList(*lists):

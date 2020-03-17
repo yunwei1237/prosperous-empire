@@ -1,4 +1,4 @@
-690
+700
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -345,6 +345,7 @@ qstr_use_arrows_{reg1}. use_arrows_{reg1}.
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial
+qstr__p_is_clicked_! _p_is_clicked_!
 qstr_test test
 qstr_{!}{s4}:_M{reg3}_2M{ {!}{s4}:_M{reg3},_2M{reg4},_PC{reg5},_2PC{reg6},_PM{reg7}
 qstr_You_came_into_the_wo You_came_into_the_world_a_{reg3?daughter:son}_of_declining_nobility,_owning_only_the_house_in_which_they_lived._However,_despite_your_family's_hardships,_they_afforded_you_a_good_education_and_trained_you_from_childhood_for_the_rigors_of_aristocracy_and_life_at_court.
@@ -684,8 +685,17 @@ qstr_{!}DEBUG____Total_tr {!}DEBUG_--_Total_trade_for_{s4}:_{reg4}
 qstr_{!}DEBUG____Total_at {!}DEBUG_--_Total_attacks_for_{s4}:_{reg4}
 qstr_队_伍_副_官_:_{s 队_伍_副_官_:_{s1}
 qstr_{s3}_的_职_业_:_{ {s3}_的_职_业_:_{s2}
-qstr_cur_duty:{reg1} cur_duty:{reg1}
 qstr_{s3}_的_智_力_:_{ {s3}_的_智_力_:_{reg1}
-qstr_deubg_cur_duty:{reg1 deubg_cur_duty:{reg1}
-qstr_任_命_{s1} 任_命_{s1}
-qstr_解_雇_{s1} 解_雇_{s1}
+qstr_int_last_{reg1} int_last_{reg1}
+qstr_任_命_{s2} 任_命_{s2}
+qstr_解_雇_{s2} 解_雇_{s2}
+qstr_解_雇_{s1}_{s2}_ 解_雇_{s1}({s2})
+qstr_troop_name_is:_{s2} troop_name_is:_{s2}
+qstr_staff_troop_name_is: staff_troop_name_is:_{s2}
+qstr_staff_{reg1} staff_{reg1}
+qstr_inventory:{reg1} inventory:{reg1}
+qstr_weapon_master:{reg1} weapon_master:{reg1}
+qstr_trade:{reg1} trade:{reg1}
+qstr_engineer:{reg1} engineer:{reg1}
+qstr_trainer:{reg1} trainer:{reg1}
+qstr_任_命_{s5}_为_{s6 任_命_{s5}_为_{s6}

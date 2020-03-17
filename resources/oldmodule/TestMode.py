@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-from ID_troops import *
+from ID_troops import trp_constable_hareck
 from header_dialogs import *
 from header_game_menus import *
+from resources.header_mission_templates import *
 from module_mission_templates import *
 
 testMode = {
     "name":"testMode",
     "enable":True,
     "mission_templates":{
-        "append":[
-            ("my_alley_fight", mtf_battle_mode, charge,
+        "create_mission_templates":[
+            (
+                "my_alley_fight", mtf_battle_mode, charge,
                 "Alley fight",
                 [
                     (0, mtef_team_0 | mtef_use_exact_number, 0, aif_start_alarmed, 100, []),
@@ -180,7 +182,8 @@ testMode = {
                          (try_end),
                      ]),
             ]),
-            ("my_town_center", 0, -1,
+            (
+                "my_town_center", 0, -1,
                 "Default town visit",
                 [(0, mtef_scene_source | mtef_team_0, af_override_horse, 0, 1, pilgrim_disguise),
                  (1, mtef_scene_source | mtef_team_0, 0, 0, 1, []),
@@ -477,155 +480,166 @@ testMode = {
                         (display_message,"@ p is clicked !"),
                     ]),
                 ]),
-        ]
+
+        ],
     },
     "game_menus":{
-            "append":[
-                ("just_test_menu",menu_text_color(0xFF000000)|mnf_disable_all_keys,
-                    "this just a test menu.",
-                    "none",
-                    [],
-                    [
-                      ("go_back",[],"Go back",
-                       [
-                         (change_screen_quit),
-                       ]),
-                    ]
-                ),
-            ],
-            "children":{
-                "start_game_0>#5":{
-                    "insertAfter":[
-                        {
-                            "sign":"continue",
-                            "data":[
-                                ("test_alley",[],"TEST 【alley】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_alley,20,20),
-                                 ]),
+        "create_game_menus":[
+            ("just_test_menu",menu_text_color(0xFF000000)|mnf_disable_all_keys,
+                "this just a test menu.",
+                "none",
+                [],
+                [
+                  ("go_back",[],"Go back",
+                   [
+                     (change_screen_quit),
+                   ]),
+                ]
+              ),
+        ],
+        "add_game_menu_options":{
+            "start_game_0":{
+                "after":{
+                    "continue":[
+                        ("test_alley",[],"TEST 【alley】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_alley,20,20),
+                         ]),
 
-                                 ("test_arena",[],"TEST 【arena】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_arena,20,20),
-                                 ]),
+                         ("test_arena",[],"TEST 【arena】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_arena,20,20),
+                         ]),
 
-                                ("test_tavern",[],"TEST 【tavern】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_tavern,20,20),
-                                 ]),
+                        ("test_tavern",[],"TEST 【tavern】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_tavern,20,20),
+                         ]),
 
-                                ("test_prison",[],"TEST 【prison】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_prison,20,20),
-                                 ]),
-                                ("test_castle",[],"TEST 【castle】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_castle,20,20),
-                                 ]),
+                        ("test_prison",[],"TEST 【prison】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_prison,20,20),
+                         ]),
+                        ("test_castle",[],"TEST 【castle】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_castle,20,20),
+                         ]),
 
-                                ("test_center",[],"TEST 【center】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","p_town_1",slot_town_center,20,20),
-                                 ]),
+                        ("test_center",[],"TEST 【center】",
+                         [
+                             (call_script,"script_create_battle_for_player","p_town_1",slot_town_center,20,20),
+                         ]),
 
-                                ("test_plain",[],"TEST 【plain】",
-                                 [
-                                     (call_script,"script_create_battle_for_player","scn_random_scene_plain",-1,20,20),
-                                ]),
+                        ("test_plain",[],"TEST 【plain】",
+                         [
+                             (call_script,"script_create_battle_for_player","scn_random_scene_plain",-1,20,20),
+                        ]),
 
-                                ("test_zendar",[],"TEST 【zendar】",
-                                 [
-                                    (set_visitor, 0, "trp_player"),
-                                    (set_jump_mission, "mt_my_town_center"),
-                                    (jump_to_scene, "scn_zendar_center"),
-                                    (change_screen_mission),
+                        ("test_zendar",[],"TEST 【zendar】",
+                         [
+                            ##(call_script,"script_create_battle_for_player","scn_random_scene_plain",-1,20,20),
+                            (set_visitor, 0, "trp_player"),
 
-                                ]),
-                                ("test_map",[],"TEST 【map】",
-                                 [
-                                     (troop_set_name,"trp_player","@test"),                                                                                              (party_set_name,"p_main_party","@test"),
+                            #(assign,"$talk_context", tc_town_talk),
+                            #(set_visitor,6,"trp_constable_hareck"),
+                            (set_jump_mission, "mt_my_town_center"),
+                            (jump_to_scene, "scn_zendar_center"),
+                            (change_screen_mission),
 
-                                    (troop_add_item, "trp_player", "itm_saddle_horse", 0),
-                                    (troop_add_item, "trp_player", "itm_courser", 0),
-                                    (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
-                                    (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
-                                    (troop_add_item, "trp_player", "itm_red_gambeson", 0),
-                                    (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
-                                    (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
-                                    (troop_add_item, "trp_player", "itm_light_lance", 0),
+                        ]),
+                        ("test_map",[],"TEST 【map】",
+                         [
+                             (troop_set_name,"trp_player","@test"),                                                                                              (party_set_name,"p_main_party","@test"),
 
-                                     (troop_raise_skill,"trp_player",skl_riding,10),
-                                     (troop_raise_skill,"trp_player",skl_leadership,10),
+                            (troop_add_item, "trp_player", "itm_saddle_horse", 0),
+                            (troop_add_item, "trp_player", "itm_courser", 0),
+                            (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
+                            (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
+                            (troop_add_item, "trp_player", "itm_red_gambeson", 0),
+                            (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
+                            (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
+                            (troop_add_item, "trp_player", "itm_light_lance", 0),
 
-                                     (try_for_range,":npc","trp_npc1","trp_npc16"),
-                                        (call_script,"script_recruit_troop_as_companion",":npc"),
-                                        (troop_raise_skill,":npc",skl_persuasion,1),
-                                     (try_end),
-                                     (troop_add_gold,"trp_player",100000),
+                             (troop_raise_skill,"trp_player",skl_riding,10),
+                             (troop_raise_skill,"trp_player",skl_leadership,10),
 
-                                     #(party_relocate_near_party,"p_town_1","p_main_party"),
-                                     (party_relocate_near_party,"p_main_party","p_town_2",3),
-                                     (change_screen_map),
-                                ]),
-                            ],
-                        },
-                    ],
-                    "replace":[
-                        {
-                            "sign":"go_back",
-                            "data":[
-                                ("test_info",[],"TEST info",[]),
-                            ],
-                        },
+                             (try_for_range,":npc","trp_npc1","trp_npc16"),
+                                (call_script,"script_recruit_troop_as_companion",":npc"),
+                                (troop_raise_skill,":npc",skl_persuasion,1),
+                             (try_end),
+                             (troop_add_gold,"trp_player",100000),
+
+                             #(party_relocate_near_party,"p_town_1","p_main_party"),
+                             (party_relocate_near_party,"p_main_party","p_town_2",3),
+                             (change_screen_map),
+                        ]),
                     ],
                 },
+                # "before":{
+                #     "continue":[
+                #         ("test_begin",[],"TEST begin",
+                #          [
+                #             (call_script,"script_start_test_palyer"),
+                #         ]),
+                #     ],
+                # },
+
             },
+            "just_test_menu":{
+                "replace":{
+                    "go_back":[
+                        ("test_info",[],"TEST info",
+                         [
+
+                        ]),
+                    ],
+                },
+            }
+        },
     },
-    "scripts":{
-        "append":[
-            ("create_battle_for_player",[
-                (store_script_param_1,":center"),
-                (store_script_param_2,":place"),
-                (store_script_param,":companies_nums",3),
-                (store_script_param,":enemies_nums",4),
+    "scripts":[
+        ("create_battle_for_player",[
+            (store_script_param_1,":center"),
+            (store_script_param_2,":place"),
+            (store_script_param,":companies_nums",3),
+            (store_script_param,":enemies_nums",4),
 
-                #(party_get_slot, ":scene_no", "p_town_1", slot_town_alley),
-                (try_begin),
-                    (gt,":place",0),
-                    (party_get_slot, ":scene_no", ":center", ":place"),
-                (else_try),
-                    (assign, ":scene_no", ":center"),
-                (try_end),
-
-
-                (modify_visitors_at_site, ":scene_no"),
-
-                (reset_visitors),
-                (set_visitor, 0, "trp_player"),
-
-                (party_add_members,"p_main_party","trp_swadian_knight",":companies_nums"),
-
-                (troop_add_item, "trp_player", "itm_saddle_horse", 0),
-                (troop_add_item, "trp_player", "itm_courser", 0),
-                (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
-                (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
-                (troop_add_item, "trp_player", "itm_red_gambeson", 0),
-                (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
-                (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
-                (troop_add_item, "trp_player", "itm_light_lance", 0),
-                (troop_raise_skill,"trp_player",skl_riding,10),
-                (troop_equip_items,"trp_player"),
+            #(party_get_slot, ":scene_no", "p_town_1", slot_town_alley),
+            (try_begin),
+                (gt,":place",0),
+                (party_get_slot, ":scene_no", ":center", ":place"),
+            (else_try),
+                (assign, ":scene_no", ":center"),
+            (try_end),
 
 
-                (val_mul,":enemies_nums",3),
-                (set_visitors, 2, "trp_bandit",":enemies_nums"),
+            (modify_visitors_at_site, ":scene_no"),
 
-                (set_jump_mission, "mt_my_alley_fight"),
-                (jump_to_scene, ":scene_no"),
-                (change_screen_mission),
-            ]),
-        ]
-    },
+            (reset_visitors),
+            (set_visitor, 0, "trp_player"),
+
+            (party_add_members,"p_main_party","trp_swadian_knight",":companies_nums"),
+
+            (troop_add_item, "trp_player", "itm_saddle_horse", 0),
+            (troop_add_item, "trp_player", "itm_courser", 0),
+            (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
+            (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
+            (troop_add_item, "trp_player", "itm_red_gambeson", 0),
+            (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
+            (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
+            (troop_add_item, "trp_player", "itm_light_lance", 0),
+            (troop_raise_skill,"trp_player",skl_riding,10),
+            (troop_equip_items,"trp_player"),
+
+
+            (val_mul,":enemies_nums",3),
+            (set_visitors, 2, "trp_bandit",":enemies_nums"),
+
+            (set_jump_mission, "mt_my_alley_fight"),
+            (jump_to_scene, ":scene_no"),
+            (change_screen_mission),
+        ]),
+    ],
     "internationals":{
         "cns":{
             "game_menus":[
@@ -640,15 +654,11 @@ testMode = {
             ]
         }
     },
-    "dialogs":{
-        "insertBefore":[
-            {
-                "sign":"start:free[1,4]",
-                "data":[
-                    [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
-                    [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "adjutant_team_into_talk", []],
-                ]
-            }
-        ]
-    }
+
+
+# [anyone,"start", [], "Hello. What can I do for you?", "free",[]],
+    # "dialogs":[
+    #     [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
+    #     [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "adjutant_team_into_talk", []],
+    # ]
 }

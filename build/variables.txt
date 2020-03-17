@@ -238,6 +238,7 @@ rumors_inquired
 info_inquired
 dialog_with_merchant_ended
 g_player_adjutant
+g_player_command
 current_town
 g_starting_town
 g_journey_string

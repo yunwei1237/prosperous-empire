@@ -4,9 +4,9 @@ from module_info import *
 from module_strings import *
 
 from process_common import *
-from process_import_modules import preprocessString
+from process_smart_modules import preprocess
 
-preprocessString()
+preprocess(strings,"strings")
 
 def save_strings(strings):
   ofile = open(export_dir + "strings.txt","w")

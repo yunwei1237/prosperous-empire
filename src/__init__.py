@@ -1,6 +1,7 @@
 
 # -*- coding: utf-8 -*-
 import os
+import re
 
 from header_common import find_object
 
@@ -17,7 +18,7 @@ from header_common import find_object
 #
 # print xx(8)
 from header_troops import *
-from import_modules import *
+from config_modules import *
 from module_troops import *
 
 
@@ -126,18 +127,16 @@ config = {
         #         ],
         #     },
         # ],
-        # "delete":[
-        #     {
-        #         "signs":["#2","test5"],
-        #     },
-        # ],
-        "children":{
-            "test2:#4":{
-                "append":[
-                    "x","y","z"
-                ]
-            }
-        },
+        "delete":[
+            "#2","test5"
+        ],
+        # "children":{
+        #     "test2:22[0,3]>#4":{
+        #         "append":[
+        #             "x","y","z"
+        #         ]
+        #     }
+        # },
     }
 }
 
@@ -160,7 +159,7 @@ def error(text):
 def fatal(text):
     log("FATAL",text)
 
-def processHasId(datas, config, moduleName, moduleItem):
+def processModuleItem(datas, config, moduleName, moduleItem):
     if(datas == None):
         raise RuntimeError("[{}.{}]:source is None".format(moduleName,moduleItem));
 
@@ -181,7 +180,6 @@ def processHasId(datas, config, moduleName, moduleItem):
             for itemCfg in cfgList:
 
                 sign = itemCfg.get("sign")
-                idIndexs = itemCfg.get("idIndexs")
                 data = itemCfg.get("data")
 
                 if sign == None:
@@ -191,7 +189,7 @@ def processHasId(datas, config, moduleName, moduleItem):
                     warn("[{}.{}.{}]: data is empty".format(moduleName, moduleItem,command))
                     continue
 
-                realIndex = getRealIndexBySign(datas, sign, idIndexs, moduleName, moduleItem, command);
+                realIndex = getRealIndexBySign(datas, sign, moduleName, moduleItem, command);
                 if "replace" == command:
                     ## 删除当前数据
                     del datas[realIndex]
@@ -203,35 +201,34 @@ def processHasId(datas, config, moduleName, moduleItem):
                         datas.insert(realIndex, item)
                 info("[{}.{}.{}]:add data size is 【{}】".format(moduleName, moduleItem, command,len(data) - 1 if "replace" == command else len(data)))
         elif "delete" == command:
-            for itemCfg in cfgList:
-                signs = itemCfg.get("signs")
-                idIndexs = itemCfg.get("idIndexs")
-                if signs != None and len(signs) > 0:
-                    for sign in signs:
-                        del datas[getRealIndexBySign(datas, sign, idIndexs, moduleName, moduleItem, command)]
-                    info("[{}.{}.{}]:remove data size is 【{}】".format(moduleName, moduleItem, command,len(signs)))
-                else:
-                    warn("[{}.{}.{}]:signs is empty".format(moduleName,moduleItem,command))
+            signs = cfgList
+            if signs != None and len(signs) > 0:
+                for sign in signs:
+                    del datas[getRealIndexBySign(datas, sign, moduleName, moduleItem, command)]
+                info("[{}.{}.{}]:remove data size is 【{}】".format(moduleName, moduleItem, command, len(signs)))
+            else:
+                warn("[{}.{}.{}]:signs is empty".format(moduleName, moduleItem, command))
+
         ### children命令会使用到：id,idIndexs,index,data参数
         elif "children" == command:
             for (sign,childrenCfg) in cfgList.items():
-                if not sign.count(":") == 1:
-                    raise RuntimeError("[{}.{}.{}]:children sign({}) must contains [:]".format(moduleName,moduleItem,command,sign))
+                if not sign.count(">") == 1:
+                    raise RuntimeError("[{}.{}.{}]:children sign({}) must contains [>]".format(moduleName,moduleItem,command,sign))
 
-                items = sign.split(":")
+                items = sign.split(">")
 
                 rowSign = items[0]
                 colSign = items[1]
 
-                parentIndex = getRealIndexBySign(datas, colSign, None, moduleName, moduleItem, command)
+                parentIndex = getRealIndexBySign(datas, colSign, moduleName, moduleItem, command)
 
                 if len(rowSign) == 0:
                     for data in datas:
-                        processHasId(data[parentIndex], childrenCfg, moduleName,
+                        processModuleItem(data[parentIndex], childrenCfg, moduleName,
                                      "{}[{}]".format(moduleItem, parentIndex))
                 else:
-                    data = datas[getRealIndexBySign(datas, rowSign, None, moduleName, moduleItem, command)]
-                    processHasId(data[parentIndex], childrenCfg, moduleName,
+                    data = datas[getRealIndexBySign(datas, rowSign, moduleName, moduleItem, command)]
+                    processModuleItem(data[parentIndex], childrenCfg, moduleName,
                                  "{}[{}]".format(moduleItem, parentIndex))
 
 
@@ -242,21 +239,42 @@ def processHasId(datas, config, moduleName, moduleItem):
             warn("[{}.{}.{}]:unknow command 【{}】".format(moduleName,moduleItem,command,command))
 
 
-def getRealIndexBySign(datas, sign, idIndexs, moduleName, moduleItem, command):
-    if sign.startswith("#"):
-        try:
-            realIndex = int(sign[1:])
-        except BaseException, e:
-            raise RuntimeError(
-                "[{}.{}.{}]:children item key must is a number !!!".format(moduleName, moduleItem, command))
-    else:
-        realIndex = findIndex(datas, sign, idIndexs, moduleName, moduleItem, command)
+def getRealIndexBySign(datas, sign, moduleName, moduleItem, command):
+    '''
+        根据信号选择对象
+        信号1： #1  #号代表是下标，使用下标来进行数据选取
+        信号2： name 没有前缀代表是选择id，通常是数据的0位
+        信号3： name:age[18,22] 中括号内的数字代表name是由数据中的第18位和22位组成的唯一依据符，
+    :param datas:
+    :param sign:
+    :param idIndexs:
+    :param moduleName:
+    :param moduleItem:
+    :param command:
+    :return:
+    '''
+    ## 处理信号1
+    matcher = re.match(r"^#(\d+)$", sign)
+    if matcher:
+        text = matcher.group(1)
+        return int(text)
 
-    if realIndex != None and realIndex < 0:
-        raise RuntimeError(
-            "[{}.{}.{}]:sign({}) format is error".format(moduleName, moduleItem,
-                                                                   command,sign))
-    return realIndex
+    ## 处理信号2
+    matcher = re.match(r"^(\w+)$", sign)
+    if matcher:
+        text = matcher.group(1)
+        return findIndex(datas, text, None, moduleName, moduleItem, command)
+
+    ## 处理信号3
+    matcher = re.match(r"^(\w+(:\w+)+)\[(\d+(,\d+)+)\]$", sign)
+    if matcher:
+        text = matcher.group(1)
+        indexs = matcher.group(3)
+        return findIndex(datas, text, [ int(x) for x in indexs.split(",")], moduleName, moduleItem, command)
+
+    ## 其它格式不支持
+    raise RuntimeError(
+        "[{}.{}.{}]:sign({}) format is error".format(moduleName, moduleItem,command,sign))
 
 def findIndex(datas,sign,idIndexs,moduleName,moduleItem,command):
     '''
@@ -280,7 +298,7 @@ def findIndex(datas,sign,idIndexs,moduleName,moduleItem,command):
         data = datas[index]
         nameList = []
         for id in idIndexs:
-            nameList.append(data[id])
+            nameList.append(str(data[id]))
         name = ":".join(nameList)
         if(sign == name):
             return index;
@@ -294,7 +312,7 @@ print  testData
 
 
 print "------------------------------------------------------"
-processHasId(testData,config["troops"],"testMode","troops")
+processModuleItem(testData, config["troops"], "testMode", "troops")
 
 print "------------------------------------------------------"
 

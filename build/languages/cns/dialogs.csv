@@ -2678,7 +2678,33 @@ dlga_adjutant_appoint_talk:close_window.3|我 已 经 有 一 个 很 重 要 �
 dlga_adjutant_dismiss_talk:close_window|好 的 ， 老 大 
 dlga_adjutant_team_talk:adjutant_sort_team_talk|请 帮 我 整 理 下 军 队 
 dlga_adjutant_sort_team_talk:close_window|如 你 所 愿 
-dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice|我 想 任 命 一 个 谋 士 
-dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice.1|我 想 解 雇 一 个 谋 士 
+dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice|我 想 解 雇 一 个 谋 士 
+dlga_adjutant_team_talk:adjutant_appoint_adviser_into_talk_choice.1|我 想 任 命 一 个 谋 士 (说 服 力 最 少 1,{s1}) 
 dlga_adjutant_appoint_adviser_into_talk_choice:close_window|不 用 了 
 dlga_adjutant_appoint_adviser_into_talk_choice:adjutant_appoint_adviser_talk_choice|您 想 指 定 谁 ？ 
+dlga_adjutant_appoint_talk:member_talk|我 很 荣 幸 能 够 做 这 个 工 作 
+dlga_adjutant_appoint_talk:member_talk.1|我 不 能 胜 任 这 个 工 作 ({s1}) 
+dlga_adjutant_appoint_talk:member_talk.2|已 经 有 人 在 做 这 个 工 作 了 ({s1}) 
+dlga_adjutant_appoint_talk:member_talk.3|我 已 经 有 一 个 很 重 要 的 工 作 了 ({s1}) 
+dlga_adjutant_dismiss_talk:member_talk|好 的 ， 老 大 
+dlga_adjutant_team_talk:adjutant_sort_team_talk.1|算 了 吧 
+dlga_adjutant_sort_team_talk:adjutant_team_into_talk|如 你 所 愿 
+dlga_adjutant_team_talk:adjutant_team_nothing_talk|没 事 
+dlga_adjutant_team_nothing_talk:member_talk|好 的 
+dlga_adjutant_appoint_adviser_talk_choice:adjutant_team_into_talk|不 用 了 
+dlga_adjutant_appoint_adviser_talk_choice:adjutant_appoint_adviser_into_talk_choice|{s1} (说 服 力 : {reg10} 智 力 : {reg20}) 
+dlga_member_talk:adviser_team_good_idea_talk|你 有 什 么 好 想 法 吗 ? 
+dlga_adviser_team_good_idea_talk:member_talk|还 没 有 ! 
+dlga_adjutant_team_talk:adjutant_team_dismiss_clerk_talk|我 想 要 解 雇 一 个 职 员 
+dlga_adjutant_team_dismiss_clerk_talk:adjutant_team_dismiss_clerk_talk_choice|你 想 要 解 雇 哪 一 个 职 员 ? 
+dlga_adjutant_team_dismiss_clerk_talk_choice:adjutant_team_dissmiss_clerk_talk_choice_none|算 了 
+dlga_adjutant_team_dissmiss_clerk_talk_choice_none:adjutant_team_talk|好 的 
+dlga_adjutant_team_dismiss_clerk_talk_choice:adjutant_team_dismiss_clerk_talk|我 想 要 解 雇 {s1} ({s2}) 
+dlga_adjutant_team_talk:adjutant_team_appoint_clerk_talk|我 想 要 任 命 一 个 职 员 
+dlga_adjutant_team_appoint_clerk_talk:adjutant_team_appoint_clerk_talk_choice|你 想 任 命 哪 种 职 员 ? 
+dlga_adjutant_team_appoint_clerk_talk_choice:adjutant_team_appoint_clerk_talk_choice_none|算 了 
+dlga_adjutant_team_appoint_clerk_talk_choice_none:adjutant_team_talk|好 的 
+dlga_adjutant_team_appoint_clerk_talk_choice:adjutant_appoint_clerk_talk|我 想 要 任 命 一 个 {s1} 
+dlga_adjutant_appoint_clerk_talk:adjutant_appoint_clerk_talk_choice|你 想 任 命 谁 ? 
+dlga_adjutant_appoint_clerk_talk_choice:adjutant_appoint_clerk_talk_choice_none|算 了 
+dlga_adjutant_appoint_clerk_talk_choice_none:adjutant_team_appoint_clerk_talk_choice|好 的 

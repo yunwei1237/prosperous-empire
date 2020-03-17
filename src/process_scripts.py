@@ -4,8 +4,9 @@ from module_info import *
 from module_scripts import *
 
 from process_common import *
-from process_import_modules import preprocessScripts
 from process_operations import *
+from process_smart_modules import preprocess
+
 
 def save_scripts(variable_list,variable_uses,scripts,tag_uses,quick_strings):
   file = open(export_dir + "scripts.txt","w")
@@ -34,7 +35,7 @@ def save_python_header():
 
 print "Exporting scripts..."
 
-preprocessScripts()
+preprocess(scripts,"scripts")
 
 save_python_header()
 variable_uses = []

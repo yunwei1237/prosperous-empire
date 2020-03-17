@@ -1,6 +1,6 @@
 @echo off
 python src/process_init.py
-python src/process_import_modules.py
+::python src/process_import_modules.py
 python src/process_global_variables.py
 python src/process_strings.py
 python src/process_skills.py

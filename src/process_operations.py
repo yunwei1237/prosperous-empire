@@ -1,33 +1,9 @@
-import string
-import types
-
 from process_common import *
-from header_common import *
-from header_operations import *
 
-from module_strings import *
-from module_skills import *
-from module_music import *
-from module_meshes import *
-from module_sounds import *
-from module_items import *
-from module_troops import *
-from module_factions import *
-from module_quests import *
-from module_party_templates import *
-from module_parties import *
-from module_scenes import *
-from module_scripts import *
-from module_mission_templates import *
-from module_game_menus import *
-from module_particle_systems import *
-from module_scene_props import *
-from module_scene_props import *
 from module_presentations import *
-from module_map_icons import *
 from module_tableau_materials import *
 from module_animations import *
-from process_import_modules import *
+
 
 # def get_id_value(tag, identifier, tag_uses):
 #   tag_type = -1

@@ -6,6 +6,8 @@ from module_game_menus import *
 
 from process_common import *
 from process_operations import *
+from process_smart_modules import preprocess
+
 
 def save_game_menu_item(ofile,variable_list,variable_uses,menu_item,tag_uses,quick_strings):
   ofile.write(" mno_%s "%(menu_item[0]))
@@ -40,7 +42,7 @@ def save_python_header():
 
 print "Exporting game menus data..."
 
-preprocessGameMenus()
+preprocess(game_menus,"game_menus")
 
 save_python_header()
 variable_uses = []
