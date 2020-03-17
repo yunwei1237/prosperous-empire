@@ -35,7 +35,68 @@ heroCollection = {
     },
     "simple_triggers":{
         "append":[
-            # (6, []),
+            # Respawn hero party after kingdom hero is released from captivity.
+            (48,
+             [
+                (try_for_range, ":troop_no", active_npcs_begin, active_npcs_end),
+                    (troop_slot_eq, ":troop_no", slot_troop_occupation, slto_kingdom_hero),
+
+                    (str_store_troop_name, s1, ":troop_no"),
+
+                    (neg | troop_slot_ge, ":troop_no", slot_troop_prisoner_of_party, 0),
+                    (neg | troop_slot_ge, ":troop_no", slot_troop_leaded_party, 1),
+
+                    (store_troop_faction, ":cur_faction", ":troop_no"),
+                    (try_begin),
+                        (eq, ":cur_faction", "fac_outlaws"),  # Do nothing
+                    (else_try),
+                         (try_begin),
+                             (eq, "$cheat_mode", 2),
+                             (str_store_troop_name, s4, ":troop_no"),
+                             (display_message, "str_debug__attempting_to_spawn_s4"),
+                         (try_end),
+
+                         (call_script, "script_cf_select_random_walled_center_with_faction_and_owner_priority_no_siege",
+                          ":cur_faction", ":troop_no"),  # Can fail
+                         (assign, ":center_no", reg0),
+
+                         (try_begin),
+                             (eq, "$cheat_mode", 2),
+                             (str_store_party_name, s7, ":center_no"),
+                             (str_store_troop_name, s0, ":troop_no"),
+                             (display_message, "str_debug__s0_is_spawning_around_party__s7"),
+                         (try_end),
+
+                         (call_script, "script_create_kingdom_hero_party", ":troop_no", ":center_no"),
+
+                         (try_begin),
+                             (eq, "$g_there_is_no_avaliable_centers", 0),
+                             (party_attach_to_party, "$pout_party", ":center_no"),
+                         (try_end),
+
+                         # new
+                         # (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+                         # (call_script, "script_npc_decision_checklist_party_ai", ":troop_no"), #This handles AI for both marshal and other parties
+                         # (call_script, "script_party_set_ai_state", ":party_no", reg0, reg1),
+                         # new end
+
+                         (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+                         (call_script, "script_party_set_ai_state", ":party_no", spai_holding_center, ":center_no"),
+
+                    (else_try),
+                         (neg | faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+                         (try_begin),
+                             (is_between, ":troop_no", kings_begin, kings_end),
+                             (troop_set_slot, ":troop_no", slot_troop_change_to_faction, "fac_commoners"),
+                         (else_try),
+                             (store_random_in_range, ":random_no", 0, 100),
+                             (lt, ":random_no", 10),
+                             (call_script, "script_cf_get_random_active_faction_except_player_faction_and_faction", ":cur_faction"),
+                             (troop_set_slot, ":troop_no", slot_troop_change_to_faction, reg0),
+                         (try_end),
+                    (try_end),
+                (try_end),
+             ]),
         ],
     },
     "scripts":{
