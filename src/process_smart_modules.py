@@ -106,7 +106,6 @@ def processModuleItem(datas, config, moduleName, moduleItem):
                 warn("[ {} > {} > {} ]:data is empty".format(moduleName, moduleItem,command))
                 continue
             else:
-                datas.extend(data)
                 for dataLine in data:
                     datas.append(dataLine)
                     info("[ {} > {} > {} ]:append data : {}".format(moduleName, moduleItem, command, dataLine))

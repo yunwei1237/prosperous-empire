@@ -58,7 +58,7 @@ patrolParty = {
             (6, [
 
                 ## todo 统计被打败的队伍,从slot中减去
-                (display_message, "@ start exec script_update_patrol_partys_for_all"),
+                ##(display_message, "@start exec script_update_patrol_partys_for_all"),
                 (call_script, "script_update_patrol_partys_for_all"),
             ]),
 
@@ -67,7 +67,41 @@ patrolParty = {
                 ## 如果能够在阵营转换时就检测应该效果最好（但是可能需要修改系统代码）
                 (call_script, "script_update_all_patrol_party_faction"),
                 ## 统计被打败的队伍,从slot中减去
-            ])
+            ]),
+            (1,[
+                (try_for_parties,":party"),
+                    (party_is_active,":party"),
+                    (party_slot_eq,":party",slot_party_type,spt_patrol),
+                    (party_slot_eq,":party",slot_party_protect_center,"p_town_3"),
+                    (assign,reg1,":party"),
+                    (display_message,"@p_town_3 party id: {reg1}"),
+                    (party_get_num_companions,reg2,":party"),
+                    (display_message,"@p_town_3 party size: {reg2}"),
+                (try_end),
+            ]),
+            (6,[
+                (display_message,"@center patrol begin update size"),
+                ## 初始化所有城镇的数量
+                (try_for_parties,":center_no"),
+                    (this_or_next | party_slot_eq, ":center_no", slot_party_type, spt_town),
+                    (this_or_next | party_slot_eq, ":center_no", slot_party_type, spt_castle),
+                    (party_slot_eq, ":center_no", slot_party_type, spt_village),
+                    (party_set_slot,":center_no",slot_party_patrol_num,0),
+                (try_end),
+
+                ## 统计据点巡逻队数量
+                (try_for_parties, ":party"),
+                    (party_is_active,":party"),
+                    (party_slot_eq, ":party", slot_party_type, spt_patrol),
+                    (party_get_slot,":center",":party",slot_party_protect_center),
+                    (party_get_slot,":num",":center",slot_party_patrol_num),
+                    (val_add,":num",1),
+                    (party_set_slot,":center",slot_party_patrol_num,":num"),
+                    (str_store_party_name,s1,":center"),
+                    (assign,reg1,":num"),
+                    (display_message,"@center({s1}) patrol size({reg1}) update"),
+                (try_end),
+            ]),
         ],
     },
     "scripts":{
@@ -255,7 +289,7 @@ patrolParty = {
                                 (str_store_faction_name,s1,":party_faction"),
                                 (str_store_faction_name,s2,":troop_faction"),
                                 (str_store_troop_name,s3,":troop"),
-                                (display_message,"@party faction name ({s1})     troop faction name ({s2} troop:{s3})"),
+                                #(display_message,"@party faction name ({s1})     troop faction name ({s2} troop:{s3})"),
                                 ## 本国招募
                                 (eq,":party_faction",":troop_faction"),
                                 ## 添加同伴
@@ -263,7 +297,7 @@ patrolParty = {
                                 (str_store_party_name,s1,":party_no"),
                                 (str_store_troop_name,s2,":troop"),
                                 (assign,reg1,":cur_stack_size"),
-                                (display_message,"@do add troops({reg1}):{s1}"),
+                                #(display_message,"@do add troops({reg1}):{s1}"),
                             (else_try),
                                 ## 它国贩卖
                                 (call_script,"script_get_prisoner_prices",":troop",":cur_stack_size"),
@@ -273,7 +307,7 @@ patrolParty = {
                             ## 移除俘虏
                             (party_remove_prisoners,":party_no",":troop",":cur_stack_size"),
                             (str_store_party_name,s1,":party_no"),
-                            (display_message,"@do remove prisoners:{s1}"),
+                            #(display_message,"@do remove prisoners:{s1}"),
                         (try_end),
                     (try_end),
 
@@ -282,7 +316,7 @@ patrolParty = {
                         (call_script,"script_update_center_wealth",":center_no",":total_price",1),
                         (str_store_party_name,s1,":party_no"),
                         (assign,reg1,":total_price"),
-                        (display_message,"@add money({reg1}) :{s1}"),
+                        #(display_message,"@add money({reg1}) :{s1}"),
                     (try_end),
 
                     ## 【补充士兵】
@@ -306,13 +340,13 @@ patrolParty = {
                     (try_end),
                     (try_begin),
                         (assign,reg2,":need_size"),
-                        (display_message,"@need size {reg2}"),
+                        #(display_message,"@need size {reg2}"),
                         (gt,":need_size",0),
                         #(party_slot_ge,":center_no",slot_town_wealth,500),
                         (call_script, "script_update_center_wealth", ":center_no",500,-1),
                         (call_script, "script_reinforce_party", ":party_no"),
                         (str_store_party_name,s1,":party_no"),
-                        (display_message,"@add party:{s1}"),
+                        #(display_message,"@add party:{s1}"),
                     (try_end),
                     ## 【升级士兵】
                     (store_mul,":xp",":times",100),

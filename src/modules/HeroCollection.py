@@ -21,7 +21,7 @@ spt_hero             = 21
 
 heroCollection = {
     "name":"HeroCollection",
-    "enable":True,
+    "enable":False,
     "troops":{
         "insertBefore":{
             "sign":"heroes_end",

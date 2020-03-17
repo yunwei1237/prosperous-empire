@@ -573,17 +573,8 @@ script_update_center_wealth = 571
 script_create_patrol_party = 572
 script_update_patrol_partys_for_all = 573
 script_update_all_patrol_party_faction = 574
-script_reinforce_party = 575
-script_get_prisoner_prices = 576
-script_update_center_wealth = 577
-script_create_patrol_party = 578
-script_update_patrol_partys_for_all = 579
-script_update_all_patrol_party_faction = 580
-script_update_troop_wealth = 581
-script_collect_or_use_arrows = 582
-script_update_troop_wealth = 583
-script_collect_or_use_arrows = 584
-script_create_battle_for_player = 585
-script_create_battle_for_player = 586
+script_update_troop_wealth = 575
+script_collect_or_use_arrows = 576
+script_create_battle_for_player = 577
 
 

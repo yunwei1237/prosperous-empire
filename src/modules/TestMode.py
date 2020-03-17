@@ -474,7 +474,7 @@ testMode = {
                     (0,0,0,[],[
                         (key_clicked,key_o),
                         (assign,"$talk_context", tc_town_talk),
-                        (display_message,"@ p is clicked !"),
+                        (display_message,"@p is clicked !"),
                     ]),
                 ]),
         ]
@@ -564,7 +564,7 @@ testMode = {
                                      (troop_add_gold,"trp_player",100000),
 
                                      #(party_relocate_near_party,"p_town_1","p_main_party"),
-                                     (party_relocate_near_party,"p_main_party","p_town_2",3),
+                                     (party_relocate_near_party,"p_main_party","p_town_3",3),
                                      (change_screen_map),
                                 ]),
                             ],
@@ -640,15 +640,15 @@ testMode = {
             ]
         }
     },
-    "dialogs":{
-        "insertBefore":[
-            {
-                "sign":"start:free[1,4]",
-                "data":[
-                    [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
-                    [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "adjutant_team_into_talk", []],
-                ]
-            }
-        ]
-    }
+    # "dialogs":{
+    #     "insertBefore":[
+    #         {
+    #             "sign":"start:battle_reason_stated[1,4]",
+    #             "data":[
+    #                 [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
+    #                 [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "close_window", []],
+    #             ]
+    #         }
+    #     ]
+    # }
 }
