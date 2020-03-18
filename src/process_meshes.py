@@ -4,6 +4,8 @@ from module_info import *
 from module_meshes import *
 
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def save_meshes():
   ofile = open(export_dir + "meshes.txt","w")
@@ -21,5 +23,8 @@ def save_python_header():
   ofile.close()
 
 print "Exporting meshes..."
+
+preprocess(meshes,"meshes")
+
 save_python_header()
 save_meshes()

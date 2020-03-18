@@ -1,6 +1,8 @@
 from header_common import *
 from module_info import *
 from module_sounds import *
+from process_smart_modules import preprocess
+
 
 def write_python_header(sounds):
   file = open(src_dir + "ID_sounds.py","w")
@@ -47,6 +49,9 @@ def compile_sounds(sounds):
   return all_sounds
 
 print "Exporting sounds..."
+
+preprocess(sounds,"sounds")
+
 sound_samples = compile_sounds(sounds)
 write_sounds(sound_samples, sounds)
 write_python_header(sounds)

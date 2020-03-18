@@ -3,6 +3,8 @@ from header_common import *
 from module_info import *
 from module_animations import *
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def compile_action_sets(actions):
   action_codes = []
@@ -56,6 +58,9 @@ def save_python_header(action_codes):
   ofile.close()
 
 print "Exporting animations..."
+
+preprocess(animations,"animations")
+
 action_codes = compile_action_sets(animations)
 save_python_header(action_codes)
 write_actions(animations,len(action_codes),action_codes,"actions.txt")

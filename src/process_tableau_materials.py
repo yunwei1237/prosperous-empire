@@ -6,6 +6,8 @@ from module_tableau_materials import *
 
 from process_common import *
 from process_operations import *
+from process_smart_modules import preprocess
+
 
 def save_tableau_materials(variable_list,variable_uses,tag_uses,quick_strings):
   ofile = open(export_dir + "tableau_materials.txt","w")
@@ -23,6 +25,9 @@ def save_python_header():
   ofile.close()
 
 print "Exporting tableau materials data..."
+
+preprocess(tableaus,"tableaus")
+
 save_python_header()
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)

@@ -3,6 +3,7 @@ from module_party_templates import *
 #from process_operations import *
 
 from process_common import *
+from process_smart_modules import preprocess
 
 
 def save_party_template_troop(file,troop):
@@ -41,6 +42,9 @@ def save_python_header():
   file.close()
 
 print "Exporting party_template data..."
+
+preprocess(party_templates,"party_templates")
+
 #tag_uses = load_tag_uses(export_dir)
 save_python_header()
 save_party_templates()

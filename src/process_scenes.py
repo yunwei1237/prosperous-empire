@@ -2,6 +2,8 @@ from module_info import *
 from module_scenes import *
 
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def save_python_header():
   ofile = open(src_dir + "ID_scenes.py","w")
@@ -10,6 +12,9 @@ def save_python_header():
   ofile.close()
 
 print "Exporting scene data..."
+
+preprocess(scenes,"scenes")
+
 save_python_header()
 
 from process_operations import *

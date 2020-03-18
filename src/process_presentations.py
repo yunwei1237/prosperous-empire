@@ -6,6 +6,8 @@ from ID_meshes import *
 
 from process_common import *
 from process_operations import *
+from process_smart_modules import preprocess
+
 
 def save_presentations(variable_list,variable_uses,tag_uses,quick_strings):
   ofile = open(export_dir + "presentations.txt","w")
@@ -25,6 +27,9 @@ def save_python_header():
   file.close()
 
 print "Exporting presentations..."
+
+preprocess(presentations,"presentations")
+
 save_python_header()
 variable_uses = []
 variables = load_variables(export_dir,variable_uses)

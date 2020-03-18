@@ -1,6 +1,7 @@
 from module_info import *
 from module_particle_systems import *
 from process_common import *
+from process_smart_modules import preprocess
 
 id_pos        = 0
 flags_pos     = 1
@@ -58,5 +59,8 @@ def save_python_header():
   ofile.close()
 
 print "Exporting particle data..."
+
+preprocess(particle_systems,"particle_systems")
+
 save_particle_systems()
 save_python_header()

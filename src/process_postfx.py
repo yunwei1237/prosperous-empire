@@ -3,6 +3,8 @@ import os
 from header_common import *
 from module_info import *
 from module_postfx import *
+from process_smart_modules import preprocess
+
 
 def write_python_header(postfx_params_list):
   file = open(src_dir + "ID_postfx_params.py","w")
@@ -26,5 +28,8 @@ def write_postfx_params(postfx_params_list):
   ofile.close()
 
 print "Exporting postfx_params..."
+
+preprocess(postfx_params,"postfx_params")
+
 write_postfx_params(postfx_params)
 write_python_header(postfx_params)

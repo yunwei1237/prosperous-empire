@@ -6,8 +6,9 @@ from module_triggers import *
 from module_dialogs import *
 
 from process_common import *
+from process_global_variables import compile_all_global_vars
 from process_operations import *
-from process_smart_modules import preprocess
+from process_smart_modules import *
 
 speaker_pos = 0
 ipt_token_pos = 1
@@ -190,7 +191,7 @@ def save_sentences(variable_list,variable_uses,sentences,tag_uses,quick_strings,
 # Registered cookies is a list which enables the order of cookies to remain fixed across changes.
 # In order to remove cookies not used anymore, edit the cookies_registery.py and remove all entries.
 
-print "exporting triggers..."
+print "exporting dialogs..."
 
 preprocess(dialogs,"dialogs")
 
@@ -200,10 +201,12 @@ tag_uses = load_tag_uses(export_dir)
 quick_strings = load_quick_strings(export_dir)
 #compile_variables(variables)
 
-preprocess(triggers,"triggers")
+
+recompileGlobalVars(variables, variable_uses,triggers_args = triggers, sentences_args = dialogs)
 
 save_triggers(variables,variable_uses,triggers,tag_uses,quick_strings)
-print "exporting dialogs..."
+
+
 (input_states,output_states) = compile_sentence_tokens(dialogs)
 save_sentences(variables,variable_uses,dialogs,tag_uses,quick_strings,input_states,output_states)
 save_variables(export_dir,variables,variable_uses)

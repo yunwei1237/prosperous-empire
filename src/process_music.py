@@ -3,6 +3,8 @@ from header_common import *
 from module_info import *
 from module_music import *
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def save_python_header():
   ofile = open(src_dir + "ID_music.py","w")
@@ -19,5 +21,8 @@ def save_tracks():
   file.close()
 
 print "Exporting tracks..."
+
+preprocess(tracks,"tracks")
+
 save_python_header()
 save_tracks()

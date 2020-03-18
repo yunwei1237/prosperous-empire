@@ -6,6 +6,7 @@ from module_parties import *
 from process_operations import *
 
 from process_common import *
+from process_smart_modules import preprocess
 
 
 def save_parties(parties):
@@ -64,10 +65,14 @@ def save_python_header(parties):
 
 
 print "Exporting parties"
+
+preprocess(parties,"parties")
+
 tag_uses = load_tag_uses(export_dir)
 save_python_header(parties)
 save_parties(parties)
 save_tag_uses(export_dir, tag_uses)
+
 #print "Generating C header..."
 #save_c_header()
 #print "Generating Python header..."

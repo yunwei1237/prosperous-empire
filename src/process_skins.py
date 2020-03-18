@@ -6,6 +6,8 @@ from module_skins import *
 import string
 
 # WARNING: The following should be the same as the number in face_generator.h
+from process_smart_modules import preprocess
+
 num_voice_types = 2
 #####################
 
@@ -102,4 +104,7 @@ def export_skins(skins):
   ofile.close()
 
 print "Exporting skins..."
+
+preprocess(skins,"skins")
+
 export_skins(skins)

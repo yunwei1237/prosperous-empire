@@ -4,6 +4,8 @@ from module_info import *
 from module_quests import *
 
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def save_quests():
   ofile = open(export_dir + "quests.txt","w")
@@ -27,6 +29,9 @@ def save_python_header():
 
 
 print "Exporting quest data..."
+
+preprocess(quests,"quests")
+
 save_quests()
 save_python_header()
   

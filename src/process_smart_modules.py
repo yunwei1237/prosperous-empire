@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+import string
 
-from config_modules import modules, export_dir
+from config_modules import modules
 from module_dialogs import dialogs
 from module_game_menus import game_menus
+from module_info import export_dir
 from module_mission_templates import mission_templates
 from module_scripts import scripts
 from module_simple_triggers import simple_triggers
 from module_strings import strings
 from module_triggers import triggers
-
+from process_global_variables import compile_all_global_vars
 
 
 ## 日志处理功能
+
+
 
 def log(type,text):
     print "{} - {}".format(type,text)
@@ -75,6 +79,9 @@ def checkDependentOn(checkModule):
     return True
 
 
+
+## 最重要的功能之一
+
 def processModuleItem(datas, config, moduleName, moduleItem):
     '''
         处理module数据的功能
@@ -87,7 +94,7 @@ def processModuleItem(datas, config, moduleName, moduleItem):
     if(datas == None):
         raise RuntimeError("[ {} > {} ]:module Item source is None".format(moduleName,moduleItem));
 
-    if config == None or len(config) == 0:
+    if config == None:
         raise RuntimeError("[ {} > {} ]:module Item config is None".format(moduleName,moduleItem));
 
     if type(config) != dict:
@@ -172,9 +179,6 @@ def processModuleItem(datas, config, moduleName, moduleItem):
                     data = datas[getRealIndexBySign(datas, rowSign, moduleName, moduleItem, command)]
                     processModuleItem(data[parentIndex], childrenCfg, moduleName,
                                  "{}[{}]".format(moduleItem, parentIndex))
-
-
-                debug("children:{}".format(parentIndex))
         else:
             warn("[ {} > {} > {} ]:unknow command 【{}】".format(moduleName,moduleItem,command,command))
 
@@ -192,30 +196,90 @@ def getRealIndexBySign(datas, sign, moduleName, moduleItem, command):
     :param command: 命令名称，如，append,insertBefore,delete等等
     :return:
     '''
+    index = -1
     ## 处理信号1
     matcher = re.match(r"^#(\d+)$", sign)
     if matcher:
         text = matcher.group(1)
-        return int(text)
+        index = int(text)
 
-    ## 处理信号2
-    matcher = re.match(r"^(\w+)$", sign)
+    # ## 处理信号2
+    # matcher = re.match(r"^(\w+)$", sign)
+    # if matcher:
+    #     text = matcher.group(1)
+    #     index = findIndex(datas, text, None, moduleName, moduleItem, command)
+    #
+    # ## 处理信号3
+    # matcher = re.match(r"^(\w+(:\w+)+)\[(\d+(,\d+)+)\]$", sign)
+    # if matcher:
+    #     text = matcher.group(1)
+    #     indexs = matcher.group(3)
+    #     index = findIndex(datas, text, [ int(x) for x in indexs.split(",")], moduleName, moduleItem, command)
+
+    ## 处理信号4
+    matcher = re.match(r"^(\w+@?(:\w+@?)*)(\[(\d+(,\d+)*)\])?$", sign)
     if matcher:
-        text = matcher.group(1)
-        return findIndex(datas, text, None, moduleName, moduleItem, command)
+        signs = matcher.group(1).split(":")
+        text = matcher.group(4)
+        if text == None or len(text) == 0:
+            indexs = [0]
+        else:
+            indexs = matcher.group(4).split(",")
+        ## 如果参数大于等于2时，就需要双方参数必须相同
+        if len(signs) == 1 or (len(signs) >1 and len(signs) == len(indexs)):
+            index = findIndex(datas, signs, [int(x) for x in indexs], moduleName, moduleItem, command)
 
-    ## 处理信号3
-    matcher = re.match(r"^(\w+(:\w+)+)\[(\d+(,\d+)+)\]$", sign)
-    if matcher:
-        text = matcher.group(1)
-        indexs = matcher.group(3)
-        return findIndex(datas, text, [ int(x) for x in indexs.split(",")], moduleName, moduleItem, command)
+    if index > -1:
+        ## 显示命中数据
+        debug(
+            "[ {} > {} > {} ]:(sign = {},index = {}) hit data : {}".format(moduleName, moduleItem, command, sign, index,
+                                                                           datas[index]))
+    else:
+        ## 其它格式不支持
+        raise RuntimeError(
+            "[ {} > {} > {} ]:sign({}) format is error".format(moduleName, moduleItem,command,sign))
+    return index
 
-    ## 其它格式不支持
-    raise RuntimeError(
-        "[ {} > {} > {} ]:sign({}) format is error".format(moduleName, moduleItem,command,sign))
 
-def findIndex(datas,sign,idIndexs,moduleName,moduleItem,command):
+# ## 模糊匹配类型
+# class LikeType():
+#     none  = 1
+#     left     = 2
+#     right   = 3
+#     center    = 4
+#
+#
+#
+# ## 在数据对比之前作预处理，
+# class PreHandle():
+#     ## 不做任何处理
+#     none = 1
+#     ## 将所有特殊符号转换成下划线，可以参考方法：process_common.py文件的convert_to_identifier_with_no_lowercase
+#     convertToIdentifier = 2
+
+
+def convert_to_identifier_with_no_lowercase(s0):
+  s1 = string.replace(s0," ","_")
+  s1 = string.replace(s1,"'","_")
+  s1 = string.replace(s1,"`","_")
+  s1 = string.replace(s1,"(","_")
+  s1 = string.replace(s1,")","_")
+  s1 = string.replace(s1,"-","_")
+  s1 = string.replace(s1,",","_")
+  s1 = string.replace(s1,"|","_")
+  s1 = string.replace(s1,".","_")
+  s1 = string.replace(s1,"?","_")
+  s1 = string.replace(s1,"{","_")
+  s1 = string.replace(s1,"}","_")
+  s1 = string.replace(s1,"[","_")
+  s1 = string.replace(s1,"]","_")
+  s1 = string.replace(s1,"!","_")
+  s1 = string.replace(s1,":","_")
+  s1 = string.replace(s1,"\t","_") #Tab
+  return s1
+
+
+def findIndex(datas,signs,idIndexs,moduleName,moduleItem,command):
     '''
         从原始数据中根据信号对象获得对应的下标
     :param datas: 原始数据
@@ -224,28 +288,40 @@ def findIndex(datas,sign,idIndexs,moduleName,moduleItem,command):
     :param moduleName: module的名称，每一个module唯一的名称
     :param moduleItem: module的项，如,scripts,items,troops等等
     :param command: 命令名称，如，append,insertBefore,delete等等
+    :param likeType: 模糊匹配类型  ：none(精确匹配),left（匹配开头）,right（匹配末尾）,center（匹配包含）
     :return:
     '''
 
     if(datas == None or len(datas) == 0):
-        raise RuntimeError("[ {} > {} > {} ]:data is empty".format(moduleName,moduleItem,command))
+        raise RuntimeError("[ {} > {} > {} ]:datas is empty".format(moduleName,moduleItem,command))
 
-    if(sign == None or len(sign) == 0):
-        raise RuntimeError("[ {} > {} > {} ]:sign is empty".format(moduleName,moduleItem,command))
-
-    if(idIndexs == None or len(idIndexs) == 0):
-        idIndexs = [0]
+    if(signs == None or len(signs) == 0):
+        raise RuntimeError("[ {} > {} > {} ]:signs is empty".format(moduleName,moduleItem,command))
 
     for index in range(len(datas)):
         data = datas[index]
-        nameList = []
-        for id in idIndexs:
-            nameList.append(str(data[id]))
-        name = ":".join(nameList)
-        if(sign == name):
-            return index;
-    raise RuntimeError("[ {} > {} > {} ]:sign({}) is not found".format(moduleName,moduleItem,command,sign))
+        ## 所有选择器是否都匹配
+        allMatch = True
+        for signIndex in range(len(signs)):
+            dateItem = data[idIndexs[signIndex]]
+            sign = signs[signIndex]
 
+            if(sign.endswith("@")):
+                dateItem = convert_to_identifier_with_no_lowercase(dateItem)
+                allMatch = allMatch and dateItem.startswith(sign[0:len(sign)-1])
+            else:
+                allMatch = allMatch and dateItem == sign
+            ## 一旦不匹配，就不必再进行其它比较
+            if allMatch == False:
+                break
+        if allMatch:
+            return index
+    print datas
+    raise RuntimeError("[ {} > {} > {} ]:sign({}) is not found".format(moduleName,moduleItem,command,":".join(signs)))
+
+
+
+## 处理各种模块
 def preprocess(datas,moduleItemName):
     '''
         预处理模块
@@ -260,10 +336,11 @@ def preprocess(datas,moduleItemName):
                 if moduleItem != None:
                     processModuleItem(datas,moduleItem,moduleName,moduleItemName)
                 info("[ {} > {} ] end".format(moduleName,moduleItemName))
-            else:
-                info("[ {} > {} ] is empty".format(moduleName,moduleItemName))
+            # else:
+            #     info("[ {} > {} ] is empty".format(moduleName,moduleItemName))
 
 
+## 汉化
 def preprocessInternational():
     '''
         处理汉化功能
@@ -317,15 +394,35 @@ def replaceIfExists(csvFile, hanStr):
     file.close()
 
 
+## 向外暴露的方法
 
+def recompileGlobalVars(variable_list,variable_uses, triggers_args=[], sentences_args = [], game_menus_args = [], mission_templates_args = [], scripts_args = [], simple_triggers_args = []):
+    '''
+        重新编译生成全部全局变量
+
+    :param variable_list:
+    :param variable_uses:
+    :param triggers:
+    :param sentences:
+    :param game_menus:
+    :param mission_templates:
+    :param scripts:
+    :param simple_triggers:
+    :return:
+    '''
+    compile_all_global_vars(variable_list, variable_uses, triggers_args, sentences_args, game_menus_args, mission_templates_args, scripts_args,
+                            simple_triggers_args)
+    debug("recompile global vars")
 
 #preprocess(strings,"strings")
 
-##preprocess(dialogs,"dialogs")
+#preprocess(dialogs,"dialogs")
 
 # preprocess(scripts,"scripts")
 
+# print len(game_menus)
 # preprocess(game_menus,"game_menus")
+# print len(game_menus)
 
 # preprocess(mission_templates,"mission_templates")
 

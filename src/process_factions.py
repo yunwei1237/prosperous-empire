@@ -2,6 +2,7 @@ from module_info import *
 from module_factions import *
 
 from process_common import *
+from process_smart_modules import preprocess
 
 faction_name_pos = 0
 faction_flags_pos = 2
@@ -65,6 +66,9 @@ def save_python_header():
   file.close()
 
 print "Exporting faction data..."
+
+preprocess(factions,"factions")
+
 save_python_header()
 relations = compile_relations()
 save_factions(relations)

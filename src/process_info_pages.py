@@ -4,6 +4,8 @@ from module_info import *
 from module_info_pages import *
 
 from process_common import *
+from process_smart_modules import preprocess
+
 
 def save_info_pages():
   ofile = open(export_dir + "info_pages.txt","w")
@@ -23,6 +25,9 @@ def save_python_header():
   ofile.close()
 
 print "Exporting info_page data..."
+
+preprocess(info_pages,"info_pages")
+
 save_info_pages()
 save_python_header()
   

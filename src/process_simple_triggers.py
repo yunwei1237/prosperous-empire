@@ -3,7 +3,7 @@ from module_simple_triggers import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess
+from process_smart_modules import preprocess, recompileGlobalVars
 
 
 def save_simple_triggers(variable_list,variable_uses,triggers,tag_uses,quick_strings):
@@ -26,6 +26,9 @@ variable_uses = []
 variables = load_variables(export_dir,variable_uses)
 tag_uses = load_tag_uses(export_dir)
 quick_strings = load_quick_strings(export_dir)
+
+recompileGlobalVars(variables, variable_uses,simple_triggers_args = simple_triggers)
+
 save_simple_triggers(variables,variable_uses,simple_triggers,tag_uses,quick_strings)
 save_variables(export_dir,variables,variable_uses)
 save_tag_uses(export_dir,tag_uses)

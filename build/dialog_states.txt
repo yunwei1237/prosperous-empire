@@ -1333,7 +1333,6 @@ merchant_quest_1a
 merchant_quest_1b
 merchant_quest_1c
 merchant_quest_1d
-adjutant_team_into_talk
 constable_hareck_hi
 free
 view_char_requested
@@ -1356,6 +1355,7 @@ mayor_wealth_comparison_4
 mayor_wealth_comparison_5
 adjutant_appoint_talk
 adjutant_dismiss_talk
+adjutant_team_into_talk
 adjutant_team_talk
 adjutant_sort_team_talk
 adjutant_appoint_adviser_into_talk_choice

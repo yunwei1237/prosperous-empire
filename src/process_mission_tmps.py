@@ -6,7 +6,7 @@ from module_mission_templates import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess
+from process_smart_modules import preprocess, recompileGlobalVars
 
 mission_template_name_pos = 0
 mission_template_flags_pos = 1
@@ -58,9 +58,7 @@ def save_python_header():
 
 print "Exporting mission_template data..."
 
-##
 preprocess(mission_templates,"mission_templates")
-
 
 save_python_header()
 variable_uses = []
@@ -68,6 +66,8 @@ variables = load_variables(export_dir, variable_uses)
 tag_uses = load_tag_uses(export_dir)
 
 quick_strings = load_quick_strings(export_dir)
+
+recompileGlobalVars(variables, variable_uses,mission_templates_args = mission_templates)
 
 save_mission_templates(variables,variable_uses,tag_uses,quick_strings)
 save_variables(export_dir,variables,variable_uses)

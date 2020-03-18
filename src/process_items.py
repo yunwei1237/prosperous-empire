@@ -2,6 +2,8 @@ import string
 
 from process_common import *
 from module_items import *
+from process_smart_modules import preprocess
+
 
 def get_item_code(item):
   prefix = "it_"
@@ -58,6 +60,9 @@ def write_items(variable_list,variable_uses,tag_uses,quick_strings):
   ofile.close()
 
 print "Exporting item data..."
+
+preprocess(items,"items")
+
 save_python_header()
 
 from module_info import *

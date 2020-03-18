@@ -15,11 +15,6 @@ from process_common import *
 from process_operations import *
 
 
-
-#-------------------------------------------------------
-from process_smart_modules import preprocess
-
-
 def compile_all_global_vars(variable_list,variable_uses, triggers, sentences, game_menus, mission_templates, scripts, simple_triggers):
   temp_list = []
   list_type = type(temp_list)
@@ -28,7 +23,7 @@ def compile_all_global_vars(variable_list,variable_uses, triggers, sentences, ga
 	  add_variable(varb, variable_list, variable_uses)
     except:
       print "Error in variable:"
-      print variable
+      ##print variable
   
   for trigger in triggers:
     try:
@@ -107,13 +102,6 @@ def compile_all_global_vars(variable_list,variable_uses, triggers, sentences, ga
 print "Compiling all global variables..."
 variable_uses = []
 variables = load_variables(export_dir, variable_uses)
-
-preprocess(triggers,"triggers")
-preprocess(dialogs,"dialogs")
-preprocess(game_menus,"game_menus")
-preprocess(mission_templates,"mission_templates")
-preprocess(scripts,"scripts")
-preprocess(simple_triggers,"simple_triggers")
 
 
 compile_all_global_vars(variables, variable_uses,triggers, dialogs, game_menus, mission_templates, scripts, simple_triggers)

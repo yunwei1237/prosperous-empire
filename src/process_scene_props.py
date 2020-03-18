@@ -5,6 +5,8 @@ from module_scene_props import *
 
 from process_common import *
 from process_operations import *
+from process_smart_modules import preprocess
+
 
 def save_scene_props(variable_list,variable_uses,tag_uses,quick_strings):
   ofile = open(export_dir + "scene_props.txt","w")
@@ -24,6 +26,9 @@ def save_python_header():
   file.close()
 
 print "Exporting scene props..."
+
+preprocess(scene_props,"scene_props")
+
 save_python_header()
 variable_uses = []
 variables = load_variables(export_dir,variable_uses)

@@ -3,6 +3,7 @@ from header_common import *
 from module_info import *
 from module_skills import *
 from process_common import *
+from process_smart_modules import preprocess
 
 skill_name_pos = 1
 skill_attribute_pos = 2
@@ -28,5 +29,8 @@ def save_python_header():
   ofile.close()
 
 print "Exporting skills..."
+
+preprocess(skills,"skills")
+
 save_python_header()
 save_skills()

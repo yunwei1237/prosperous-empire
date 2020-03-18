@@ -640,15 +640,15 @@ testMode = {
             ]
         }
     },
-    # "dialogs":{
-    #     "insertBefore":[
-    #         {
-    #             "sign":"start:battle_reason_stated[1,4]",
-    #             "data":[
-    #                 [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
-    #                 [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "close_window", []],
-    #             ]
-    #         }
-    #     ]
-    # }
+    "dialogs":{
+        "insertBefore":[
+            {
+                "sign":"start:Surrender_or_die@:battle_reason_stated[1,3,4]",
+                "data":[
+                    [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
+                    [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "close_window", []],
+                ]
+            }
+        ]
+    }
 }

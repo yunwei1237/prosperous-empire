@@ -5,7 +5,7 @@ from module_troops import *
 
 from process_common import *
 #from process_operations import *
-
+from process_smart_modules import preprocess
 
 num_face_numeric_keys = 4
 
@@ -102,6 +102,9 @@ def save_python_header():
   file.close()
 
 print "Exporting troops data"
+
+preprocess(troops,"troops")
+
 #tag_uses = load_tag_uses(export_dir)
 save_python_header()
 save_troops()

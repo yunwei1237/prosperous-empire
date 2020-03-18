@@ -6,8 +6,6 @@ from module_strings import *
 from process_common import *
 from process_smart_modules import preprocess
 
-preprocess(strings,"strings")
-
 def save_strings(strings):
   ofile = open(export_dir + "strings.txt","w")
   ofile.write("stringsfile version 1\n")
@@ -25,6 +23,9 @@ def save_python_header():
   ofile.close()
 
 print "Exporting strings..."
+
+preprocess(strings,"strings")
+
 save_python_header()
 save_strings(strings)
   

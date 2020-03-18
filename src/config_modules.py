@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from module_troops import *
+from modules.PatrolParty import patrolParty
 
 from modules.PartyManage import partyManage
-from modules.PatrolParty import patrolParty
+
 from modules.TestMode import testMode
 
 '''
@@ -11,5 +11,6 @@ from modules.TestMode import testMode
 '''
 
 modules = [
-    patrolParty,partyManage,testMode
+    patrolParty,partyManage,
+    testMode
 ]
