@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from header_dialogs import *
 from module_scripts import *
 
 '''
@@ -398,6 +398,29 @@ patrolParty = {
             # ("",[
             #
             # ]),
+        ],
+    },
+    "dialogs":{
+        "replace":[
+            {
+                "sign":"party_encounter_hostile_defender:Surrender_or_die@:party_encounter_hostile_ultimatum_surrender[1,3,4]",
+                "data":[
+                    [anyone|plyr,"party_encounter_hostile_defender", [],
+                       "Surrender or die!", "party_encounter_hostile_ultimatum_surrender", [
+                         (display_message,"@Surrender or die!"),
+                         (try_begin),
+                            (str_store_party_name,s1,"p_main_party"),
+                            (assign,":party","$g_encountered_party"),
+                            (str_store_party_name,s2,":party"),
+                            (store_faction_of_party,":faction",":party"),
+                            (str_store_faction_name,s3,":faction"),
+                            (display_message,"@player({s1}) is attack party({s2}) of faction({s3})."),
+                            (call_script, "script_change_player_relation_with_faction_ex", ":faction", -1),
+                         (try_end),
+                       ]
+                    ],
+                ],
+            },
         ],
     },
     "internationals":{
