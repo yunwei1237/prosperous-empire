@@ -1,7 +1,6 @@
 # 繁荣帝国
-prosperous-empire
-
-
+一个灵活的模块工具
+当前只支持版本：Module_system 1.153（理论支持任何版本，没有测试）
 
 ## 优势
 
@@ -14,13 +13,15 @@ prosperous-empire
 
 ## 功能列表
 ### 模块(module)功能
-每一个功能可以单独写在一个py文件中，包括 string,script,trigger,constans等待 [参看巡逻队功能](resources/oldmodule/PatrolParty.py)
+每一个功能可以单独写在一个py文件中，包括 string,script,trigger,constans等等 [参看巡逻队功能](resources/oldmodule/PatrolParty.py)
 创建一个功能只需要创建一个py文件，并在该文件中定义一个dict类型的变量，字典中每一个key代表一个数据集合，key不能随便定义，请参看key的语法。
 
 #### 使用步骤
-- 在modules（任何文件夹都可以）文件夹中创建一个py文件
-- 在py文件中定义一个dict(字典)，编写功能时请参看key语法。
-- 功能写完后，将dict变量添加到import_modules.py文件中的modules集合中
+- 在**modules**（任何文件夹都可以）文件夹中创建一个py文件
+- 在py文件中定义一个**dict(字典)变量**，编写功能时请参看key语法。
+- 功能写完后，将**dict(字典)变量**添加到**config_modules.py**文件中的**modules**集合中
+- 执行**build_module.bat**(windos)或**build_module.sh**(linux或mac)脚本
+- 运行游戏进行测试（只能在windos中运行游戏）
 #### key的语法：
 ##### name
 一个字符串，只是用于区别不同的功能，全局必须唯一
@@ -143,8 +144,8 @@ replace参数与insertBefore命令相同。行为不同的是，将选中的数�
         }
     ],
     ## 删除id为color_no_1的字符串，删除strings集合中第109个的字符串
-    ## 删除复合选择器（从下标为0和1取值拼成字符串与【no:No.】作对比，如果符合就删除）
-    "delete":["color_no_1","#108","no:No.[0,1]"],
+    ## 删除复合选择器（从下标为0和1取值拼成字符串与【no_string:NO_STRING_@[0,1]】作对比，如果符合就删除）
+    "delete":["color_no_1","#108","no_string:NO_STRING_@[0,1]"],
 },
 ```
 
