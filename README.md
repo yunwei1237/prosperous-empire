@@ -14,7 +14,7 @@
 ## 功能列表
 ### 模块(module)功能
 每一个功能可以单独写在一个py文件中，包括 string,script,trigger,constans等等 [参看巡逻队功能](resources/oldmodule/PatrolParty.py)
-创建一个功能只需要创建一个py文件，并在该文件中定义一个dict类型的变量，字典中每一个key代表一个数据集合，key不能随便定义，请参看key的语法。
+创建一个功能只需要创建一个py文件，并在该文件中定义一个dict类型的变量，字典中每一个key代表一个数据集合，key不能随便定义，请参看模块的语法。
 
 #### 使用步骤
 - 在**modules**（任何文件夹都可以）文件夹中创建一个py文件
@@ -22,7 +22,7 @@
 - 功能写完后，将**dict(字典)变量**添加到**config_modules.py**文件中的**modules**集合中
 - 执行**build_module.bat**(windos)或**build_module.sh**(linux或mac)脚本
 - 运行游戏进行测试（只能在windos中运行游戏）
-#### key的语法：
+#### 模块的语法：
 ##### name
 一个字符串，只是用于区别不同的功能，全局必须唯一
 ##### enable
