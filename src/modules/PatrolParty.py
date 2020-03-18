@@ -22,8 +22,24 @@ town_patrol_strength = 6
 castle_patrol_strength = 4
 village_patrol_strength = 2
 
+
+## 巡逻队多久更新一次
+patrol_update_interval = 6
+
+## 巡逻队初次创建时的经验
+patrol_init_party_xp= 2500
+
+## 巡逻队每晚每点强度的经验（每晚经验 = strength * patrol_every_day_per_strength_xp）
+patrol_every_day_per_strength_xp= 100
+
+## 每次升级士兵的花费
+patrol_update_cost_money = 500
+
 ## party slot
+
+## 用于保存巡逻队的数量
 slot_party_patrol_num     = 400
+## 用于保存巡逻的据点
 slot_party_protect_center = 401
 
 
@@ -55,10 +71,7 @@ patrolParty = {
     },
     "simple_triggers":{
         "append":[
-            (6, [
-
-                ## todo 统计被打败的队伍,从slot中减去
-                ##(display_message, "@start exec script_update_patrol_partys_for_all"),
+            (patrol_update_interval, [
                 (call_script, "script_update_patrol_partys_for_all"),
             ]),
 
@@ -68,7 +81,9 @@ patrolParty = {
                 (call_script, "script_update_all_patrol_party_faction"),
                 ## 统计被打败的队伍,从slot中减去
             ]),
+            ## 显示一个城镇巡逻队的信息
             (1,[
+
                 (try_for_parties,":party"),
                     (party_is_active,":party"),
                     (party_slot_eq,":party",slot_party_type,spt_patrol),
@@ -77,8 +92,11 @@ patrolParty = {
                     (display_message,"@p_town_3 party id: {reg1}"),
                     (party_get_num_companions,reg2,":party"),
                     (display_message,"@p_town_3 party size: {reg2}"),
+                    (display_message,"@---------------------------"),
                 (try_end),
             ]),
+            ## 每6小时统计一次每一个据点巡逻队的数量，便于巡逻队被击败后及时创建
+            ## ## 统计被打败的队伍,从slot中减去
             (6,[
                 (display_message,"@center patrol begin update size"),
                 ## 初始化所有城镇的数量
@@ -218,7 +236,7 @@ patrolParty = {
                   (call_script, "script_reinforce_party", ":new_party"),
                 (try_end),
                 ## 增加经验
-                (store_mul,":xp_addition_for_centers",":strength_val",2500),
+                (store_mul,":xp_addition_for_centers",":strength_val", patrol_init_party_xp),
                 (party_upgrade_with_xp, ":new_party", ":xp_addition_for_centers", 0),
                 (assign, reg0, ":new_party"),
                 (try_end),
@@ -342,14 +360,14 @@ patrolParty = {
                         (assign,reg2,":need_size"),
                         #(display_message,"@need size {reg2}"),
                         (gt,":need_size",0),
-                        #(party_slot_ge,":center_no",slot_town_wealth,500),
-                        (call_script, "script_update_center_wealth", ":center_no",500,-1),
+                        (party_slot_ge,":center_no",slot_town_wealth,patrol_update_cost_money),
+                        (call_script, "script_update_center_wealth", ":center_no",patrol_update_cost_money,-1),
                         (call_script, "script_reinforce_party", ":party_no"),
                         (str_store_party_name,s1,":party_no"),
                         #(display_message,"@add party:{s1}"),
                     (try_end),
                     ## 【升级士兵】
-                    (store_mul,":xp",":times",100),
+                    (store_mul,":xp",":times",patrol_every_day_per_strength_xp),
                     (party_upgrade_with_xp, ":party_no", ":xp", 0),
                 (try_end),
             ]),

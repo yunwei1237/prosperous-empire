@@ -13,21 +13,20 @@ hero_end = "trp_hero_end"
 ## args
 spt_hero             = 21
 
-'''
-
-    
-'''
 
 
 heroCollection = {
     "name":"HeroCollection",
-    "enable":False,
-    "troops":{
-        "insertBefore":{
-            "sign":"heroes_end",
-            "data":mergeList(repeatRandomTroop(51,"hero_{}"),repeatArcher1(1,"hero_end")),
-        }
-    },
+    "enable":True,
+    "troops":
+        {
+            "insertBefore":[
+                {
+                    "sign":"heroes_end",
+                    "data":mergeList(repeatRandomTroop(51,"hero_{}"),repeatArcher1(1,"hero_end")),
+                }
+            ]
+        },
     "strings":{
         "append":[
             # ("s5_s_patrol_party","{s5}'s patrol Party"),

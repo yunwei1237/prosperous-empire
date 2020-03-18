@@ -98,12 +98,12 @@ def processModuleItem(datas, config, moduleName, moduleItem):
         raise RuntimeError("[ {} > {} ]:module Item config is None".format(moduleName,moduleItem));
 
     if type(config) != dict:
-        error("[ {} > {} ]:module Item config must a dict".format(moduleName, moduleItem))
+        raise RuntimeError("[ {} > {} ]:module Item config must a dict".format(moduleName, moduleItem))
 
     for (command,cfgList) in config.items():
 
         if "children" != command and type(cfgList) != list:
-            error("[ {} > {} > {} ]:config must a list".format(moduleName, moduleItem, command))
+            raise RuntimeError("[ {} > {} > {} ]:config must a list".format(moduleName, moduleItem, command))
 
         ## append命令只使用：data参数
         if "append" == command:

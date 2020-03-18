@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import random
 
-from src import *
+from ID_factions import *
+from ID_items import *
+from header_troops import *
+from module_troops import *
 
 
 def mergeList(*lists):
