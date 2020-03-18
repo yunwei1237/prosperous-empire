@@ -2,38 +2,65 @@
 
 from module_scripts import *
 
+'''
+    巡逻队功能
 
-## constans
+    每48（由patrol_update_interval决定）小时会更新巡逻队（补充士兵，添加经验，贩卖俘虏）
+    此巡逻队只为据点生成，包括，首都（6队，每队至少80人），城镇（4队，每队至少80人），城堡（2队，每队至少60人），和村庄（1队，每队至少40人）.
 
-## 巡逻队数量（固定）
+    人数超过限制和金钱（据点的钱）不够时就不会再补充士兵，如果超过是不限制的。
+    队数如果少于限制数量，就会创建以补足数量。
+    士兵每天都会有经验加成
+    俘虏贩卖金币会保存到据点
+
+'''
+
+
+## 常量，供策划使用
+
+## 首都巡逻队数量
 capital_town_patrol_max_num = 6
+## 城镇巡逻队数量
 town_patrol_max_num = 4
+## 城堡巡逻队数量
 castle_patrol_max_num = 2
+## 村庄巡逻队数量
 village_patrol_max_num = 1
 
-## 巡逻队人数（至少）
+## 城镇巡逻队最少人数（如果数量不够，会陆续补充至此数量，如果数量超出，不会解雇）
 town_patrol_min_size = 80
+## 城堡巡逻队最少人数
 castle_patrol_min_size = 60
+## 村庄巡逻队最少人数
 village_patrol_min_size = 40
 
-## 巡逻队军事强度
+## 首都巡逻队强度（强度越大，士兵等级越高）
 capital_town_patrol_strength = 8
+## 城镇巡逻队强度
 town_patrol_strength = 6
+## 城堡巡逻队强度
 castle_patrol_strength = 4
+## 村庄巡逻队强度
 village_patrol_strength = 2
 
 
-## 巡逻队多久更新一次
-patrol_update_interval = 6
+## 巡逻队多久更新一次（游戏中的单位：小时）
+patrol_update_interval = 48
 
 ## 巡逻队初次创建时的经验
 patrol_init_party_xp= 2500
 
-## 巡逻队每晚每点强度的经验（每晚经验 = strength * patrol_every_day_per_strength_xp）
+## 巡逻队每天晚上每点强度的经验（每晚经验 = strength * patrol_every_day_per_strength_xp）
 patrol_every_day_per_strength_xp= 100
 
 ## 每次升级士兵的花费
-patrol_update_cost_money = 500
+patrol_update_cost_money = 100
+
+
+
+## 以下内容非游戏程序员不要修改
+
+## 【slot】
 
 ## party slot
 
@@ -42,25 +69,12 @@ slot_party_patrol_num     = 400
 ## 用于保存巡逻的据点
 slot_party_protect_center = 401
 
+## 【args】
 
-## args
-'''
-    巡逻队
-'''
+## 巡逻队类型
 spt_patrol             = 7
 
-'''
-    巡逻队功能
-    
-    每24小时会更新巡逻队（补充士兵，添加经验，贩卖俘虏）
-    此巡逻队只为据点生成，包括，首都（6队，每队至少80人），城镇（4队，每队至少80人），城堡（2队，每队至少60人），和村庄（1队，每队至少40人）.
-    
-    人数超过限制和金钱（据点的钱）不够时就不会再补充士兵，如果超过是不限制的。
-    队数如果少于限制数量，就会创建以补足数量。
-    士兵每天都会有经验加成
-    俘虏贩卖金币会保存到据点
-    
-'''
+
 patrolParty = {
     "name":"PatrolParty",
     "enable":True,
@@ -81,20 +95,20 @@ patrolParty = {
                 (call_script, "script_update_all_patrol_party_faction"),
                 ## 统计被打败的队伍,从slot中减去
             ]),
-            ## 显示一个城镇巡逻队的信息
-            (1,[
-
-                (try_for_parties,":party"),
-                    (party_is_active,":party"),
-                    (party_slot_eq,":party",slot_party_type,spt_patrol),
-                    (party_slot_eq,":party",slot_party_protect_center,"p_town_3"),
-                    (assign,reg1,":party"),
-                    (display_message,"@p_town_3 party id: {reg1}"),
-                    (party_get_num_companions,reg2,":party"),
-                    (display_message,"@p_town_3 party size: {reg2}"),
-                    (display_message,"@---------------------------"),
-                (try_end),
-            ]),
+            ## 显示一个城镇巡逻队的信息(用于测试巡逻队是否正常刷出)
+            # (1,[
+            #     (display_message,"@---------------------------"),
+            #     (try_for_parties,":party"),
+            #         (party_is_active,":party"),
+            #         (party_slot_eq,":party",slot_party_type,spt_patrol),
+            #         (party_slot_eq,":party",slot_party_protect_center,"p_town_3"),
+            #         (assign,reg1,":party"),
+            #         ##(display_message,"@p_town_3 party id: {reg1}"),
+            #         (party_get_num_companions,reg2,":party"),
+            #         (display_message,"@p_town_3 id:{reg1} party size: {reg2}"),
+            #     (try_end),
+            #     (display_message,"@---------------------------"),
+            # ]),
             ## 每6小时统计一次每一个据点巡逻队的数量，便于巡逻队被击败后及时创建
             ## ## 统计被打败的队伍,从slot中减去
             (6,[
