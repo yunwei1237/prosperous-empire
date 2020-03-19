@@ -288,7 +288,7 @@ patrolParty = {
                         (store_sub,":need_create_party_num",village_patrol_max_num,":center_patrol_num"),
                         (assign,":strength",village_patrol_strength),
                     (try_end),
-                    (try_for_range,":i",0,":need_create_party_num"),
+                    (try_for_range,":unused",0,":need_create_party_num"),
                         ## 在指定地方创建巡逻队
                         (call_script,"script_create_patrol_party", ":center_no", ":strength"),
                         (str_store_party_name,s1,":center_no"),

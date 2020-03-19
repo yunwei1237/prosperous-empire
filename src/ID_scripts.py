@@ -577,5 +577,8 @@ script_update_troop_wealth = 575
 script_collect_or_use_arrows = 576
 script_create_battle_for_player = 577
 script_init_hero_collection = 578
+script_create_party_common = 579
+script_get_all_center_arr_of_faction = 580
+script_update_hero_collection_status = 581
 
 
