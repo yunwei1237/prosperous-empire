@@ -557,10 +557,12 @@ testMode = {
                                      (troop_raise_skill,"trp_player",skl_riding,10),
                                      (troop_raise_skill,"trp_player",skl_leadership,10),
 
-                                     (try_for_range,":npc","trp_npc1","trp_npc16"),
-                                        (call_script,"script_recruit_troop_as_companion",":npc"),
-                                        (troop_raise_skill,":npc",skl_persuasion,1),
-                                     (try_end),
+                                     # (try_for_range,":npc","trp_npc1","trp_npc16"),
+                                     #    (call_script,"script_recruit_troop_as_companion",":npc"),
+                                     #    (troop_raise_skill,":npc",skl_persuasion,1),
+                                     # (try_end),
+
+                                     (party_add_members,"p_main_party","trp_swadian_knight",200),
                                      (troop_add_gold,"trp_player",100000),
 
                                      #(party_relocate_near_party,"p_town_1","p_main_party"),
@@ -570,14 +572,14 @@ testMode = {
                             ],
                         },
                     ],
-                    "replace":[
-                        {
-                            "sign":"go_back",
-                            "data":[
-                                ("test_info",[],"TEST info",[]),
-                            ],
-                        },
-                    ],
+                    # "replace":[
+                    #     {
+                    #         "sign":"go_back",
+                    #         "data":[
+                    #             ("test_info",[],"TEST info",[]),
+                    #         ],
+                    #     },
+                    # ],
                 },
             },
     },

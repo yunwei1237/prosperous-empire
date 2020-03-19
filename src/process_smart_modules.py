@@ -136,7 +136,10 @@ def processModuleItem(datas, config, moduleName, moduleItem):
                     oldData = datas[realIndex]
                     del datas[realIndex]
                     info("[ {} > {} > {} ]:(sign = {},index = {}) remove data : {}".format(moduleName, moduleItem, command,sign,realIndex,oldData))
-                for item in data:
+
+                for index in range(len(data) - 1, -1, -1):
+                    item = data[index]
+                ##for item in data:
                     if "insertAfter" == command:
                         datas.insert(realIndex + 1, item)
                         info("[ {} > {} > {} ]:(sign = {},index = {}) insert data : {}".format(moduleName, moduleItem, command,sign,realIndex, item))

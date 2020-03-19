@@ -201,6 +201,7 @@ tag_uses = load_tag_uses(export_dir)
 quick_strings = load_quick_strings(export_dir)
 #compile_variables(variables)
 
+preprocess(triggers,"triggers")
 
 recompileGlobalVars(variables, variable_uses,triggers_args = triggers, sentences_args = dialogs)
 

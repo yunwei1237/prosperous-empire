@@ -83,6 +83,13 @@ patrolParty = {
             ("s5_s_patrol_party","{s5}'s patrol Party"),
         ],
     },
+    "triggers":{
+        "append":[
+            (0,0,ti_once,[],[
+                (call_script, "script_update_patrol_partys_for_all"),
+            ]),
+        ],
+    },
     "simple_triggers":{
         "append":[
             (patrol_update_interval, [
@@ -112,7 +119,7 @@ patrolParty = {
             ## 每6小时统计一次每一个据点巡逻队的数量，便于巡逻队被击败后及时创建
             ## ## 统计被打败的队伍,从slot中减去
             (6,[
-                (display_message,"@center patrol begin update size"),
+                #(display_message,"@center patrol begin update size"),
                 ## 初始化所有城镇的数量
                 (try_for_parties,":center_no"),
                     (this_or_next | party_slot_eq, ":center_no", slot_party_type, spt_town),
@@ -131,7 +138,7 @@ patrolParty = {
                     (party_set_slot,":center",slot_party_patrol_num,":num"),
                     (str_store_party_name,s1,":center"),
                     (assign,reg1,":num"),
-                    (display_message,"@center({s1}) patrol size({reg1}) update"),
+                    #(display_message,"@center({s1}) patrol size({reg1}) update"),
                 (try_end),
             ]),
         ],
@@ -228,7 +235,7 @@ patrolParty = {
                 (store_script_param, ":center_no", 1),
                 (store_script_param, ":strength_val", 2),
 
-                 (store_faction_of_party,":party_faction",":center_no"),
+                (store_faction_of_party,":party_faction",":center_no"),
                 (set_spawn_radius, 10),
                 (spawn_around_party, ":center_no", "pt_kingdom_hero_party"),
                 (assign, ":new_party", reg0),
@@ -253,7 +260,6 @@ patrolParty = {
                 (store_mul,":xp_addition_for_centers",":strength_val", patrol_init_party_xp),
                 (party_upgrade_with_xp, ":new_party", ":xp_addition_for_centers", 0),
                 (assign, reg0, ":new_party"),
-                (try_end),
               ]),
             ("update_patrol_partys_for_all",[
                 ## 领地巡逻队
@@ -292,7 +298,7 @@ patrolParty = {
                         ## 在指定地方创建巡逻队
                         (call_script,"script_create_patrol_party", ":center_no", ":strength"),
                         (str_store_party_name,s1,":center_no"),
-                        (display_message,"@create :{s1} patrol party"),
+                        #(display_message,"@create :{s1} patrol party"),
                         ## 更新创建的队数量，以免重复创建
                         (val_add,":center_patrol_num",1),
                         (party_set_slot,":center_no",slot_party_patrol_num,":center_patrol_num"),
@@ -394,10 +400,6 @@ patrolParty = {
                     (party_set_faction, ":party_no", ":center_faction"),
                 (try_end),
             ]),
-            ## 统计被打败的队伍,从slot中减去
-            # ("",[
-            #
-            # ]),
         ],
     },
     "dialogs":{
