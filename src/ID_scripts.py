@@ -567,10 +567,18 @@ script_refresh_center_inventories = 565
 script_refresh_center_armories = 566
 script_refresh_center_weaponsmiths = 567
 script_refresh_center_stables = 568
-script_create_battle_for_player = 569
-script_init_hero_collection = 570
-script_create_party_common = 571
-script_get_all_center_arr_of_faction = 572
-script_update_hero_collection_status = 573
+script_reinforce_party = 569
+script_get_prisoner_prices = 570
+script_update_center_wealth = 571
+script_create_patrol_party = 572
+script_update_patrol_partys_for_all = 573
+script_update_all_patrol_party_faction = 574
+script_create_battle_for_player = 575
+script_init_hero_collection = 576
+script_hero_party_add_members = 577
+script_create_party_common = 578
+script_get_all_center_arr_of_faction = 579
+script_get_center_close_the_center = 580
+script_update_hero_collection_status = 581
 
 

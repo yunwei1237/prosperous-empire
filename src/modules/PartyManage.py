@@ -12,7 +12,7 @@ from header_skills import *
 from header_triggers import *
 from module_constants import *
 
-slot_party_team_duty = 405
+slot_troop_team_duty = 170
 
 
 
@@ -30,7 +30,7 @@ player_command_dismiss = 0
 player_command_appoint = 1
 
 
-## slot_party_team_duty args
+## slot_troop_team_duty args
 sptd_none = 0 ##　无职位
 sptd_adjutant         = 1 ## 副官 整理部队，管理任命职责人员（军备，后勤，军医等等）
 sptd_adviser          = 2 ## 谋士（提供各种建议）
@@ -74,7 +74,7 @@ partyManage={
                     (display_message, "@队 伍 副 官 : {s1}"),
                 (try_end),
 
-                (party_get_slot, ":duty", "$g_talk_troop", slot_party_team_duty),
+                (troop_get_slot, ":duty", "$g_talk_troop", slot_troop_team_duty),
                 (val_add, ":duty", "str_sptd_none"),
                 (str_store_string, s2, ":duty"),
                 (display_message, "@{s3} 的 职 业 : {s2}"),
@@ -83,18 +83,18 @@ partyManage={
                 (display_message, "@{s3} 的 智 力 : {reg1}"),
 
                 ## 如果已经是了，就不显示任命对话框
-                (neg|party_slot_eq,"$g_talk_troop",slot_party_team_duty,sptd_adjutant),
+                (neg | troop_slot_eq,"$g_talk_troop", slot_troop_team_duty, sptd_adjutant),
             ],"I want to appoint you as my adjutant(int {reg1}).", "adjutant_appoint_talk", []],
 
             ## 解除副官
             [anyone | plyr, "member_talk", [
                 ## 如果已经是了，就不显示任命对话框
-                (party_slot_eq,"$g_talk_troop",slot_party_team_duty,sptd_adjutant),
+                (troop_slot_eq,"$g_talk_troop", slot_troop_team_duty, sptd_adjutant),
             ],"I want to dismiss you", "adjutant_dismiss_talk", []],
 
             [anyone, "adjutant_dismiss_talk", [],"ok", "member_talk", [
                 ## 任命副官
-                (party_set_slot,"$g_talk_troop",slot_party_team_duty,sptd_none),
+                (troop_set_slot,"$g_talk_troop", slot_troop_team_duty, sptd_none),
                 ## 记录副官信息
                 (assign,"$g_player_adjutant",0),
             ]],
@@ -104,13 +104,13 @@ partyManage={
                 ## 职位空缺
                 (le,"$g_player_adjutant",0),
                 ## 当前人物空闲
-                (party_slot_eq,"$g_talk_troop",slot_party_team_duty,sptd_none),
+                (troop_slot_eq,"$g_talk_troop", slot_troop_team_duty, sptd_none),
                 ## 智力大于10
                 (store_attribute_level,":int_level","$g_talk_troop",sf_base_att_int),
                 (ge,":int_level",adjutant_least_int_level),
             ],"I'm honored to take this job", "member_talk", [
                 ## 任命副官
-                (party_set_slot,"$g_talk_troop",slot_party_team_duty,sptd_adjutant),
+                (troop_set_slot,"$g_talk_troop", slot_troop_team_duty, sptd_adjutant),
                 ## 记录副官信息
                 (assign,"$g_player_adjutant","$g_talk_troop"),
             ]],
@@ -131,7 +131,7 @@ partyManage={
             ## 不能接受3，当前已经有工作
             [anyone, "adjutant_appoint_talk", [
                 ## 当前人物空闲
-                (party_get_slot,":duty","$g_talk_troop",slot_party_team_duty),
+                (troop_get_slot,":duty","$g_talk_troop", slot_troop_team_duty),
                 (gt,":duty",sptd_none),
                 (val_add,":duty","str_sptd_none"),
                 (str_store_string,s1,":duty"),
@@ -141,7 +141,7 @@ partyManage={
 
             ###### 进入副官对话
             [anyone | plyr, "member_talk", [
-                (party_slot_eq,"$g_talk_troop",slot_party_team_duty,sptd_adjutant),
+                (troop_slot_eq,"$g_talk_troop", slot_troop_team_duty, sptd_adjutant),
             ],"Let me talk about the army", "adjutant_team_into_talk", []],
             [anyone, "adjutant_team_into_talk", [],"is ok ?", "adjutant_team_talk", []],
             ###### [军队整理]
@@ -185,11 +185,11 @@ partyManage={
                     ## 技能等级至少为1
                     (ge, reg10, 1),
                     (ge, reg20, adviser_least_int_level),
-                    (party_slot_eq, ":troop", slot_party_team_duty, sptd_none),
+                    (troop_slot_eq, ":troop", slot_troop_team_duty, sptd_none),
                     (assign,":continue",1),
                 (else_try),
                     (eq,"$g_player_command",player_command_dismiss),
-                    (party_slot_eq, ":troop", slot_party_team_duty, sptd_adviser),
+                    (troop_slot_eq, ":troop", slot_troop_team_duty, sptd_adviser),
                     (assign,":continue",1),
                 (try_end),
                 (eq,":continue",1),
@@ -199,10 +199,10 @@ partyManage={
                 (try_begin),
                     (eq,"$g_player_command",player_command_appoint),
                     (display_message,"@任 命 {s2}"),
-                    (party_set_slot, ":troop", slot_party_team_duty, sptd_adviser),
+                    (troop_set_slot, ":troop", slot_troop_team_duty, sptd_adviser),
                 (else_try),
                     (display_message,"@解 雇 {s2}"),
-                    (party_set_slot, ":troop", slot_party_team_duty, sptd_none),
+                    (troop_set_slot, ":troop", slot_troop_team_duty, sptd_none),
                 (try_end),
 
                 #(assign,"$g_player_command",player_command_none),
@@ -211,7 +211,7 @@ partyManage={
 
             ###### 询问计策
             [anyone | plyr, "member_talk", [
-                (party_slot_eq,"$g_talk_troop",slot_party_team_duty,sptd_adviser),
+                (troop_slot_eq,"$g_talk_troop", slot_troop_team_duty, sptd_adviser),
             ],"Do you have any good ideas", "adviser_team_good_idea_talk", []],
             ## 好的
             [anyone, "adviser_team_good_idea_talk", [],"no yet", "member_talk", []],
@@ -230,7 +230,7 @@ partyManage={
                 (store_repeat_object,":troop"),
                 ## 是否在玩家队伍中
                 (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
-                (party_get_slot,":duty_no",":troop",slot_party_team_duty),
+                (troop_get_slot,":duty_no",":troop", slot_troop_team_duty),
                 ## 确定任职
                 (neq,":duty_no",sptd_none),
                 ## 确保不是副官和谋士
@@ -248,13 +248,13 @@ partyManage={
                 (str_store_troop_name, s1, ":troop"),
                 # ## 查找当前职位的人员
                 # ## 计算出职位的字符串编号
-                (party_get_slot,":duty_no",":troop",slot_party_team_duty),
+                (troop_get_slot,":duty_no",":troop", slot_troop_team_duty),
                 (store_add, ":str_no", "str_sptd_none", ":duty_no"),
                 (str_store_string, s2, ":str_no"),
                 (display_message,"@解 雇 {s1}({s2})"),
 
                 ## 解雇
-                (party_set_slot,":troop",slot_party_team_duty,sptd_none),
+                (troop_set_slot,":troop", slot_troop_team_duty, sptd_none),
 
             ]],
 
@@ -279,7 +279,7 @@ partyManage={
                     (troop_is_hero,":troop"),
                     (str_store_troop_name,s2,":troop"),
                     (display_message,"@troop name is: {s2}"),
-                    (party_slot_eq, ":troop", slot_party_team_duty, ":duty_no"),
+                    (troop_slot_eq, ":troop", slot_troop_team_duty, ":duty_no"),
                     (display_message,"@staff troop name is: {s2}"),
                     (assign,":staff",":troop"),
                 (try_end),
@@ -305,7 +305,7 @@ partyManage={
             [anyone | plyr | repeat_for_troops, "adjutant_appoint_clerk_talk_choice", [
                 (store_repeat_object, ":troop"),
                 ## 必须是没有职位
-                (party_slot_eq,":troop",slot_party_team_duty,sptd_none),
+                (troop_slot_eq,":troop", slot_troop_team_duty, sptd_none),
                 ## 是否在玩家队伍中
                 (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
                 ## 不同职位的条件判断(是否符合当前职位)
@@ -400,7 +400,7 @@ partyManage={
 
                 (display_message,"@任 命 {s5} 为 {s6}"),
 
-                 (party_set_slot, ":troop", slot_party_team_duty, reg10),
+                 (troop_set_slot, ":troop", slot_troop_team_duty, reg10),
              ]],
             ## 【副官功能】=============================================================================================
 
@@ -458,7 +458,7 @@ partyManage={
                 (try_for_range,":i_stack",0,":stack"),
                     (party_stack_get_troop_id,":troop",":i_stack"),
                     (troop_is_hero,":troop"),
-                    (party_slot_eq,":troop",slot_party_team_duty,sptd_armament),
+                    (troop_slot_eq,":troop", slot_troop_team_duty, sptd_armament),
                     (assign,":has_armament",1),
                 (try_end),
                 ## 如果有军备官

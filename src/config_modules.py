@@ -11,7 +11,7 @@ from modules.TestMode import testMode
 '''
 
 modules = [
-    #patrolParty,
+    patrolParty,
     #partyManage,
     testMode,
     heroCollection

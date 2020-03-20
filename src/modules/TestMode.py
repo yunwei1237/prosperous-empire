@@ -564,6 +564,7 @@ testMode = {
 
                                      (party_add_members,"p_main_party","trp_swadian_knight",200),
                                      (troop_add_gold,"trp_player",100000),
+                                     (troop_add_items,"trp_player","itm_dried_meat",10),
 
                                      #(party_relocate_near_party,"p_town_1","p_main_party"),
                                      (party_relocate_near_party,"p_main_party","p_town_3",3),
@@ -572,14 +573,6 @@ testMode = {
                             ],
                         },
                     ],
-                    # "replace":[
-                    #     {
-                    #         "sign":"go_back",
-                    #         "data":[
-                    #             ("test_info",[],"TEST info",[]),
-                    #         ],
-                    #     },
-                    # ],
                 },
             },
     },

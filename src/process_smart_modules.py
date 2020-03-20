@@ -65,7 +65,7 @@ def checkDependentOn(checkModule):
             if(dependentOn == module["name"]):
                 isExist = True
                 ## 没有设置enable，或设置为True时代表启用
-                if(not module.contains("enable") or module["enable"]):
+                if(not module.has_key("enable") or module["enable"]):
                     isEnable = True
         if(not isExist):
             error("module({})'s dependent on module({}) is not exists".format(checkModule["name"],dependentOn))
