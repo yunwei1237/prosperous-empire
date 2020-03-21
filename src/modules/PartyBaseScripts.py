@@ -77,7 +77,7 @@ partyBaseScripts={
 
                 (try_begin),
                     (lt,":faction_no",0),
-                    (store_faction_of_party,":faction_no","party_no"),
+                    (store_faction_of_party,":faction_no",":party_no"),
                 (try_end),
 
                 ## 计算中级士兵的概率
