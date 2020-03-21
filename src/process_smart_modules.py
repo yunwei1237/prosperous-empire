@@ -12,6 +12,7 @@ from module_scripts import scripts
 from module_simple_triggers import simple_triggers
 from module_strings import strings
 from module_triggers import triggers
+from modules.base.PartyBaseScripts import partyBaseScripts
 from process_global_variables import compile_all_global_vars
 
 
@@ -47,7 +48,7 @@ def checkDependentOn(checkModule):
     enable = checkModule.get("enable")
 
     ## 如果module 没有启用，就不做任何处理
-    if enable == None or enable == False:
+    if enable == False:
         return False
 
     ## 如果没有依赖的module需要检测的数据就直接返回
@@ -421,7 +422,7 @@ def recompileGlobalVars(variable_list,variable_uses, triggers_args=[], sentences
 
 #preprocess(dialogs,"dialogs")
 
-# preprocess(scripts,"scripts")
+#preprocess(scripts,"scripts")
 
 # print len(game_menus)
 # preprocess(game_menus,"game_menus")
@@ -432,3 +433,6 @@ def recompileGlobalVars(variable_list,variable_uses, triggers_args=[], sentences
 #preprocess(mission_templates,"mission_templates")
 
 #preprocessInternational()
+
+
+checkDependentOn(partyBaseScripts)

@@ -16,7 +16,7 @@ per_strength_xp = 100
 
 partyBaseScripts={
     "name":"PartyBaseScripts",
-    "enable":True,
+     "enable":True,
     "scripts":{
         "append":[
             ## 创建部队通用方法
