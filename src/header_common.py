@@ -398,8 +398,11 @@ id_types = {
 id_tags = id_types.keys();
 
 def find_object(tag,object_id):
-  ##print tag + ":========================================1:" + object_id
-  typeInfo = id_types[tag]
+  typeInfo = id_types.get(tag)
+
+  if typeInfo == None:
+    print "error tag is 【{}】 and var name 【{}】 ,may be your var 【{}】 need a prefix 【:】 or 【$】".format(tag,object_id,tag + "_" + object_id)
+
   idFile = typeInfo[1]
   idType = typeInfo[0]
   object_id = object_id.lower()
@@ -410,7 +413,7 @@ def find_object(tag,object_id):
       ## 去掉tag后对比
       if varname[varname.find("_") + 1:].lower() == object_id:
         return (int(line[line.rfind("=") + 1:]),idType)
-  print tag + ":========================================2:" + object_id
+  print "error tag is 【{}】 and var name 【{}】 ".format(tag, object_id)
   return (-1,idType)
 
 s0  =  0

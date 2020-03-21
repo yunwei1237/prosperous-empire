@@ -18,6 +18,9 @@ from modules.HeroCollection_header import *
 
 ## slot
 slot_party_village_system = 415
+
+
+
 ## args
 
 

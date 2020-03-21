@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from modules.HeroCollection import heroCollection
+from modules.PartyBaseScripts import partyBaseScripts
 from modules.PatrolParty import patrolParty
 
 from modules.PartyManage import partyManage
@@ -11,8 +12,9 @@ from modules.TestMode import testMode
 '''
 
 modules = [
-    patrolParty,
-    #partyManage,
-    testMode,
-    heroCollection
+    partyBaseScripts,
+    # patrolParty,
+    # #partyManage,
+    # testMode,
+    # heroCollection
 ]
