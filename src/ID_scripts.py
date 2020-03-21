@@ -567,5 +567,9 @@ script_refresh_center_inventories = 565
 script_refresh_center_armories = 566
 script_refresh_center_weaponsmiths = 567
 script_refresh_center_stables = 568
+script_create_party = 569
+script_party_add_members = 570
+script_party_add_xp_and_upgrade = 571
+script_ladies_go_out = 572
 
 

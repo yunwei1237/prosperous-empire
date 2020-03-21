@@ -26,6 +26,8 @@ partyBaseScripts={
                 (store_script_param, ":faction_no", 3),
                 (store_script_param, ":spawn_radius", 4),
                 (store_script_param, ":party_name", 5),
+                (store_script_param, ":map_icon", 6),
+                (store_script_param, ":map_banner", 7),
 
                 (try_begin),
                     (lt,":center_no",0),
@@ -42,13 +44,20 @@ partyBaseScripts={
                     (assign,":spawn_radius",3),
                 (try_end),
 
+                (try_begin),
+                    (lt,":party_name",0),
+                    (str_store_faction_name,s5,":faction_no"),
+                (else_try),
+                    (str_store_string,s5,":party_name"),
+                (try_end),
+
                 (set_spawn_radius, ":spawn_radius"),
                 (spawn_around_party, ":center_no", "pt_kingdom_hero_party"),
                 (assign, ":new_party", reg0),
                 ## 设置阵营
                 (party_set_faction, ":new_party", ":faction_no"),
                 (party_set_flags, ":new_party", pf_default_behavior, 0),
-                (str_store_string,s6,":party_name"),
+
                 (try_begin),
                     (ge,":leader_no",0),
                     ## 设置领导的队伍
@@ -57,10 +66,21 @@ partyBaseScripts={
                     (party_add_leader,":new_party",":leader_no"),
                     ## 设置队伍名称为领导者队伍
                     (str_store_troop_name,s5,":leader_no"),
-                    (str_store_string,s6,"str_s5_s_party"),
                 (try_end),
                 ## 设置队伍名称
-                (party_set_name, ":new_party", s6),
+                (party_set_name, ":new_party", "str_s5_s_party"),
+
+                ## 设置指定外观
+                (try_begin),
+                    (ge,":map_icon",0),
+                    (party_set_icon,":new_party",":map_icon"),
+                (try_end),
+
+                ## 设置指定旗帜
+                (try_begin),
+                    (ge,":map_banner",0),
+                    (party_set_banner_icon,":new_party",":map_banner"),
+                (try_end),
                 (assign, reg0, ":new_party"),
               ]),
 
@@ -78,6 +98,11 @@ partyBaseScripts={
                 (try_begin),
                     (lt,":faction_no",0),
                     (store_faction_of_party,":faction_no",":party_no"),
+                (try_end),
+
+                (try_begin),
+                    (le,":strength",0),
+                    (assign,":strength",1),
                 (try_end),
 
                 ## 计算中级士兵的概率
@@ -113,6 +138,7 @@ partyBaseScripts={
                 (try_end),
                 (store_mul, ":total_xp", ":strength_val", per_strength_xp),
 
+                ## 根据特殊兵种概率来升级更加强壮的士兵，如果没有指定概率就是随机升级
                 (try_begin),
                     (gt,":special_arms_probability",0),
                     (store_random_in_range,":pro",0,100),

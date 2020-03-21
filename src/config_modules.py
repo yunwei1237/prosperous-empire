@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from modules.LadiesGoOut import ladiesGoOut
 from modules.base.PartyBaseScripts import partyBaseScripts
 
 '''
@@ -10,5 +11,6 @@ modules = [
     # patrolParty,
     # #partyManage,
     # testMode,
-    # heroCollection
+    # heroCollection,
+    ladiesGoOut
 ]
