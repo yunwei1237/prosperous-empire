@@ -13,6 +13,10 @@ from module_constants import *
 
 
 
+'''
+
+    女主出游：在没有战争时期，女主们会组织一小队人游山玩水。
+'''
 
 ## 女士队伍小于人时开始招募士兵
 lady_party_min_count = 17
@@ -20,6 +24,8 @@ lady_party_min_count = 17
 ## 敌国数量小于多少时才出来(等于0时代表没有任何战争时才出来游玩)
 lady_can_go_out_enemy_state_num = 0
 
+## 出游更新时间
+lady_go_out_update_time = 12
 
 
 ladiesGoOut={
@@ -27,7 +33,7 @@ ladiesGoOut={
     "dependentOn":["PartyBaseScripts","FactionBaseScripts"],
     "simple_triggers":{
         "append":[
-            (2,[
+            (lady_go_out_update_time,[
                 (call_script,"script_ladies_go_out"),
             ]),
         ],

@@ -18,6 +18,6 @@ modules = [
     # patrolParty,
     # # #partyManage,
     testMode,
-    #  heroCollection,
-    ladiesGoOut
+    heroCollection,
+    #ladiesGoOut
 ]

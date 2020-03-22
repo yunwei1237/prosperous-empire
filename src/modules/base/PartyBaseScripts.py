@@ -159,11 +159,52 @@ partyBaseScripts={
                 (store_script_param,":target",3),
                 (store_script_param,":patrol_radius",3),
 
+                (try_begin),
+                    (le,":patrol_radius",0),
+                    (assign,":patrol_radius",3),
+                (try_end),
+
                 # (party_set_slot, ":party", slot_party_ai_state, spai_patrolling_around_center),
                 # (party_set_slot, ":party", slot_party_ai_object, ":target"),
                 (party_set_ai_behavior, ":party", ":behavior"),
                 (party_set_ai_object, ":party", ":target"),
                 (party_set_ai_patrol_radius, ":party", ":patrol_radius"),
+            ]),
+
+            ## 获得指定地点最近的据点
+            ("get_center_close_the_center",[
+                (store_script_param_1,":center"),
+                (store_script_param_2,":not_want_center"),
+
+                (assign,":min",99999999),
+                (assign,":close_center",":center"),
+                (try_for_range,":center_no",centers_begin,centers_end),
+                    (store_distance_to_party_from_party,":distance",":center_no",":center"),
+                    (le,":min",":distance"),
+                    (neq,":center_no",":not_want_center"),
+                    (assign,":min",":distance"),
+                    (assign,":close_center",":center_no"),
+                (try_end),
+                (assign,reg0,":close_center"),
+            ]),
+            ## 获得一个阵营全部的据点
+            ("get_all_center_arr_of_faction", [
+                (store_script_param_1, ":faction"),
+                (assign, ":size", 0),
+                (assign, ":index", 0),
+                (try_for_range, ":center", centers_begin, centers_end),
+                (this_or_next | party_slot_eq, ":center", slot_party_type, spt_town),
+                (this_or_next | party_slot_eq, ":center", slot_party_type, spt_castle),
+                (party_slot_eq, ":center", slot_party_type, spt_village),
+                (store_faction_of_party, ":party_faction", ":center"),
+                (eq, ":party_faction", ":faction"),
+                # (store_sub,":offset",":center",centers_begin),
+                ## 跳过0下标，下标为0的位置用于存放据点的个数
+                (val_add, ":index", 1),
+                (party_set_slot, "p_temp_party", ":index", ":center"),
+                (val_add, ":size", 1),
+                (try_end),
+                (party_set_slot, "p_temp_party", 0, ":size"),
             ]),
         ],
     }
