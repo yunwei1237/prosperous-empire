@@ -570,6 +570,12 @@ script_refresh_center_stables = 568
 script_create_party = 569
 script_party_add_members = 570
 script_party_add_xp_and_upgrade = 571
-script_ladies_go_out = 572
+script_party_change_ai_state = 572
+script_get_num_of_enemy_state = 573
+script_troop_leave_home = 574
+script_troop_go_home = 575
+script_create_battle_for_player = 576
+script_go_to_map = 577
+script_ladies_go_out = 578
 
 

@@ -6,7 +6,7 @@ from modules.HeroCollection_header import *
 
 
 
-hero_size = 500
+hero_size = 50
 
 
 has_one_children_probability = 80
@@ -171,9 +171,9 @@ heroCollection = {
                 (try_end),
                 (set_spawn_radius, 2),
                 (troop_get_slot,":center_no",":troop_no",slot_troop_home),
-                (spawn_around_party, ":center_no", "pt_kingdom_hero_party"),
+                #(spawn_around_party, ":center_no", "pt_kingdom_hero_party"),
 
-                ##(spawn_around_party, "p_main_party", "pt_kingdom_hero_party"),
+                (spawn_around_party, "p_main_party", "pt_kingdom_hero_party"),
                 (assign, ":new_party", reg0),
 
                 (party_set_faction, ":new_party", ":party_faction"),
@@ -233,7 +233,7 @@ heroCollection = {
                     (troop_get_slot,":party",":cur_troop",slot_troop_leaded_party),
                     (try_begin),
                         ## 队伍无效后（被击败）
-                        (le,":party",0),
+                        (lt,":party",0),
                         ## 出生在家乡附近
                         (call_script,"script_create_party_common",":cur_troop",hero_party_init_strength,"fac_commoners"),
                         (assign,":party",reg0),

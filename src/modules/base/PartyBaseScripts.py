@@ -16,7 +16,7 @@ per_strength_xp = 100
 
 partyBaseScripts={
     "name":"PartyBaseScripts",
-     "enable":True,
+    "enable":True,
     "scripts":{
         "append":[
             ## 创建部队通用方法
@@ -36,7 +36,7 @@ partyBaseScripts={
 
                 (try_begin),
                     (lt,":faction_no",0),
-                    (store_faction_of_party,":faction_no",":leader_no"),
+                    (store_faction_of_troop,":faction_no",":leader_no"),
                 (try_end),
 
                 (try_begin),
@@ -85,8 +85,9 @@ partyBaseScripts={
               ]),
 
             ("party_add_members", [
-                (store_script_param_1, ":party_no"),
-                (store_script_param_2, ":faction_no"),
+                (store_script_param, ":party_no",1),
+                (store_script_param, ":faction_no",2),
+                ## 军事强度，一点强度，大概3个士兵
                 (store_script_param, ":strength",3),
                 ## 初级士兵概率（值最大为100）
                 (store_script_param, ":primary_probability",4),
@@ -124,8 +125,8 @@ partyBaseScripts={
                 (try_end),
             ]),
             ("party_add_xp_and_upgrade",[
-                (store_script_param_1, ":party_no"),
-                (store_script_param_2, ":strength"),
+                (store_script_param, ":party_no",1),
+                (store_script_param, ":strength",2),
                 (store_script_param, ":special_arms_probability",3),
 
                 ## 计算军事强度(同伴有教练技能时会增加经验)
@@ -151,6 +152,18 @@ partyBaseScripts={
                 (else_try),
                     (party_upgrade_with_xp, ":party_no", ":total_xp", 0),
                 (try_end),
+            ]),
+            ("party_change_ai_state",[
+                (store_script_param,":party",1),
+                (store_script_param,":behavior",2),
+                (store_script_param,":target",3),
+                (store_script_param,":patrol_radius",3),
+
+                # (party_set_slot, ":party", slot_party_ai_state, spai_patrolling_around_center),
+                # (party_set_slot, ":party", slot_party_ai_object, ":target"),
+                (party_set_ai_behavior, ":party", ":behavior"),
+                (party_set_ai_object, ":party", ":target"),
+                (party_set_ai_patrol_radius, ":party", ":patrol_radius"),
             ]),
         ],
     }

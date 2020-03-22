@@ -3200,5 +3200,7 @@ str_disallow_ranged_weapons = 3198
 str_ranged_weapons_are_disallowed = 3199
 str_ranged_weapons_are_allowed = 3200
 str_duel_starts_in_reg0_seconds = 3201
+str_s5_leave_home = 3202
+str_s5_go_home = 3203
 
 

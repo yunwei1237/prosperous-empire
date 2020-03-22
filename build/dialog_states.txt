@@ -1333,6 +1333,7 @@ merchant_quest_1a
 merchant_quest_1b
 merchant_quest_1c
 merchant_quest_1d
+constable_hareck_hi
 free
 view_char_requested
 threaten_1

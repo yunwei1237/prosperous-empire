@@ -499,6 +499,10 @@ testMode = {
                         {
                             "sign":"continue",
                             "data":[
+                                ("test_map",[],"TEST 【map】",
+                                 [
+                                     (call_script,"script_go_to_map"),
+                                ]),
                                 ("test_alley",[],"TEST 【alley】",
                                  [
                                      (call_script,"script_create_battle_for_player","p_town_1",slot_town_alley,20,20),
@@ -539,36 +543,6 @@ testMode = {
                                     (set_jump_mission, "mt_my_town_center"),
                                     (jump_to_scene, "scn_zendar_center"),
                                     (change_screen_mission),
-
-                                ]),
-                                ("test_map",[],"TEST 【map】",
-                                 [
-                                     (troop_set_name,"trp_player","@test"),                                                                                              (party_set_name,"p_main_party","@test"),
-
-                                    (troop_add_item, "trp_player", "itm_saddle_horse", 0),
-                                    (troop_add_item, "trp_player", "itm_courser", 0),
-                                    (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
-                                    (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
-                                    (troop_add_item, "trp_player", "itm_red_gambeson", 0),
-                                    (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
-                                    (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
-                                    (troop_add_item, "trp_player", "itm_light_lance", 0),
-
-                                     (troop_raise_skill,"trp_player",skl_riding,10),
-                                     (troop_raise_skill,"trp_player",skl_leadership,10),
-
-                                     # (try_for_range,":npc","trp_npc1","trp_npc16"),
-                                     #    (call_script,"script_recruit_troop_as_companion",":npc"),
-                                     #    (troop_raise_skill,":npc",skl_persuasion,1),
-                                     # (try_end),
-
-                                     (party_add_members,"p_main_party","trp_swadian_knight",200),
-                                     (troop_add_gold,"trp_player",100000),
-                                     (troop_add_items,"trp_player","itm_dried_meat",10),
-
-                                     #(party_relocate_near_party,"p_town_1","p_main_party"),
-                                     (party_relocate_near_party,"p_main_party","p_town_3",3),
-                                     (change_screen_map),
                                 ]),
                             ],
                         },
@@ -618,6 +592,40 @@ testMode = {
                 (set_jump_mission, "mt_my_alley_fight"),
                 (jump_to_scene, ":scene_no"),
                 (change_screen_mission),
+            ]),
+            ("go_to_map",[
+                (troop_set_name,"trp_player","@test"),
+                (party_set_name,"p_main_party","@test"),
+                (troop_add_item, "trp_player", "itm_saddle_horse", 0),
+                (troop_add_item, "trp_player", "itm_courser", 0),
+                (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
+                (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
+                (troop_add_item, "trp_player", "itm_red_gambeson", 0),
+                (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
+                (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
+                (troop_add_item, "trp_player", "itm_light_lance", 0),
+
+                 (troop_raise_skill,"trp_player",skl_riding,10),
+                 (troop_raise_skill,"trp_player",skl_leadership,10),
+
+                (troop_raise_attribute,"trp_player",sf_base_att_str,10),
+                (troop_raise_attribute,"trp_player",sf_base_att_agi,10),
+                (troop_raise_attribute,"trp_player",sf_base_att_int,10),
+                (troop_raise_attribute,"trp_player",sf_base_att_cha,10),
+
+                (troop_add_items,"trp_player","itm_dried_meat",10),
+                 # (try_for_range,":npc","trp_npc1","trp_npc16"),
+                 #    (call_script,"script_recruit_troop_as_companion",":npc"),
+                 #    (troop_raise_skill,":npc",skl_persuasion,1),
+                 # (try_end),
+
+                 (party_add_members,"p_main_party","trp_swadian_knight",200),
+                 (troop_add_gold,"trp_player",100000),
+
+
+                 #(party_relocate_near_party,"p_town_1","p_main_party"),
+                 (party_relocate_near_party,"p_main_party","p_town_16",3),
+                 (change_screen_map),
             ]),
         ]
     },
