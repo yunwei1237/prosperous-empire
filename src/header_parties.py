@@ -49,18 +49,31 @@ pmf_is_prisoner = 0x0001
 
 no_faction = -1
 
+## 永远不会移动
 ai_bhvr_hold            = 0
+## 移动到一个据点或队伍
 ai_bhvr_travel_to_party = 1
+## 巡逻一个地点
 ai_bhvr_patrol_location = 2
+## 巡逻一个据点或队伍
 ai_bhvr_patrol_party    = 3
+## 跟踪一个据点或队伍
 ai_bhvr_track_party     = 4 #deprecated, use the alias ai_bhvr_attack_party instead.
+## 攻击一个据点或队伍
 ai_bhvr_attack_party    = 4
+## 逃避一个队伍的攻击
 ai_bhvr_avoid_party     = 5
+## 移动到一个地点
 ai_bhvr_travel_to_point = 6
+## 越过一个据点或队伍
 ai_bhvr_negotiate_party = 7
+## 在城镇中坚守
 ai_bhvr_in_town         = 8
+## 移动到船上
 ai_bhvr_travel_to_ship  = 9
+## 护送队伍
 ai_bhvr_escort_party    = 10
+## 被队伍带领（牛群）
 ai_bhvr_driven_by_party = 11
 
 #experience constants
