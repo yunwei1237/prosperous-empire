@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from header_dialogs import *
 from module_scripts import *
 
 from modules.HeroCollection_header import *
@@ -33,6 +33,9 @@ hero_party_min_count = 35
 
 ## 默认阵营（赏金猎人）
 hero_default_faction = fac_manhunters
+
+## 英雄加入玩家队伍需要的关系值
+hero_join_player_party_relation = 25
 
 
 ## 以下内容非程序员不要修改
@@ -92,11 +95,11 @@ heroCollection = {
                 (try_for_range,":cur_troop",hero_begin,hero_end),
                     ## 姓名
                     (call_script,"script_get_random_first_name"),
-                    (str_store_string,s1,s0),
-                    (troop_set_slot,":cur_troop",slot_troop_first_name,s1),
+                    (str_store_string,s1,reg0),
+                    (troop_set_slot,":cur_troop",slot_troop_first_name,reg0),
                     (call_script,"script_get_random_second_name"),
-                    (str_store_string,s2,s0),
-                    (troop_set_slot,":cur_troop",slot_troop_second_name,s2),
+                    (str_store_string,s2,reg0),
+                    (troop_set_slot,":cur_troop",slot_troop_second_name,reg0),
                     (troop_set_name, ":cur_troop", "str_s1_s2_name"),
                     ## 职业
                     (troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
@@ -131,9 +134,9 @@ heroCollection = {
 
                     ## 获得姓氏
                     (troop_get_slot,":father_first_name",":father",slot_troop_first_name),
-                (assign,reg1,":father_first_name"),
-                (str_store_string,s1,":father_first_name"),
-                (display_message,"@father's first name is {s1}(reg:{reg1})"),
+                    (assign,reg1,":father_first_name"),
+                    (display_message,"@father's first name is {s1}(reg:{reg1})"),
+                    (str_store_string,s1,":father_first_name"),
                     ## 随机生成老大(80%机率)
                     (store_random_in_range,":isSun",1,101),
                     (try_begin),
@@ -144,7 +147,7 @@ heroCollection = {
                         #(call_script, "script_init_troop_age", ":son_one", ":age"),
 
                         (call_script,"script_get_random_second_name"),
-                        (str_store_string,s2,s0),
+                        (str_store_string,s2,reg0),
 
                         #(str_store_string,s1,":father_first_name"),
                         (troop_set_slot, ":son_one", slot_troop_first_name, s1),
@@ -232,11 +235,38 @@ heroCollection = {
             ]),
         ],
     },
-    # "internationals":{
-    #     "cns":{
-    #         "game_strings":[
-    #             # "str_s5_s_patrol_party|{s5}的 巡 逻 队",
-    #         ]
-    #     }
-    # }
+    "dialogs":{
+        "insertBefore":[{
+            "sign":"start:Yes___sire_my_lady__@:lord_start[1,3,4]",
+            "data":[
+                [anyone ,"start", [
+					(is_between,"$g_talk_troop",hero_begin, hero_end),
+                ],"Yes, {sire/my lady}?", "hero_start",[]],
+
+                [anyone|plyr ,"hero_start", [],"Would you like to follow me?", "hire_hero_talk",[]],
+
+                [anyone ,"hire_hero_talk", [
+                    (call_script,"script_troop_get_player_relation","$g_talk_troop"),
+                    (ge,reg0,hero_join_player_party_relation),
+                ],"I'm glad to be part of your team", "close_window",[
+                    (call_script,"script_add_party_with_hero_as_companions","$g_talk_troop_party","p_main_party"),
+                ]],
+
+                [anyone ,"hire_hero_talk", [],"I'm not familiar with you", "close_window",[]],
+
+                [anyone|plyr ,"hero_start", [],"no thing!", "close_window",[]],
+            ]
+        },],
+    },
+    "internationals":{
+        "cns":{
+            "dialogs":[
+                "dlga_start:hero_start|你 好, {先 生/女 士}, 有 什 么 事 情 吗 ？",
+                "dlga_hero_start:hire_hero_talk|你 想 跟 着 我 吗 ？",
+                "dlga_hire_hero_talk:close_window|我 很 高 兴 能 够 成 为 你 队 伍 的 一 员 。",
+                "dlga_hire_hero_talk:close_window.1|我 还 不 熟 悉 你 的 为 人 。",
+                "dlga_hero_start:close_window|没 事",
+            ]
+        }
+    }
 }

@@ -1,5 +1,5 @@
 stringsfile version 1
-3202
+3233
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3202,3 +3202,34 @@ str_disallow_ranged_weapons Disallow_ranged_weapons
 str_ranged_weapons_are_disallowed Ranged_weapons_are_disallowed.
 str_ranged_weapons_are_allowed Ranged_weapons_are_allowed.
 str_duel_starts_in_reg0_seconds Duel_starts_in_{reg0}_seconds...
+str_first_name_0 陈
+str_first_name_1 李
+str_first_name_2 黄
+str_first_name_3 张
+str_first_name_4 梁
+str_first_name_5 林
+str_first_name_6 刘
+str_first_name_7 吴
+str_first_name_8 罗
+str_first_name_9 杨
+str_first_name_10 诸_葛
+str_first_name_11 司_马
+str_first_name_end end
+str_second_name_0 宛
+str_second_name_1 丘
+str_second_name_2 形
+str_second_name_3 采
+str_second_name_4 用
+str_second_name_5 其
+str_second_name_6 利
+str_second_name_7 器
+str_second_name_8 用
+str_second_name_9 以
+str_second_name_10 木
+str_second_name_11 德
+str_second_name_12 玄_策
+str_second_name_13 大_目
+str_second_name_end end
+str_s5_leave_home {s5}_leave_home
+str_s5_go_home {s5}_go_home
+str_s1_s2_name {s1}_{s2}

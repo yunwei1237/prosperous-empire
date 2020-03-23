@@ -82,11 +82,11 @@ troopBaseScripts={
             ]),
             ("get_random_first_name",[
                 (store_random_in_range,":first",first_begin,first_end),
-                (str_store_string,s0,":first"),
+                (assign,reg0,":first"),
             ]),
             ("get_random_second_name", [
                 (store_random_in_range, ":second", second_begin, second_end),
-                (str_store_string, s0, ":second"),
+                (assign,reg0,":second"),
             ]),
 
             ("get_name_for_son", [

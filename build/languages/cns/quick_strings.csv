@@ -466,3 +466,4 @@ qstr_weapon_master:{reg1}|武 器 管 理 :{reg1}
 qstr_trade:{reg1}|交 易 :{reg1} 
 qstr_engineer:{reg1}|工 程 师 :{reg1} 
 qstr_int_last_{reg1}|智 力 最 少 {reg1} 
+qstr_{reg1}_{s6}_join_your|{reg1} 个 {s6} 加 入 到 你 的 了 队 伍。 

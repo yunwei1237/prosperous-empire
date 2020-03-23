@@ -206,6 +206,42 @@ partyBaseScripts={
                 (try_end),
                 (party_set_slot, "p_temp_party", 0, ":size"),
             ]),
+            ("add_party_with_hero_as_companions",
+                [
+                  (store_script_param_1, ":target_party"), #Target Party_id
+                  (store_script_param_2, ":source_party"), #Source Party_id
+                  (party_get_num_companion_stacks, ":num_stacks",":source_party"),
+                  (try_for_range, ":stack_no", 0, ":num_stacks"),
+                    (party_stack_get_troop_id, ":stack_troop",":source_party",":stack_no"),
+                    (party_stack_get_size, ":stack_size",":source_party",":stack_no"),
+                    (party_add_members, ":target_party", ":stack_troop", ":stack_size"),
+
+                    (party_stack_get_num_wounded, ":num_wounded", ":source_party", ":stack_no"),
+                    (party_wound_members, ":target_party", ":stack_troop", ":num_wounded"),
+
+                    (str_store_troop_name,s6,":stack_troop"),
+                    (try_begin),
+                        (troop_is_hero,":stack_troop"),
+                        (display_message, "@{s6} has joined your party."),
+                    (else_try),
+                        (assign,reg1,":stack_size"),
+                        (display_message, "@{reg1} {s6} join your party."),
+                    (try_end),
+                  (try_end),
+              ]),
         ],
+    },
+    "internationals":{
+        "cns":{
+            "game_strings":
+                [
+                    "str_s5_leave_home|{s5}出 门 了",
+                    "str_s5_go_home|{s5}回 家 了",
+                    "str_s1_s2_name|{s1}{s2}",
+                ],
+            "quick_strings":[
+                "qstr_{reg1}_{s6}_join_your|{reg1} 个 {s6} 加 入 到 你 的 了 队 伍。",
+            ],
+        }
     }
 }

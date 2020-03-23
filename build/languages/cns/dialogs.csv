@@ -2708,3 +2708,8 @@ dlga_adjutant_team_appoint_clerk_talk_choice:adjutant_appoint_clerk_talk|我 想
 dlga_adjutant_appoint_clerk_talk:adjutant_appoint_clerk_talk_choice|你 想 任 命 谁 ? 
 dlga_adjutant_appoint_clerk_talk_choice:adjutant_appoint_clerk_talk_choice_none|算 了 
 dlga_adjutant_appoint_clerk_talk_choice_none:adjutant_team_appoint_clerk_talk_choice|好 的 
+dlga_start:hero_start|你 好, {先 生/女 士}, 有 什 么 事 情 吗 ？ 
+dlga_hero_start:hire_hero_talk|你 想 跟 着 我 吗 ？ 
+dlga_hire_hero_talk:close_window|我 很 高 兴 能 够 成 为 你 队 伍 的 一 员 。 
+dlga_hire_hero_talk:close_window.1|我 还 不 熟 悉 你 的 为 人 。 
+dlga_hero_start:close_window|没 事 

@@ -271,6 +271,7 @@ def convert_to_identifier_with_no_lowercase(s0):
   s1 = string.replace(s1,"-","_")
   s1 = string.replace(s1,",","_")
   s1 = string.replace(s1,"|","_")
+  s1 = string.replace(s1,"/","_")
   s1 = string.replace(s1,".","_")
   s1 = string.replace(s1,"?","_")
   s1 = string.replace(s1,"{","_")

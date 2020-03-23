@@ -309,6 +309,8 @@ lord_event_choose_friend
 lord_event_choose_friend_renounce
 lord_event_choose_friend_defend
 lord_event_choose_friend_neutral
+hero_start
+hire_hero_talk
 lord_invite_player_monarch_1
 lord_invite_2
 lord_enter_service_reject

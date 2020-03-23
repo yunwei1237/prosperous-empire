@@ -2845,3 +2845,32 @@ str_sptd_siege_division|攻 城 官
 str_sptd_coach|教 练 
 str_s5_s_patrol_party|{s5}的 巡 逻 队 
 str_doctor_skill_info|手 术 :{reg1},急 救 :{reg2},疗 伤 :{reg3} 
+str_s5_leave_home|{s5}出 门 了 
+str_s5_go_home|{s5}回 家 了 
+str_s1_s2_name|{s1}{s2} 
+str_first_name_0|陈 
+str_first_name_1|李 
+str_first_name_2|黄 
+str_first_name_3|张 
+str_first_name_4|梁 
+str_first_name_5|林 
+str_first_name_6|刘 
+str_first_name_7|吴 
+str_first_name_8|罗 
+str_first_name_9|杨 
+str_first_name_10|诸 葛 
+str_first_name_11|司 马 
+str_second_name_0|宛 
+str_second_name_1|丘 
+str_second_name_2|形 
+str_second_name_3|采 
+str_second_name_4|用 
+str_second_name_5|其 
+str_second_name_6|利 
+str_second_name_7|器 
+str_second_name_8|用 
+str_second_name_9|以 
+str_second_name_10|木 
+str_second_name_11|德 
+str_second_name_12|玄 策 
+str_second_name_13|大 目 
