@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 ###################################################
 # header_parties.py
 # This file contains declarations for parties
