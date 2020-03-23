@@ -519,6 +519,11 @@ slot_town_player_odds   = 51
 
 
 slot_party_last_toll_paid_hours = 52
+
+
+'''
+城镇或城堡存粮（围城时使用）
+'''
 slot_party_food_store           = 53 #used for sieges
 
 '''
@@ -636,7 +641,13 @@ slot_center_npc_volunteer_troop_type   = 90
 slot_center_npc_volunteer_troop_amount = 91
 slot_center_mercenary_troop_type  = 90
 slot_center_mercenary_troop_amount= 91
+'''
+村庄招兵时的兵种类型
+'''
 slot_center_volunteer_troop_type  = 92
+'''
+村庄招兵时的数量
+'''
 slot_center_volunteer_troop_amount= 93
 
 #slot_center_companion_candidate   = 94
