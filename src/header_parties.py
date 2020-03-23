@@ -10,25 +10,42 @@ from header_common import *
 #
 #pf_min_strength(x)
 
+## 未使用
 pf_icon_mask                 = 0x000000ff
+## 部队不可用
 pf_disabled                  = 0x00000100
+## 当前队伍是一只船
 pf_is_ship                   = 0x00000200
+## 静止的（不可移动的）
 pf_is_static                 = 0x00000400
 
+## 小标签（村庄）
 pf_label_small               = 0x00000000
+## 中标签（城堡）
 pf_label_medium              = 0x00001000
+## 大标签（城镇）
 pf_label_large               = 0x00002000
 
+## 在地图中一直显示
 pf_always_visible            = 0x00004000
+## 默认行为
 pf_default_behavior          = 0x00010000
+## 进入城镇后被自动移除
 pf_auto_remove_in_town       = 0x00020000
+## 任务队伍
 pf_quest_party               = 0x00040000
+## 没有标签（桥）
 pf_no_label                  = 0x00080000
+## 限制队伍人数（玩家）
 pf_limit_members             = 0x00100000
+## 不显示守军（村庄）
 pf_hide_defenders            = 0x00200000
+## 显示阵营信息
 pf_show_faction              = 0x00400000
 #pf_is_hidden                = 0x01000000 #used in the engine, do not overwrite this flag
+## 不能攻击农民（未使用）
 pf_dont_attack_civilians     = 0x02000000
+## 代表是农民队伍（地图上的农民队伍）
 pf_civilian                  = 0x04000000
 
 
@@ -49,7 +66,7 @@ pmf_is_prisoner = 0x0001
 
 no_faction = -1
 
-## 永远不会移动
+## 停止移动
 ai_bhvr_hold            = 0
 ## 移动到一个据点或队伍
 ai_bhvr_travel_to_party = 1
