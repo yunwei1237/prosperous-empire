@@ -49,11 +49,20 @@ hero_end = "trp_hero_end"
 
 ## slot
 
+## 英雄状态
+slot_troop_hero_status = 175
+
+sths_normal           = 1
+sths_in_player_party = 2
+
+
 ## 英雄出生在哪个国家（招兵时会使用他出生的国家兵种）
-slot_troop_from_faction = 175
+slot_troop_from_faction = 176
 
 ## 英雄上一次巡逻的据点
-slot_troop_last_patroll_center = 176
+slot_troop_last_patroll_center = 177
+
+
 
 
 heroCollection = {
@@ -81,7 +90,7 @@ heroCollection = {
         "append":[
             ## 游戏开始时就初始化英雄信息(只更新一次)
             (0,0,ti_once,[],[
-                (display_message,"@heros is init"),
+                #(display_message,"@heros is init"),
                 (call_script,"script_init_hero_collection"),
             ]),
         ],
@@ -94,6 +103,8 @@ heroCollection = {
                 (try_for_range,":cur_troop",hero_begin,hero_end),
                     ## 姓名
                     (call_script,"script_set_random_name",":cur_troop"),
+                    ## 状态
+                    (troop_set_slot,":cur_troop",slot_troop_hero_status,sths_normal),
                     ## 职业
                     (troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
                     ## 性格 (直接使用系统领主性格)
@@ -113,30 +124,30 @@ heroCollection = {
                     ## 阵营(平民阵营)
                     (troop_set_faction,":cur_troop",hero_default_faction),
 
-                    (str_store_troop_name_link,s1,":cur_troop"),
-                    (str_store_faction_name_link,s2,":faction"),
-                    (str_store_party_name_link,s3,":center"),
-                    (display_message,"@hero({s1})'faction is {s2},home is {s3}"),
+                    # (str_store_troop_name_link,s1,":cur_troop"),
+                    # (str_store_faction_name_link,s2,":faction"),
+                    # (str_store_party_name_link,s3,":center"),
+                    # (display_message,"@hero({s1})'faction is {s2},home is {s3}"),
                 (try_end),
                 ## 初始化人员关系（只设置，父亲，儿子，没有庞大家族）
-                (try_for_range,":cur_index",0,hero_size),
-                    (store_add,":father","trp_hero_1",":cur_index"),
+                (try_for_range,":cur_index",hero_begin,hero_end),
+                    #(store_add,":father","trp_hero_1",":cur_index"),
+                    (assign,":father",":cur_index"),
                     ## 年龄
                     (call_script,"script_set_age_in_range",":father",45,60),
                     ## 随机生成长子(80%机率)
                     (store_random_in_range,":isSun",1,101),
                     (try_begin),
                         (le,":isSun",has_one_children_probability),
-                        (val_add,":cur_index",1),
-                        (store_add,":son","trp_hero_1",":cur_index"),
+                        (store_add,":son",":cur_index",1),
                         ## 儿子年龄
                         (call_script,"script_set_son_age",":father",":son"),
                         ## 儿子的名字
                         (call_script,"script_set_name_for_son",":father",":son"),
 
-                        (str_store_troop_name_link,s10,":father"),
-                        (str_store_troop_name_link,s20,":son"),
-                        (display_message,"@{s10} has a first children({s20})"),
+                        # (str_store_troop_name_link,s10,":father"),
+                        # (str_store_troop_name_link,s20,":son"),
+                        # (display_message,"@{s10} has a first children({s20})"),
                     (try_end),
                 (try_end),
                 ## 更新所有英雄的信息
@@ -151,9 +162,10 @@ heroCollection = {
                     (try_begin),
                         ## 队伍无效后（被击败）
                         (le,":party",0),
+                        (troop_slot_eq,":cur_troop",slot_troop_hero_status,sths_normal),
                         ## 出生在家乡附近
-                        #(call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,"icon_gray_knight",-1),
-                        (call_script,"script_create_party",":cur_troop","p_main_party",hero_default_faction,-1,-1,"icon_gray_knight",-1),
+                        (call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,"icon_gray_knight",-1),
+                        #(call_script,"script_create_party",":cur_troop","p_main_party",hero_default_faction,-1,-1,"icon_gray_knight",-1),
                         (assign,":party",reg0),
                         ## 增加士兵
                         (troop_get_slot, ":faction", ":cur_troop", slot_troop_from_faction),
@@ -162,17 +174,20 @@ heroCollection = {
                         (call_script,"script_party_add_xp_and_upgrade",":party",hero_party_init_strength,20),
                         ## 设置ai
                         (call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":home",5),
-                        (str_store_party_name_link,s1,":party"),
-                        (str_store_party_name_link,s2,":home"),
-                        (display_message,"@party({s1}) is create at {s2}"),
+                        # (str_store_party_name_link,s1,":party"),
+                        # (str_store_party_name_link,s2,":home"),
+                        # (display_message,"@party({s1}) is create at {s2}"),
                     (try_end),
+
+                    (ge,":party",0),
                     (troop_get_slot,":last_center",":cur_troop",slot_troop_last_patroll_center),
                     (call_script,"script_get_center_close_the_center",":home",":last_center"),
                     (assign,":new_center",reg0),
                     (troop_set_slot,":cur_troop",slot_troop_last_patroll_center,":new_center"),
-                    (str_store_troop_name,s1,":cur_troop"),
-                    (str_store_party_name,s3,":new_center"),
-                    (display_message,"@party({s1}) patroll cennter({s3})"),
+
+                    # (str_store_troop_name,s1,":cur_troop"),
+                    # (str_store_party_name,s3,":new_center"),
+                    # (display_message,"@party({s1}) patroll cennter({s3})"),
 
                     (call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":new_center",5),
 
@@ -185,8 +200,8 @@ heroCollection = {
                         (call_script,"script_party_add_members",":party",-1,":strength",60,40),
                         (display_message,"@hero count update"),
                     (try_end),
-                    (str_store_troop_name,s4,":cur_troop"),
-                    (display_message,"@hero({s4}) status update end"),
+                    # (str_store_troop_name,s4,":cur_troop"),
+                    # (display_message,"@hero({s4}) status update end"),
                 (try_end),
             ]),
         ],
@@ -202,15 +217,22 @@ heroCollection = {
                 [anyone|plyr ,"hero_start", [],"Would you like to follow me?", "hire_hero_talk",[]],
 
                 [anyone ,"hire_hero_talk", [
-                    (call_script,"script_troop_get_player_relation","$g_talk_troop"),
-                    (ge,reg0,hero_join_player_party_relation),
+                    # (call_script,"script_troop_get_player_relation","$g_talk_troop"),
+                    # (ge,reg0,hero_join_player_party_relation),
                 ],"I'm glad to be part of your team", "close_window",[
-                    (call_script,"script_add_party_with_hero_as_companions","$g_talk_troop_party","p_main_party"),
+                    (call_script,"script_add_party_with_hero_as_companions","p_main_party","$g_talk_troop_party"),
+                    (troop_set_slot,"$g_talk_troop", slot_troop_hero_status, sths_in_player_party),
+
+                    (eq, "$talk_context", tc_party_encounter),
+                    (assign, "$g_leave_encounter", 1)
                 ]],
 
                 [anyone ,"hire_hero_talk", [],"I'm not familiar with you", "close_window",[]],
 
-                [anyone|plyr ,"hero_start", [],"no thing!", "close_window",[]],
+                [anyone|plyr ,"hero_start", [],"no thing!", "close_window",[
+                    (eq, "$talk_context", tc_party_encounter),
+                    (assign, "$g_leave_encounter", 1)
+                ]],
             ]
         },],
     },

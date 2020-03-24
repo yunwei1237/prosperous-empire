@@ -228,6 +228,7 @@ partyBaseScripts={
                         (display_message, "@{reg1} {s6} join your party."),
                     (try_end),
                   (try_end),
+                  (remove_party,":source_party"),
               ]),
 
             ("get_loard_all_centers",[

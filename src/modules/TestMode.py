@@ -619,8 +619,9 @@ testMode = {
                  #    (troop_raise_skill,":npc",skl_persuasion,1),
                  # (try_end),
 
-                 (party_add_members,"p_main_party","trp_swadian_knight",200),
+                 (party_add_members,"p_main_party","trp_swadian_knight",70),
                  (troop_add_gold,"trp_player",100000),
+                (troop_set_slot,"trp_player",slot_troop_renown,5000),
 
 
                  #(party_relocate_near_party,"p_town_1","p_main_party"),

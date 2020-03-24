@@ -3,6 +3,7 @@ from modules.HeroCollection import heroCollection
 from modules.LadiesGoOut import ladiesGoOut
 from modules.PatrolParty import patrolParty
 from modules.TestMode import testMode
+from modules.VillageManage import villageMange
 from modules.base.FactionBaseScripts import factionBaseScripts
 from modules.base.PartyBaseScripts import partyBaseScripts
 from modules.base.TroopBaseScripts import troopBaseScripts
@@ -18,6 +19,7 @@ modules = [
     # patrolParty,
     # # #partyManage,
     testMode,
-    heroCollection,
+    #heroCollection,
     #ladiesGoOut
+    villageMange,
 ]

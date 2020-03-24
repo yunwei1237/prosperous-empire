@@ -1,4 +1,4 @@
-683
+682
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -336,7 +336,6 @@ qstr_{!}{s9} {!}{s9}
 qstr_{reg1}_{s6}_join_you {reg1}_{s6}_join_your_party.
 qstr_test test
 qstr_hero_{s1}__faction_i hero({s1})'faction_is_{s2},home_is_{s3}
-qstr_father_s_first_name_ father's_first_name_is_{s1}(reg:{reg1})
 qstr_{s10}_has_a_first_ch {s10}_has_a_first_children({s20})
 qstr_party_{s1}__is_creat party({s1})_is_create_at_{s2}
 qstr_party_{s1}__patroll_ party({s1})_patroll_cennter({s3})

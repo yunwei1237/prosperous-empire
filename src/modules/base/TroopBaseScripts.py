@@ -12,9 +12,9 @@ from module_constants import *
 from modules.HeroCollection_header import mergeList
 
 ## 姓氏
-first = [u"陈",u"李",u"黄",u"张",u"梁",u"林",u"刘",u"吴",u"罗",u"杨",u"诸 葛",u"司 马"]
+first = [u"陈",u"李",u"黄",u"张",u"朱",u"梁",u"林",u"刘",u"马",u"白",u"吴",u"曹",u"蔡",u"车",u"谭",u"罗",u"杨",u"诸 葛",u"司 马",u"南 宫",u"太 史",u"公 良",u"公 孙",u"公 良",u"百 里"]
 ## 名字
-second = [u"宛",u"丘",u"形",u"采",u"用",u"其",u"利",u"器",u"用",u"以",u"木",u"德",u"玄 策",u"大 目"]
+second = [u"宛",u"丘",u"形",u"采",u"用",u"其",u"利",u"器",u"用",u"桐",u"平",u"桃",u"山",u"明",u"月",u"朋",u"峰",u"峦",u"清",u"浮",u"桥",u"杰",u"贡",u"英",u"弄",u"三",u"武",u"言",u"玄 策",u"大 目",u"三 刀"]
 
 
 def parseFirstStrings(chars):
@@ -118,7 +118,7 @@ troopBaseScripts={
                 (store_script_param,":min_age",2),
                 (store_script_param,":max_age",3),
                 (store_random_in_range, ":age", ":min_age", ":max_age"),
-                (call_script, "script_init_troop_age", ":father", ":age"),
+                (call_script, "script_init_troop_age", ":troop", ":age"),
             ]),
             ("set_son_age",[
                 (store_script_param,":father",1),
