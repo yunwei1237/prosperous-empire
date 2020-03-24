@@ -8,6 +8,8 @@ from modules.HeroCollection_header import *
 
 
 ## 英雄数量
+from modules.base.TroopBaseScripts import *
+
 hero_size = 50
 
 
@@ -54,9 +56,6 @@ slot_troop_from_faction = 175
 slot_troop_last_patroll_center = 176
 
 
-slot_troop_first_name = 177
-slot_troop_second_name = 178
-
 heroCollection = {
     "name":"HeroCollection",
     "enable":True,
@@ -94,13 +93,7 @@ heroCollection = {
                 ## 初始化人员信息
                 (try_for_range,":cur_troop",hero_begin,hero_end),
                     ## 姓名
-                    (call_script,"script_get_random_first_name"),
-                    (str_store_string,s1,reg0),
-                    (troop_set_slot,":cur_troop",slot_troop_first_name,reg0),
-                    (call_script,"script_get_random_second_name"),
-                    (str_store_string,s2,reg0),
-                    (troop_set_slot,":cur_troop",slot_troop_second_name,reg0),
-                    (troop_set_name, ":cur_troop", "str_s1_s2_name"),
+                    (call_script,"script_set_random_name",":cur_troop"),
                     ## 职业
                     (troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
                     ## 性格 (直接使用系统领主性格)
@@ -125,63 +118,26 @@ heroCollection = {
                     (str_store_party_name_link,s3,":center"),
                     (display_message,"@hero({s1})'faction is {s2},home is {s3}"),
                 (try_end),
-                ## 初始化人员关系（只设置，父亲，儿子，兄弟，没有庞大家族）
+                ## 初始化人员关系（只设置，父亲，儿子，没有庞大家族）
                 (try_for_range,":cur_index",0,hero_size),
                     (store_add,":father","trp_hero_1",":cur_index"),
                     ## 年龄
-                    (store_random_in_range, ":age", 36, 60),
-                    (call_script, "script_init_troop_age", ":father", ":age"),
-
-                    ## 获得姓氏
-                    (troop_get_slot,":father_first_name",":father",slot_troop_first_name),
-                    (assign,reg1,":father_first_name"),
-                    (display_message,"@father's first name is {s1}(reg:{reg1})"),
-                    (str_store_string,s1,":father_first_name"),
-                    ## 随机生成老大(80%机率)
+                    (call_script,"script_set_age_in_range",":father",45,60),
+                    ## 随机生成长子(80%机率)
                     (store_random_in_range,":isSun",1,101),
                     (try_begin),
                         (le,":isSun",has_one_children_probability),
                         (val_add,":cur_index",1),
-                        (store_add,":son_one","trp_hero_1",":cur_index"),
-                        (store_random_in_range, ":age", 25, 60),
-                        #(call_script, "script_init_troop_age", ":son_one", ":age"),
-
-                        (call_script,"script_get_random_second_name"),
-                        (str_store_string,s2,reg0),
-
-                        #(str_store_string,s1,":father_first_name"),
-                        (troop_set_slot, ":son_one", slot_troop_first_name, s1),
-                        (troop_set_slot,":son_one",slot_troop_second_name,s2),
-
-                        (troop_set_name, ":son_one", "str_s1_s2_name"),
-
-                        (troop_set_slot, ":son_one", slot_troop_father, ":father"),
+                        (store_add,":son","trp_hero_1",":cur_index"),
+                        ## 儿子年龄
+                        (call_script,"script_set_son_age",":father",":son"),
+                        ## 儿子的名字
+                        (call_script,"script_set_name_for_son",":father",":son"),
 
                         (str_store_troop_name_link,s10,":father"),
-                        (str_store_troop_name_link,s20,":son_one"),
+                        (str_store_troop_name_link,s20,":son"),
                         (display_message,"@{s10} has a first children({s20})"),
                     (try_end),
-                    ## 随机生成老二（40%机率）
-                    # (store_random_in_range,":isSun",1,101),
-                    # (try_begin),
-                    #     (le,":isSun",has_two_children_probability),
-                    #     (val_add,":cur_index",1),
-                    #     (store_add,":son_two","trp_hero_1",":cur_index"),
-                    #     (store_random_in_range, ":age", 25, 60),
-                    #     (call_script, "script_init_troop_age", ":son_two", ":age"),
-                    #
-                    #     (call_script,"script_get_random_second_name"),
-                    #     (str_store_string,s2,s0),
-                    #     (troop_set_slot,":son_two",slot_troop_first_name,s1),
-                    #     (troop_set_slot,":son_two",slot_troop_second_name,s2),
-                    #     (troop_set_name, ":son_two", "str_s1_s2_name"),
-                    #
-                    #     (troop_set_slot, ":son_two", slot_troop_father, ":father"),
-                    #
-                    #     (str_store_troop_name_link, s10, ":father"),
-                    #     (str_store_troop_name_link, s20, ":son_one"),
-                    #     (display_message, "@{s10} has a second children({s20})"),
-                    # (try_end),
                 (try_end),
                 ## 更新所有英雄的信息
                 (call_script, "script_update_all_notes"),
