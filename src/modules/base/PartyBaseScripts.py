@@ -229,6 +229,15 @@ partyBaseScripts={
                     (try_end),
                   (try_end),
               ]),
+
+            ("get_loard_all_centers",[
+                (store_script_param_1,":target_troop"),
+                (store_script_param_2,":source_troop"),
+                (try_for_range,":center",centers_begin,centers_end),
+                    (party_slot_eq,":center",slot_town_lord,":source_troop"),
+                    (call_script,"script_give_center_to_lord",":center",":target_troop",1),
+                (try_end),
+            ]),
         ],
     },
     "internationals":{
