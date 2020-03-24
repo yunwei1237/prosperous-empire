@@ -503,7 +503,13 @@ slot_center_last_player_alarm_hour = 42
 
 slot_village_player_can_not_steal_cattle = 46
 
+'''
+    一个据点累计租金
+'''
 slot_center_accumulated_rents      = 47 #collected automatically by NPC lords
+'''
+    一个据点累计关税
+'''
 slot_center_accumulated_tariffs    = 48 #collected automatically by NPC lords
 
 '''
@@ -713,6 +719,7 @@ village_improvements_end          = 135
 walled_center_improvements_begin = slot_center_has_messenger_post
 walled_center_improvements_end               = 136
 
+## 玩家工厂的产品（面包，天鹅绒等等）
 slot_center_player_enterprise     				  = 137 #noted with the item produced
 slot_center_player_enterprise_production_order    = 138
 slot_center_player_enterprise_consumption_order   = 139 #not used

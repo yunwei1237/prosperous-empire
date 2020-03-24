@@ -2,13 +2,13 @@
 from module_game_menus import game_menus
 from module_scripts import *
 
-from modules.HeroCollection_header import *
 
-
-## 村庄，养殖，种植，开采系统
-
-## 所有的功能都是与村长进行对话来完成系统的功能
-
+## 最终 = 200 * 7（1400） + 1000（最大税收）
+village_rent_increase_per_day = 200
+## 最终 = 400 * 7（2800） + 2000（最大税收）
+castle_rent_increase_per_day = 400
+## 最终 = 800 * 7（5600） + 2000（最大税收）
+town_rent_increase_per_day = 800
 
 ## 以下内容非程序员不要修改
 
@@ -28,7 +28,23 @@ villageMange = {
     "enable":True,
     "simple_triggers":{
         "append":[
-
+            ## 增加税收
+            (24,[
+                (try_for_range,":center_no",centers_begin,centers_end),
+                    (party_get_slot,":rents",":center_no",slot_center_accumulated_rents),
+                    (try_begin),
+                        (party_slot_eq,":center_no",slot_party_type,spt_town),
+                        (val_add,":rents",village_rent_increase_per_day),
+                    (else_try),
+                        (party_slot_eq,":center_no",slot_party_type,spt_town),
+                        (val_add,":rents",castle_rent_increase_per_day),
+                    (else_try),
+                        (party_slot_eq,":center_no",slot_party_type,spt_town),
+                        (val_add,":rents",town_rent_increase_per_day),
+                    (try_end),
+                (party_set_slot,":center_no",slot_center_accumulated_rents,":rents"),
+                (try_end),
+            ]),
         ],
     },
     "scripts":{
