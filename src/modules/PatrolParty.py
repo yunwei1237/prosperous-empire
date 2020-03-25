@@ -173,6 +173,8 @@ patrolParty = {
             ("get_patrol_center_need_create_num",[
                 (store_script_param_1,":center_no"),
                 (assign,":need_create_party_num",0),
+
+                (party_get_slot,":center_patrol_num",":center_no",slot_party_patrol_num),
                 (try_begin),
                     (party_slot_eq, ":center_no", slot_party_type, spt_town),
                     (try_begin),

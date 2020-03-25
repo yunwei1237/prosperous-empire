@@ -125,7 +125,7 @@ troopBaseScripts={
                 (store_script_param,":son",2),
                 (troop_get_slot,":father_age",":father",slot_troop_age),
                 (store_random_in_range,":father_age_in_son_birth",20,30),
-                (store_sub,":son_age",":father_age",":father_age_in_son_birth"),
+                (store_sub,":age",":father_age",":father_age_in_son_birth"),
                 (call_script, "script_init_troop_age", ":father", ":age"),
             ]),
             ("troop_clear_items",[
@@ -173,14 +173,17 @@ troopBaseScripts={
             ("player_cosplay_anyone",[
                 (store_script_param,":troop",1),
 
-                (call_script,"script_get_center_of_lord",":troop"),
+                (str_store_troop_name_link,s1,":troop"),
+                (display_message,"@cosplay {s1}"),
+
+                (call_script,"script_get_center_of_lord",":troop","p_town_1"),
 
                 (assign,":center",reg0),
 
                 (call_script,"script_get_troop_all_items","trp_player",":troop"),
                 (call_script,"script_get_troop_all_wealth","trp_player",":troop"),
                 (call_script,"script_get_loard_all_centers","trp_player",":troop"),
-                
+                (call_script,"script_add_party_as_companions","p_main_party",":troop",-1),
                 (party_relocate_near_party,"p_main_party",":center",3),
             ]),
         ],

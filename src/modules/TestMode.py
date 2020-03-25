@@ -670,7 +670,7 @@ testMode = {
                     [anyone | plyr | repeat_for_troops, "constable_hareck_to_be_king_choice_king", [
                         (store_repeat_object,":king"),
                         (is_between,":king",kings_begin,kings_end),
-                        (store_faction_of_party,":faction",":king"),
+                        (store_faction_of_troop,":faction",":king"),
                         (str_store_faction_name,s1,":faction"),
                         (str_store_troop_name,s2,":king"),
                     ], "{s1} {s2}", "constable_hareck_to_be_king_choice_king_end", [
@@ -679,7 +679,7 @@ testMode = {
                     ]],
                     [anyone, "constable_hareck_to_be_king_choice_king_end", [
                         (assign,":king",reg1),
-                        (store_faction_of_party,":faction",":king"),
+                        (store_faction_of_troop,":faction",":king"),
                         (str_store_faction_name,s1,":faction"),
                         (str_store_troop_name,s2,":king"),
                     ], "now,you are the king {s2} of faction {s1}.", "close_window", [

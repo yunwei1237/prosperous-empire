@@ -215,4 +215,5 @@ menu_start_phase_4 = 213
 menu_lost_tavern_duel = 214
 menu_establish_court = 215
 menu_notification_relieved_as_marshal = 216
-menu_just_test_menu = 217
+menu_duty_report = 217
+menu_just_test_menu = 218

@@ -493,7 +493,7 @@ partyManage={
                 [
                     (party_get_num_companion_stacks,":stacks","p_main_party"),
                     (try_for_range,":stack_i",0,":stacks"),
-                        (party_stack_get_troop_id,":troop",":p_main_party",":stack_i"),
+                        (party_stack_get_troop_id,":troop","p_main_party",":stack_i"),
                         (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
                         ## 名称
                         (str_store_troop_name,s5,":troop"),
@@ -515,7 +515,7 @@ partyManage={
                     {
                         "sign":"view_party_size_report",
                         "data":[
-                            ("view_party_duty_report",[],"View party duty report.",[(jump_to_menu, "mnu_view_party_duty_report"),]),
+                            ("view_party_duty_report",[],"View party duty report.",[(jump_to_menu, "mnu_duty_report"),]),
                         ]
                     }
                 ],

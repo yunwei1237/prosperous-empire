@@ -220,7 +220,7 @@ heroCollection = {
                     # (call_script,"script_troop_get_player_relation","$g_talk_troop"),
                     # (ge,reg0,hero_join_player_party_relation),
                 ],"I'm glad to be part of your team", "close_window",[
-                    (call_script,"script_add_party_with_hero_as_companions","p_main_party","$g_talk_troop_party"),
+                    (call_script,"script_add_party_as_companions","p_main_party","$g_talk_troop_party",1),
                     (troop_set_slot,"$g_talk_troop", slot_troop_hero_status, sths_in_player_party),
 
                     (eq, "$talk_context", tc_party_encounter),

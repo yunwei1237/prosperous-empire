@@ -8,6 +8,18 @@ from module_constants import *
 
 
 
+
+
+
+
+## slot
+## 用于保存巡逻的据点
+slot_party_protect_center = 401
+
+## args
+## 巡逻队类型
+spt_patrol             = 7
+
 ## args
 
 
@@ -157,7 +169,7 @@ partyBaseScripts={
                     (store_skill_level,":trainer_level",":troop_no",skl_trainer),
                     (val_add,":strength",":trainer_level"),
                 (try_end),
-                (store_mul, ":total_xp", ":strength_val", per_strength_xp),
+                (store_mul, ":total_xp", ":strength", per_strength_xp),
 
                 ## 根据特殊兵种概率来升级更加强壮的士兵，如果没有指定概率就是随机升级
                 (try_begin),
@@ -273,12 +285,23 @@ partyBaseScripts={
                     #(display_message,"@do remove prisoners:{s1}"),
                 (try_end),
 
+                (gt,":total_price",0),
+                (party_stack_get_troop_id,":leader",":party_no",0),
                 (try_begin),
-                    (gt,":total_price",0),
-                    (call_script,"script_update_center_wealth",":center_no",":total_price",1),
-                    (str_store_party_name,s1,":party_no"),
-                    (assign,reg1,":total_price"),
-                    #(display_message,"@add money({reg1}) :{s1}"),
+                    (ge,":leader",0),
+                    (troop_get_slot,":wealth",":leader",slot_troop_wealth),
+                    (val_add,":wealth",":total_price"),
+                    (troop_set_slot,":leader",slot_troop_wealth,":wealth"),
+                (else_try),
+                    (party_slot_eq,":party_no",slot_party_type,spt_patrol),
+                    (party_get_slot,":center",":party_no",slot_party_protect_center),
+                    (call_script,"script_update_center_wealth",":center",":total_price",1),
+                (else_try),
+                    (store_faction_of_party,":faction",":party_no"),
+                    (faction_get_slot,":king",":faction",slot_faction_leader),
+                    (troop_get_slot,":wealth",":king",slot_troop_wealth),
+                    (val_add,":wealth",":total_price"),
+                    (troop_set_slot,":king",slot_troop_wealth,":wealth"),
                 (try_end),
             ]),
             ## 获得指定地点最近的据点
@@ -316,13 +339,25 @@ partyBaseScripts={
                 (try_end),
                 (party_set_slot, "p_temp_party", 0, ":size"),
             ]),
-            ("add_party_with_hero_as_companions",
+            ("add_party_as_companions",
                 [
-                  (store_script_param_1, ":target_party"), #Target Party_id
-                  (store_script_param_2, ":source_party"), #Source Party_id
+                  (store_script_param, ":target_party",1), #Target Party_id
+                  (store_script_param, ":source_party",2), #Source Party_id
+                  ## 英雄是否也加入： -1代表只加入士兵，大于等于0代表英雄加入
+                  (store_script_param, ":include_hero",3), #Source Party_id
                   (party_get_num_companion_stacks, ":num_stacks",":source_party"),
                   (try_for_range, ":stack_no", 0, ":num_stacks"),
                     (party_stack_get_troop_id, ":stack_troop",":source_party",":stack_no"),
+                    (assign,":hero_can_join",0),
+                    (try_begin),
+                        (troop_is_hero,":stack_troop"),
+                        (ge,":include_hero",0),
+                        (assign,":hero_can_join",1),
+                    (try_end),
+                    ## 非英雄
+                    (this_or_next|neg|troop_is_hero,":stack_troop"),
+                    ## 或者 是英雄，也允许英雄加入
+                    (eq,":hero_can_join",1),
                     (party_stack_get_size, ":stack_size",":source_party",":stack_no"),
                     (party_add_members, ":target_party", ":stack_troop", ":stack_size"),
 

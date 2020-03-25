@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from modules.HeroCollection import heroCollection
 from modules.LadiesGoOut import ladiesGoOut
+from modules.PartyManage import partyManage
 from modules.PatrolParty import patrolParty
 from modules.TestMode import testMode
 from modules.VillageManage import villageMange
@@ -16,10 +17,10 @@ modules = [
     partyBaseScripts,
     factionBaseScripts,
     troopBaseScripts,
-    # patrolParty,
-    # # #partyManage,
+    patrolParty,
+    partyManage,
     testMode,
-    #heroCollection,
-    #ladiesGoOut
+    heroCollection,
+    ladiesGoOut,
     villageMange,
 ]
