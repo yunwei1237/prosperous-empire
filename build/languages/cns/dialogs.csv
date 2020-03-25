@@ -2713,3 +2713,12 @@ dlga_hero_start:hire_hero_talk|你 想 跟 着 我 吗 ？
 dlga_hire_hero_talk:close_window|我 很 高 兴 能 够 成 为 你 队 伍 的 一 员 。 
 dlga_hire_hero_talk:close_window.1|我 还 不 熟 悉 你 的 为 人 。 
 dlga_hero_start:close_window|没 事 
+dlga_start:constable_hareck_hi|有 什 么 可 以 帮 助 你 的？ 
+dlga_constable_hareck_hi:constable_hareck_to_be_king|我 想 做 国 王 
+dlga_constable_hareck_to_be_king:constable_hareck_to_be_king_choice_king|你 想 成 为 哪 个 国 王？ 
+dlga_constable_hareck_to_be_king_choice_king_end:close_window|现 在, 你 已 经 是 {s1} 的 {s2} 国 王 了! 
+dlga_constable_hareck_hi:constable_hareck_to_be_lord|我 想 做 领 主 
+dlga_constable_hareck_to_be_lord:constable_hareck_to_be_lord_choice_faction|你 想 成 为 哪 个 国 家 的 领 主? 
+dlga_constable_hareck_to_be_lord_choice_faction_end:constable_hareck_to_be_lord_choice_lord|你 想 成 为 这 个 国 家 的 哪 位 领 主? 
+dlga_constable_hareck_to_be_lord_choice_lord_end:close_window|现 在, 你 已 经 是 {s1} 的 {s2} 领 主 了! 
+dlga_constable_hareck_hi:close_window|不 需 要 

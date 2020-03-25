@@ -641,6 +641,19 @@ testMode = {
                 "mno_test_castle|测 试 【 大 厅 】",
                 "mno_test_center|测 试 【 地 形 】",
                 "mno_test_zendar|测 试 【 禅 达 】",
+            ],
+            "dialogs":[
+                "dlga_start:constable_hareck_hi|有 什 么 可 以 帮 助 你 的？",
+                "dlga_constable_hareck_hi:constable_hareck_to_be_king|我 想 做 国 王",
+                "dlga_constable_hareck_to_be_king:constable_hareck_to_be_king_choice_king|你 想 成 为 哪 个 国 王？",
+                "dlga_constable_hareck_to_be_king_choice_king_end:close_window|现 在, 你 已 经 是 {s1} 的 {s2} 国 王 了!",
+
+                "dlga_constable_hareck_hi:constable_hareck_to_be_lord|我 想 做 领 主",
+                "dlga_constable_hareck_to_be_lord:constable_hareck_to_be_lord_choice_faction|你 想 成 为 哪 个 国 家 的 领 主?",
+                "dlga_constable_hareck_to_be_lord_choice_faction_end:constable_hareck_to_be_lord_choice_lord|你 想 成 为 这 个 国 家 的 哪 位 领 主?",
+                "dlga_constable_hareck_to_be_lord_choice_lord_end:close_window|现 在, 你 已 经 是 {s1} 的 {s2} 领 主 了!",
+
+                "dlga_constable_hareck_hi:close_window|不 需 要",
             ]
         }
     },
@@ -649,8 +662,66 @@ testMode = {
             {
                 "sign":"start:Surrender_or_die@:battle_reason_stated[1,3,4]",
                 "data":[
-                    [trp_constable_hareck, "start", [], "are you ok ?", "constable_hareck_hi",[]],
-                    [anyone | plyr, "constable_hareck_hi", [], "yes , I'm ok !", "close_window", []],
+                    [trp_constable_hareck, "start", [], "what can I do for you?", "constable_hareck_hi",[]],
+
+                    [anyone | plyr, "constable_hareck_hi", [], "I want to be a king.", "constable_hareck_to_be_king", []],
+                    ## 选择国王
+                    [anyone, "constable_hareck_to_be_king", [], "who you want to be?", "constable_hareck_to_be_king_choice_king", []],
+                    [anyone | plyr | repeat_for_troops, "constable_hareck_to_be_king_choice_king", [
+                        (store_repeat_object,":king"),
+                        (is_between,":king",kings_begin,kings_end),
+                        (store_faction_of_party,":faction",":king"),
+                        (str_store_faction_name,s1,":faction"),
+                        (str_store_troop_name,s2,":king"),
+                    ], "{s1} {s2}", "constable_hareck_to_be_king_choice_king_end", [
+                        (store_repeat_object,":king"),
+                        (assign,reg1,":king"),
+                    ]],
+                    [anyone, "constable_hareck_to_be_king_choice_king_end", [
+                        (assign,":king",reg1),
+                        (store_faction_of_party,":faction",":king"),
+                        (str_store_faction_name,s1,":faction"),
+                        (str_store_troop_name,s2,":king"),
+                    ], "now,you are the king {s2} of faction {s1}.", "close_window", [
+                        (assign,":king",reg1),
+                        (call_script,"script_player_cosplay_anyone",":king"),
+                        (change_screen_map),
+                    ]],
+
+
+                    [anyone | plyr, "constable_hareck_hi", [], "I want to be a lord.", "constable_hareck_to_be_lord", []],
+                    ## 选择阵营
+                    [anyone, "constable_hareck_to_be_lord", [], "which faction you want to be lord?", "constable_hareck_to_be_lord_choice_faction", []],
+                    [anyone | plyr | repeat_for_factions, "constable_hareck_to_be_lord_choice_faction", [
+                        (store_repeat_object,":faction"),
+                        (is_between,":faction",npc_kingdoms_begin,npc_kingdoms_end),
+                        (str_store_faction_name,s1,":faction"),
+                    ], "{s1}", "constable_hareck_to_be_lord_choice_faction_end", [
+                        (store_repeat_object,":faction"),
+                        (assign,reg1,":faction"),
+                    ]],
+                    ## 选择领主
+                    [anyone, "constable_hareck_to_be_lord_choice_faction_end", [], "who you want to be?", "constable_hareck_to_be_lord_choice_lord", []],
+                    [anyone | plyr | repeat_for_troops, "constable_hareck_to_be_lord_choice_lord", [
+                        (store_repeat_object,":lord"),
+                        (is_between,":lord",lords_begin,lords_end),
+                        (str_store_troop_name,s1,":lord"),
+                    ], "{s1}", "constable_hareck_to_be_lord_choice_lord_end", [
+                        (store_repeat_object,":lord"),
+                        (assign,reg2,":lord"),
+                    ]],
+                    [anyone, "constable_hareck_to_be_lord_choice_lord_end", [
+                        (assign,":faction",reg1),
+                        (assign,":lord",reg2),
+                        (str_store_faction_name,s1,":faction"),
+                        (str_store_troop_name,s2,":lord"),
+                    ], "now,you are the {s2} lord of {s1} faction", "close_window", [
+                        (assign,":lord",reg2),
+                        (call_script,"script_player_cosplay_anyone",":lord"),
+                        (change_screen_map),
+                    ]],
+
+                    [anyone | plyr, "constable_hareck_hi", [], "never mind!", "close_window", []],
                 ]
             }
         ]

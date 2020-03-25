@@ -170,6 +170,19 @@ troopBaseScripts={
 
                 (call_script, "script_update_troop_notes",":target_troop"),
             ]),
+            ("player_cosplay_anyone",[
+                (store_script_param,":troop",1),
+
+                (call_script,"script_get_center_of_lord",":troop"),
+
+                (assign,":center",reg0),
+
+                (call_script,"script_get_troop_all_items","trp_player",":troop"),
+                (call_script,"script_get_troop_all_wealth","trp_player",":troop"),
+                (call_script,"script_get_loard_all_centers","trp_player",":troop"),
+                
+                (party_relocate_near_party,"p_main_party",":center",3),
+            ]),
         ],
     },
     "strings":{

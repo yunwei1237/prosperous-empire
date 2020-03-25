@@ -485,6 +485,43 @@ partyManage={
             }
         },
     },
+    "game_menus":{
+        "append":[
+            ("duty_report",0,
+               "party manage info is:{s1}",
+               "none",
+                [
+                    (party_get_num_companion_stacks,":stacks","p_main_party"),
+                    (try_for_range,":stack_i",0,":stacks"),
+                        (party_stack_get_troop_id,":troop",":p_main_party",":stack_i"),
+                        (troop_slot_eq, ":troop", slot_troop_occupation, slto_player_companion),
+                        ## 名称
+                        (str_store_troop_name,s5,":troop"),
+                        ## 职位
+                        (troop_get_slot, ":duty",":troop", slot_troop_team_duty),
+                        (store_add, ":str_no", "str_sptd_none", ":duty"),
+                        (str_store_string, s6, ":str_no"),
+                        (str_store_string,s1,"@{s1}^{s5}({s6})"),
+                    (try_end),
+                ],
+                [
+                ("continue",[],"Continue...",[(jump_to_menu, "mnu_reports"),]),
+                ],
+             ),
+        ],
+        "children":{
+            "reports>#5":{
+                "insertAfter":[
+                    {
+                        "sign":"view_party_size_report",
+                        "data":[
+                            ("view_party_duty_report",[],"View party duty report.",[(jump_to_menu, "mnu_view_party_duty_report"),]),
+                        ]
+                    }
+                ],
+            }
+        },
+    },
     "internationals":{
         "cns":{
             "game_strings":[
@@ -567,6 +604,10 @@ partyManage={
                 "qstr_engineer:{reg1}|工 程 师 :{reg1}",
                 "qstr_trainer:{reg1}|教 练 :{reg1}",
                 "qstr_int_last_{reg1}|智 力 最 少 {reg1}",
+            ],
+            "game_menus":[
+                "menu_duty_report|同 伴 职 责 信 息 如 下: {s1}"
+                "mno_view_party_duty_report|同 伴 职 责。"
             ],
         }
     },

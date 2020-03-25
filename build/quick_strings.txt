@@ -1,4 +1,4 @@
-682
+675
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -335,12 +335,6 @@ qstr_{!}DEBUG___{s4}_faction_cha {!}DEBUG_-_{s4}_faction_changed_in_indictment
 qstr_{!}{s9} {!}{s9}
 qstr_{reg1}_{s6}_join_you {reg1}_{s6}_join_your_party.
 qstr_test test
-qstr_hero_{s1}__faction_i hero({s1})'faction_is_{s2},home_is_{s3}
-qstr_{s10}_has_a_first_ch {s10}_has_a_first_children({s20})
-qstr_party_{s1}__is_creat party({s1})_is_create_at_{s2}
-qstr_party_{s1}__patroll_ party({s1})_patroll_cennter({s3})
-qstr_hero_count_update hero_count_update
-qstr_hero_{s4}__status_up hero({s4})_status_update_end
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial
@@ -566,7 +560,6 @@ qstr_{s1}_has_switched_fr {s1}_has_switched_from_{s2}_to_{s3}.
 qstr_{!}DEBUG_:_{s2}_is_b {!}DEBUG_:_{s2}_is_besieging_by_{s3}
 qstr_{!}DEBUG___Checking_ {!}DEBUG_-_Checking_fire_at_{s4}_for_{s5}_-_current_time_{reg3},_last_nearby_fire_{reg4}
 qstr_{!}DEBUG____Wanted_b {!}DEBUG_--_Wanted_bandits_spotted_by_{s4}
-qstr_heros_is_init heros_is_init
 qstr_{reg65?my_Lady:my_Lo {reg65?my_Lady:my_Lord}
 qstr_{reg65?My_Lady:My_Lo {reg65?My_Lady:My_Lord}
 qstr_{reg65?madame:sir} {reg65?madame:sir}

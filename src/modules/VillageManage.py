@@ -28,8 +28,6 @@ lord_auto_collect_tax_interval = 24 * 7
 ## args
 
 
-
-
 villageMange = {
     "name":"villageMange",
     "enable":True,
@@ -107,7 +105,7 @@ villageMange = {
                         "sign":"village_center",
                         "data":[
                             ("troops_manage",[
-                                #(party_slot_eq, "$current_town", slot_town_lord, "trp_player")
+                                (party_slot_eq, "$current_town", slot_town_lord, "trp_player")
                             ],"Manage this village' troops.",
                             [
                                (change_screen_exchange_members,1),
