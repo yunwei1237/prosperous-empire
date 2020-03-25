@@ -2,6 +2,7 @@
 from module_game_menus import game_menus
 from module_scripts import *
 
+## config
 
 ## 最终 = 200 * 7（1400） + 1000（最大税收）
 village_rent_increase_per_day = 200
@@ -10,11 +11,17 @@ castle_rent_increase_per_day = 400
 ## 最终 = 800 * 7（5600） + 2000（最大税收）
 town_rent_increase_per_day = 800
 
+## 每天更新（24）
+center_tax_inscrease_interval = 24
+
+## 领主自动收税时间(7天收一次，和玩家一样)
+lord_auto_collect_tax_interval = 24 * 7
+
+
+
 ## 以下内容非程序员不要修改
 
 ## constans
-
-
 
 ## slot
 
@@ -29,7 +36,7 @@ villageMange = {
     "simple_triggers":{
         "append":[
             ## 增加税收
-            (2,[
+            (center_tax_inscrease_interval,[
                 (try_for_range,":center_no",centers_begin,centers_end),
                     (party_get_slot,":rents",":center_no",slot_center_accumulated_rents),
                     (try_begin),
@@ -50,7 +57,7 @@ villageMange = {
                 (try_end),
             ]),
             ## 领主收税
-            (4,[
+            (lord_auto_collect_tax_interval,[
                 (try_for_range,":center_no",centers_begin,centers_end),
                     (party_get_slot,":lord",":center_no",slot_town_lord),
                     ## 如果领地有主人
