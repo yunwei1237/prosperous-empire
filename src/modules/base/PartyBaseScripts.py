@@ -21,12 +21,19 @@ partyBaseScripts={
         "append":[
             ## 创建部队通用方法
             ("create_party",[
+                ## 领导者
                 (store_script_param, ":leader_no", 1),
+                ## 创建在哪个地区附近
                 (store_script_param, ":center_no", 2),
+                ## 队伍阵营，优先使用领导者阵营，其次才会使用据点阵营，否则就是平民阵营
                 (store_script_param, ":faction_no", 3),
+                ## 范围
                 (store_script_param, ":spawn_radius", 4),
+                ## 队伍名称id
                 (store_script_param, ":party_name", 5),
+                ## 图标
                 (store_script_param, ":map_icon", 6),
+                ## 旗帜
                 (store_script_param, ":map_banner", 7),
 
                 (try_begin),
@@ -36,19 +43,20 @@ partyBaseScripts={
 
                 (try_begin),
                     (lt,":faction_no",0),
-                    (store_faction_of_troop,":faction_no",":leader_no"),
+                    (try_begin),
+                        (ge,":leader_no",0),
+                        (store_faction_of_troop,":faction_no",":leader_no"),
+                    (else_try),
+                        (ge,":center_no",0),
+                        (store_faction_of_party,":faction_no",":center_no"),
+                    (else_try),
+                        (assign,":faction_no","fac_commoners"),
+                    (try_end),
                 (try_end),
 
                 (try_begin),
                     (lt,":spawn_radius",0),
                     (assign,":spawn_radius",3),
-                (try_end),
-
-                (try_begin),
-                    (lt,":party_name",0),
-                    (str_store_faction_name,s5,":faction_no"),
-                (else_try),
-                    (str_store_string,s5,":party_name"),
                 (try_end),
 
                 (set_spawn_radius, ":spawn_radius"),
@@ -64,11 +72,23 @@ partyBaseScripts={
                     (troop_set_slot,":leader_no",slot_troop_leaded_party,":new_party"),
                     ## 添加领导者
                     (party_add_leader,":new_party",":leader_no"),
-                    ## 设置队伍名称为领导者队伍
-                    (str_store_troop_name,s5,":leader_no"),
                 (try_end),
+
+                (try_begin),
+                    (ge,":leader_no",0),
+                    (str_store_troop_name,s5,":leader_no"),
+                (else_try),
+                    (ge,":faction_no",0),
+                    (str_store_faction_name,s5,":faction_no"),
+                (try_end),
+
                 ## 设置队伍名称
-                (party_set_name, ":new_party", "str_s5_s_party"),
+                (try_begin),
+                (ge,":party_name",0),
+                    (party_set_name, ":new_party", ":party_name"),
+                (else_try),
+                    (party_set_name, ":new_party", "str_s5_s_party"),
+                (try_end),
 
                 ## 设置指定外观
                 (try_begin),
@@ -170,7 +190,97 @@ partyBaseScripts={
                 (party_set_ai_object, ":party", ":target"),
                 (party_set_ai_patrol_radius, ":party", ":patrol_radius"),
             ]),
+            ## 计算俘虏价格
+            ("get_prisoner_prices",[
+                 (store_script_param_1, ":troop_id"),
+                 (store_script_param_2, ":size"),
+                 (store_character_level, ":troop_level", ":troop_id"),
+                 (assign, ":ransom_amount", ":troop_level"),
+                 (val_add, ":ransom_amount", 10),
+                 (val_mul, ":ransom_amount", ":ransom_amount"),
+                 (val_div, ":ransom_amount", 6),
+                 (val_mul,":ransom_amount",":size"),
+                 (assign, reg0, ":ransom_amount"),
+             ]),
+            ## 更新据点财富
+            ("update_center_wealth",[
+                 (store_script_param_1, ":center_no"),
+                 (store_script_param_2, ":value"),
+                 ## 0:失去钱 1：获得钱
+                 (store_script_param, ":type",3),
 
+                 (troop_get_slot,":wealth",":center_no",slot_town_wealth),
+                 (try_begin),
+                     (gt,":type",0),
+                     (val_add,":wealth",":value"),
+                 (else_try),
+                    (val_sub,":wealth",":value"),
+                 (try_end),
+                 (troop_set_slot,":center_no",slot_town_wealth,":wealth"),
+             ]),
+            ("party_handle_prisoners",[
+                ## 需要处理俘虏的队伍
+                (store_script_param_1,":party_no"),
+                ## 是否会招募俘虏  -1，全部售卖 0:招募本国士兵 1：招募全部士兵
+                (store_script_param_2,":recruit"),
+                (party_get_num_prisoners,":pri_size",":party_no"),
+                ## 有俘虏才进行处理
+                (gt,":pri_size",0),
+
+                (store_faction_of_party,":party_faction",":party_no"),
+                (party_get_num_prisoner_stacks,":stack",":party_no"),
+                (assign,":total_price",0),
+                (try_for_range_backwards,":index",0,":stack"),
+                    (party_prisoner_stack_get_troop_id,":troop",":party_no",":index"),
+                    (store_faction_of_troop,":troop_faction",":troop"),
+                    ## 本栏中俘虏的个数
+                    (party_prisoner_stack_get_size,":cur_stack_size",":party_no",":index"),
+                    (try_begin),
+                        ## 全部售卖
+                        (eq,":recruit",-1),
+                        (call_script, "script_get_prisoner_prices", ":troop", ":cur_stack_size"),
+                        (assign, ":pri_price", reg0),
+                        (val_add, ":total_price", ":pri_price"),
+                    (else_try),
+                        ## 本国招募，它国售卖
+                        (eq, ":recruit", 0),
+                        (try_begin),
+                            (str_store_faction_name,s1,":party_faction"),
+                            (str_store_faction_name,s2,":troop_faction"),
+                            (str_store_troop_name,s3,":troop"),
+                            #(display_message,"@party faction name ({s1})     troop faction name ({s2} troop:{s3})"),
+                            ## 本国招募
+                            (eq,":party_faction",":troop_faction"),
+                            ## 添加同伴
+                            (party_add_members,":party_no",":troop",":cur_stack_size"),
+                            # (str_store_party_name,s1,":party_no"),
+                            # (str_store_troop_name,s2,":troop"),
+                            # (assign,reg1,":cur_stack_size"),
+                            #(display_message,"@do add troops({reg1}):{s1}"),
+                        (else_try),
+                            ## 它国贩卖
+                            (call_script,"script_get_prisoner_prices",":troop",":cur_stack_size"),
+                            (assign,":pri_price",reg0),
+                            (val_add,":total_price",":pri_price"),
+                        (try_end),
+                    (else_try),
+                        ## 全部招募
+                        (party_add_members, ":party_no", ":troop", ":cur_stack_size"),
+                    (try_end),
+                    ## 将处理后的俘虏从俘虏栏中移除
+                    (party_remove_prisoners,":party_no",":troop",":cur_stack_size"),
+                    #(str_store_party_name,s1,":party_no"),
+                    #(display_message,"@do remove prisoners:{s1}"),
+                (try_end),
+
+                (try_begin),
+                    (gt,":total_price",0),
+                    (call_script,"script_update_center_wealth",":center_no",":total_price",1),
+                    (str_store_party_name,s1,":party_no"),
+                    (assign,reg1,":total_price"),
+                    #(display_message,"@add money({reg1}) :{s1}"),
+                (try_end),
+            ]),
             ## 获得指定地点最近的据点
             ("get_center_close_the_center",[
                 (store_script_param_1,":center"),
