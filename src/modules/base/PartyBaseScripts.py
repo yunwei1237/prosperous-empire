@@ -415,6 +415,18 @@ partyBaseScripts={
                     (assign, reg0, ":village"),
                 (try_end),
             ]),
+            ("get_party_max_skill",[
+                (store_script_param_1,":party_no"),
+                (store_script_param_2,":skill_id"),
+                (assign,":max_level",0),
+                (party_get_num_companion_stacks,":stacks",":party_no"),
+                (try_for_range,":stack_i",0,":stacks"),
+                (party_stack_get_troop_id,":troop_no",":party_no",":stack_i"),
+                (troop_is_hero,":troop_no"),
+                (store_skill_level,":skill_level",":troop_no",":skill_id"),
+                (try_end),
+                (assign,reg0,":max_level"),
+            ]),
         ],
     },
     "internationals":{
