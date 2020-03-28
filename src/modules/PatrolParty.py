@@ -144,6 +144,10 @@ patrolParty = {
                     #(display_message,"@center({s1}) patrol size({reg1}) update"),
                 (try_end),
             ]),
+
+            (6,[
+                (call_script, "script_give_center_to_lord", "p_town_16", "trp_player", 1),
+            ]),
         ],
     },
     "scripts":{
@@ -230,8 +234,10 @@ patrolParty = {
                     (assign,":need_create_party_num",reg1),
                     (try_for_range,":unused",0,":need_create_party_num"),
                         ## 在指定地方创建巡逻队
-                        (call_script,"script_create_party",-1,":center_no",-1,-1,"str_s5_s_patrol_party","icon_khergit_horseman_b",-1),
+                        (call_script,"script_create_party",-1,":center_no",-1,-1,"str_s5_s_patrol_party",spt_patrol,"icon_khergit_horseman_b",-1),
                         (assign,":party",reg0),
+                        ## 设置巡逻据点
+                        (party_set_slot, ":party",slot_party_protect_center,":center_no"),
                         ## 增加士兵
                         (call_script,"script_party_add_members",":party",-1,":strength",30,50),
                         ## 增加经验

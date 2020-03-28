@@ -41,12 +41,14 @@ partyBaseScripts={
                 (store_script_param, ":faction_no", 3),
                 ## 范围
                 (store_script_param, ":spawn_radius", 4),
-                ## 队伍名称id
+                ## 队伍名称id（优先使用队伍领导者名称，其实使用据点名称，最后使用国家名称)
                 (store_script_param, ":party_name", 5),
+                ## 队伍类型
+                (store_script_param, ":party_type", 6),
                 ## 图标
-                (store_script_param, ":map_icon", 6),
+                (store_script_param, ":map_icon", 7),
                 ## 旗帜
-                (store_script_param, ":map_banner", 7),
+                (store_script_param, ":map_banner", 8),
 
                 (try_begin),
                     (lt,":center_no",0),
@@ -90,6 +92,9 @@ partyBaseScripts={
                     (ge,":leader_no",0),
                     (str_store_troop_name,s5,":leader_no"),
                 (else_try),
+                    (ge,":center_no",0),
+                    (str_store_party_name,s5,":center_no"),
+                (else_try),
                     (ge,":faction_no",0),
                     (str_store_faction_name,s5,":faction_no"),
                 (try_end),
@@ -100,6 +105,11 @@ partyBaseScripts={
                     (party_set_name, ":new_party", ":party_name"),
                 (else_try),
                     (party_set_name, ":new_party", "str_s5_s_party"),
+                (try_end),
+
+                (try_begin),
+                    (ge,":party_type",0),
+                    (party_set_slot,":new_party",slot_party_type,":party_type"),
                 (try_end),
 
                 ## 设置指定外观
@@ -253,6 +263,7 @@ partyBaseScripts={
                         (call_script, "script_get_prisoner_prices", ":troop", ":cur_stack_size"),
                         (assign, ":pri_price", reg0),
                         (val_add, ":total_price", ":pri_price"),
+                        #(display_message,"@出售全部士兵"),
                     (else_try),
                         ## 本国招募，它国售卖
                         (eq, ":recruit", 0),
@@ -269,20 +280,24 @@ partyBaseScripts={
                             # (str_store_troop_name,s2,":troop"),
                             # (assign,reg1,":cur_stack_size"),
                             #(display_message,"@do add troops({reg1}):{s1}"),
+                            #(display_message,"@招募本国士兵"),
                         (else_try),
                             ## 它国贩卖
                             (call_script,"script_get_prisoner_prices",":troop",":cur_stack_size"),
                             (assign,":pri_price",reg0),
                             (val_add,":total_price",":pri_price"),
+                            #(display_message,"@售卖它国部分士兵"),
                         (try_end),
                     (else_try),
                         ## 全部招募
                         (party_add_members, ":party_no", ":troop", ":cur_stack_size"),
+                        #(display_message,"@招募全部士兵"),
                     (try_end),
                     ## 将处理后的俘虏从俘虏栏中移除
                     (party_remove_prisoners,":party_no",":troop",":cur_stack_size"),
                     #(str_store_party_name,s1,":party_no"),
                     #(display_message,"@do remove prisoners:{s1}"),
+
                 (try_end),
 
                 (gt,":total_price",0),

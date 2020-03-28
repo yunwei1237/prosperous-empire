@@ -623,6 +623,8 @@ testMode = {
                  (troop_add_gold,"trp_player",100000),
                 (troop_set_slot,"trp_player",slot_troop_renown,5000),
 
+                (troop_raise_skill,"trp_player",skl_prisoner_management,10),
+                (party_add_prisoners, "p_main_party", "trp_swadian_knight", 10),
 
                  #(party_relocate_near_party,"p_town_1","p_main_party"),
                  (party_relocate_near_party,"p_main_party","p_town_16",3),

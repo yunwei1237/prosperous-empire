@@ -3262,16 +3262,5 @@ str_s5_leave_home = 3260
 str_s5_go_home = 3261
 str_s1_s2_name = 3262
 str_s5_s_patrol_party = 3263
-str_sptd_none = 3264
-str_sptd_adjutant = 3265
-str_sptd_adviser = 3266
-str_sptd_armament = 3267
-str_sptd_chef = 3268
-str_sptd_accountant = 3269
-str_sptd_military_surgeon = 3270
-str_sptd_veterinarian = 3271
-str_sptd_siege_division = 3272
-str_sptd_coach = 3273
-str_doctor_skill_info = 3274
 
 
