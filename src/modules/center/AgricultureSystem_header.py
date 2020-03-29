@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from header_operations import *
-from modules.HeroCollection_header import repeatArcher1
+from modules.lord.HeroCollection_header import repeatArcher1
 
 
 def parseStrings(config):

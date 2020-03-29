@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from module_scripts import *
-from modules.AgricultureSystem_header import *
+from modules.center.AgricultureSystem_header import *
 
-from modules.HeroCollection_header import *
+from modules.lord.HeroCollection_header import *
 
 
 ## 村庄，养殖，种植，开采系统

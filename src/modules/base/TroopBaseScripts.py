@@ -3,13 +3,12 @@
 ## 包含一些对阵营常用的操作
 from header_operations import *
 from header_parties import *
-from header_skills import skl_trainer
 from module_constants import *
 
 
 
 ## args
-from modules.HeroCollection_header import mergeList
+from modules.lord.HeroCollection_header import mergeList
 
 ## 姓氏
 first = [u"陈",u"李",u"黄",u"张",u"朱",u"梁",u"林",u"刘",u"马",u"白",u"吴",u"曹",u"蔡",u"车",u"谭",u"罗",u"杨",u"诸 葛",u"司 马",u"南 宫",u"太 史",u"公 良",u"公 孙",u"公 良",u"百 里"]

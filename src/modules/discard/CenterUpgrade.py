@@ -19,7 +19,7 @@
 
 from module_scripts import *
 
-from modules.HeroCollection_header import *
+from modules.lord.HeroCollection_header import *
 
 
 
