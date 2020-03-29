@@ -595,10 +595,6 @@ script_get_troop_all_wealth = 593
 script_player_cosplay_anyone = 594
 script_create_battle_for_player = 595
 script_go_to_map = 596
-script_get_patrol_center_strength = 597
-script_get_patrol_center_need_create_num = 598
-script_get_patrol_party_need_size = 599
-script_update_patrol_partys_for_all = 600
-script_update_all_patrol_party_faction = 601
+script_update_prisperity_for_all_center = 597
 
 

@@ -3261,6 +3261,5 @@ str_second_name_end = 3259
 str_s5_leave_home = 3260
 str_s5_go_home = 3261
 str_s1_s2_name = 3262
-str_s5_s_patrol_party = 3263
 
 

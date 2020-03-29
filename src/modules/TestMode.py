@@ -542,6 +542,42 @@ testMode = {
                                     (set_visitor, 0, "trp_player"),
                                     (set_jump_mission, "mt_my_town_center"),
                                     (jump_to_scene, "scn_zendar_center"),
+
+
+                                    (troop_set_name,"trp_player","@test"),
+                                    (party_set_name,"p_main_party","@test"),
+                                    (troop_add_item, "trp_player", "itm_saddle_horse", 0),
+                                    (troop_add_item, "trp_player", "itm_courser", 0),
+                                    (troop_add_item, "trp_player", "itm_courtly_outfit", 0),
+                                    (troop_add_item, "trp_player", "itm_heraldic_mail_with_tabard", 0),
+                                    (troop_add_item, "trp_player", "itm_red_gambeson", 0),
+                                    (troop_add_item, "trp_player", "itm_sword_medieval_c", 0),
+                                    (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", 0),
+                                    (troop_add_item, "trp_player", "itm_light_lance", 0),
+
+                                     (troop_raise_skill,"trp_player",skl_riding,10),
+                                     (troop_raise_skill,"trp_player",skl_leadership,10),
+
+                                    (troop_raise_attribute,"trp_player",sf_base_att_str,10),
+                                    (troop_raise_attribute,"trp_player",sf_base_att_agi,10),
+                                    (troop_raise_attribute,"trp_player",sf_base_att_int,10),
+                                    (troop_raise_attribute,"trp_player",sf_base_att_cha,10),
+
+                                    (troop_add_items,"trp_player","itm_dried_meat",10),
+                                     # (try_for_range,":npc","trp_npc1","trp_npc16"),
+                                     #    (call_script,"script_recruit_troop_as_companion",":npc"),
+                                     #    (troop_raise_skill,":npc",skl_persuasion,1),
+                                     # (try_end),
+
+                                     (party_add_members,"p_main_party","trp_swadian_knight",70),
+                                     (troop_add_gold,"trp_player",100000),
+                                    (troop_set_slot,"trp_player",slot_troop_renown,5000),
+
+                                    (troop_raise_skill,"trp_player",skl_prisoner_management,10),
+                                    (party_add_prisoners, "p_main_party", "trp_swadian_knight", 10),
+
+
+
                                     (change_screen_mission),
                                 ]),
                             ],
@@ -707,6 +743,8 @@ testMode = {
                     [anyone | plyr | repeat_for_troops, "constable_hareck_to_be_lord_choice_lord", [
                         (store_repeat_object,":lord"),
                         (is_between,":lord",lords_begin,lords_end),
+                        (store_faction_of_troop,":faction",":lord"),
+                        (eq,":faction",reg1),
                         (str_store_troop_name,s1,":lord"),
                     ], "{s1}", "constable_hareck_to_be_lord_choice_lord_end", [
                         (store_repeat_object,":lord"),

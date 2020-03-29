@@ -6,61 +6,55 @@ from module_scripts import *
     巡逻队功能
 
     每48（由patrol_update_interval决定）小时会更新巡逻队（补充士兵，添加经验，贩卖俘虏）
-    此巡逻队只为据点生成，包括，首都（6队，每队至少80人），城镇（4队，每队至少80人），城堡（2队，每队至少60人），和村庄（1队，每队至少40人）.
+    此巡逻队只为据点生成，包括，城镇，城堡，和村庄.
+    巡逻队的数量取决于领主的荣誉，每200个荣誉会创建一只巡逻队，士兵的数量（统御,繁荣度），军事强度（战术和教练，繁荣度）
+    
+    如果据点没有领主，就不会创建巡逻队
 
     人数超过限制和金钱（据点的钱）不够时就不会再补充士兵，如果超过是不限制的。
     队数如果少于限制数量，就会创建以补足数量。
     士兵每天都会有经验加成
     俘虏贩卖金币会保存到据点
-    
-    
-    
-    【不使用】
 
 '''
 
 
-## 常量，供策划使用
-
-## 首都巡逻队数量
-capital_town_patrol_max_num = 6
-## 城镇巡逻队数量
-town_patrol_max_num = 4
-## 城堡巡逻队数量
-castle_patrol_max_num = 2
-## 村庄巡逻队数量
-village_patrol_max_num = 1
-
-## 城镇巡逻队最少人数（如果数量不够，会陆续补充至此数量，如果数量超出，不会解雇）
-town_patrol_min_size = 80
-## 城堡巡逻队最少人数
-castle_patrol_min_size = 60
-## 村庄巡逻队最少人数
-village_patrol_min_size = 40
-
-## 首都巡逻队强度（强度越大，士兵等级越高）
-capital_town_patrol_strength = 8
-## 城镇巡逻队强度
-town_patrol_strength = 6
-## 城堡巡逻队强度
-castle_patrol_strength = 4
-## 村庄巡逻队强度
-village_patrol_strength = 2
-
-
 ## 巡逻队多久更新一次（游戏中的单位：小时）
-patrol_update_interval = 48
+patrol_update_interval = 2
 
-## 巡逻队初次创建时的经验
-patrol_init_party_xp= 2500
+## 多少个荣誉会生成一个巡逻队,至少有一队
+patrol_count_per_party_renown= 200
 
-## 巡逻队每天晚上每点强度的经验（每晚经验 = strength * patrol_every_day_per_strength_xp）
-patrol_every_day_per_strength_xp= 100
+## 每80个繁荣度会多增加一队巡逻队
+patrol_center_prosperity_per_party=80
+
+## 巡逻队基础队数(有领主时，最少队数)
+patrol_base_count = 1
+
+## 巡逻队基础数量（有领主时，最少人数）
+patrol_base_size = 15
+
+
+## 巡逻队基础军事强度（有领主时，最少军事强度）
+patrol_base_strength = 2
+
+## 每一点统御增加士兵数量
+patrol_size_per_leadership = 5
+
+## 据点每5繁荣度多增加一个士兵，slot_town_prosperity
+patrol_center_prosperity_per_one = 5
+
+## 每一点战术增加军事强度
+patrol_strength_per_tactics = 1
+
+## 每一点教练增加军事强度
+patrol_strength_per_trainer = 1
+
+## 据点每25个繁荣增加一点军事强度
+patrol_center_prosperity_per_strength = 25
 
 ## 每次升级士兵的花费
-patrol_update_cost_money = 100
-
-
+patrol_update_cost_money = 200
 
 ## 以下内容非游戏程序员不要修改
 
@@ -79,7 +73,7 @@ slot_party_protect_center = 401
 spt_patrol             = 7
 
 
-patrolParty = {
+patrolGuardParty = {
     "name":"PatrolParty",
     "enable":True,
     "dependentOn":["PartyBaseScripts"],
@@ -149,9 +143,10 @@ patrolParty = {
                 (try_end),
             ]),
 
-            (6,[
-                (call_script, "script_give_center_to_lord", "p_town_16", "trp_player", 1),
-            ]),
+            # (6,[
+            #     (call_script, "script_give_center_to_lord", "p_town_16", "trp_player", 1),
+            #     (call_script,"script_update_all_notes"),
+            # ]),
         ],
     },
     "scripts":{
@@ -160,63 +155,81 @@ patrolParty = {
             ("get_patrol_center_strength",[
                 (store_script_param_1,":center_no"),
                 (assign,":strength",0),
+                (party_get_slot,":leader",":center_no",slot_town_lord),
                 (try_begin),
-                    (party_slot_eq, ":center_no", slot_party_type, spt_town),
-                    (try_begin),
-                        (party_get_slot, ":leader", ":center_no", slot_town_lord),
-                        (is_between, ":leader", kings_begin, kings_end),
-                        (assign, ":strength", capital_town_patrol_strength),
-                    (else_try),
-                        (assign, ":strength", town_patrol_strength),
-                    (try_end),
-                (else_try),
-                    (party_slot_eq, ":center_no", slot_party_type, spt_castle),
-                    (assign, ":strength", castle_patrol_strength),
-                (else_try),
-                    (assign, ":strength", village_patrol_strength),
+                    (ge,":leader"),
+                    (assign,":strength",patrol_base_strength),
+                    ## 战术加成
+                    (store_skill_level,":tactics",skl_tactics,":leader"),
+                    (store_mul,":tactics_strength",":tactics",patrol_strength_per_tactics),
+                    (val_add,":strength",":tactics_strength"),
+                    ## 教练加成
+                    (store_skill_level,":trainer",skl_trainer,":leader"),
+                    (store_mul,":trainer_strength",":trainer",patrol_strength_per_trainer),
+                    (val_add,":strength",":trainer_strength"),
+                    ## 繁荣度加成
+                    (party_get_slot,":prosperity",":center_no",slot_town_prosperity),
+                    (store_div,":prosperity_strength",":prosperity",patrol_center_prosperity_per_strength),
+                    (val_add,":strength",":prosperity_strength"),
                 (try_end),
                 (assign,reg0,":strength"),
+            ]),
+
+            ("get_patrol_ideal_size",[
+                (store_script_param_1,":center_no"),
+                (party_get_slot,":leader",":center_no",slot_town_lord),
+                (assign,":size",0),
+                (try_begin),
+                    (ge,":leader",0),
+                    (assign,":size",patrol_base_size),
+                    ## 统御加成
+                    (store_skill_level,":leadership",skl_leadership,":leader"),
+                    (val_min,":leadership",1),
+                    (store_mul,":leadership_size",":leadership",patrol_size_per_leadership),
+                    (val_add,":size",":leadership_size"),
+                    ## 繁荣度加成
+                    (party_get_slot,":prosperity",":center_no",slot_town_prosperity),
+                    (store_div,":prosperity_size",":prosperity",patrol_center_prosperity_per_one),
+                    (val_add,":size",":prosperity_size"),
+                (try_end),
+                (assign,reg0,":size"),
+            ]),
+
+            ("get_patrol_ideal_party_count",[
+                (store_script_param_1,":center_no"),
+                (party_get_slot,":leader",":center_no",slot_town_lord),
+                (assign,":count",0),
+                (try_begin),
+                    (ge,":leader",0),
+                    (assign,":count",patrol_base_count),
+                    ## 荣誉加成
+                    (troop_get_slot,":renown",":leader",slot_troop_renown),
+                    (store_div,":renown_count",":renown",patrol_count_per_party_renown),
+                    (val_add,":count",":renown_count"),
+                    ## 繁荣度加成
+                    (party_get_slot,":prosperity",":center_no",slot_town_prosperity),
+                    (store_div,":prosperity_count",":prosperity",patrol_center_prosperity_per_party),
+                    (val_add,":count",":prosperity_count"),
+                (try_end),
+                (assign,reg0,":count"),
             ]),
             ## 获得巡逻队需要创建的数量
             ("get_patrol_center_need_create_num",[
                 (store_script_param_1,":center_no"),
-                (assign,":need_create_party_num",0),
-
                 (party_get_slot,":center_patrol_num",":center_no",slot_party_patrol_num),
-                (try_begin),
-                    (party_slot_eq, ":center_no", slot_party_type, spt_town),
-                    (try_begin),
-                        (party_get_slot, ":leader", ":center_no", slot_town_lord),
-                        (is_between, ":leader", kings_begin, kings_end),
-                        (store_sub, ":need_create_party_num", capital_town_patrol_max_num, ":center_patrol_num"),
-                    (else_try),
-                        (store_sub, ":need_create_party_num", town_patrol_max_num, ":center_patrol_num"),
-                    (try_end),
-                (else_try),
-                    (party_slot_eq, ":center_no", slot_party_type, spt_castle),
-                    (store_sub, ":need_create_party_num", castle_patrol_max_num, ":center_patrol_num"),
-                (else_try),
-                    (store_sub, ":need_create_party_num", village_patrol_max_num, ":center_patrol_num"),
-                (try_end),
+                (call_script,"script_get_patrol_ideal_party_count",":center_no"),
+                (assign,":ideal_count",reg0),
+                (store_sub,":need_create_party_num",":ideal_count",":center_patrol_num"),
                 (assign,reg1,":need_create_party_num"),
             ]),
             ## 获得巡逻队需要招募的士兵数量
             ("get_patrol_party_need_size",[
                 (store_script_param_1,":party_no"),
-                (assign,":need_size",0),
-                (party_get_num_companions,":cur_size",":party_no"),
-                ## 获得巡逻的据点
                 (party_get_slot, ":center_no",":party_no",slot_party_protect_center),
-                (try_begin),
-                    (party_slot_eq,":center_no",slot_party_type,spt_town),
-                    (store_sub,":need_size",town_patrol_min_size,":cur_size"),
-                (else_try),
-                    (party_slot_eq,":center_no",slot_party_type,spt_castle),
-                    (store_sub,":need_size",castle_patrol_min_size,":cur_size"),
-                (else_try),
-                    (party_slot_eq,":center_no",slot_party_type,spt_village),
-                    (store_sub,":need_size",village_patrol_min_size,":cur_size"),
-                (try_end),
+                (call_script,"script_get_patrol_ideal_size",":center_no"),
+                (assign,":ideal_size",reg0),
+                (party_get_num_companions,":cur_size",":party_no"),
+                (store_sub,":need_size",":ideal_size",":cur_size"),
                 (assign,reg0,":need_size"),
             ]),
 
@@ -279,9 +292,7 @@ patrolParty = {
                         ## 花钱招募
                         (call_script, "script_update_center_wealth", ":center_no",patrol_update_cost_money,-1),
                         ## 增加士兵
-                        (call_script,"script_party_add_members",":party",-1,":strength",30,50),
-                        #(str_store_party_name,s1,":party_no"),
-                        #(display_message,"@add party:{s1}"),
+                        (call_script,"script_party_add_members",":party_no",-1,":strength",30,50),
                     (try_end),
                     ## 【升级士兵】
                     ## 获得巡逻据点的军事强度

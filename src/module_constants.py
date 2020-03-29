@@ -490,13 +490,30 @@ slot_party_dont_follow_player_until_time = 33
     被哪支队伍袭击
 '''
 slot_village_raided_by        = 34
+'''
+    村庄状态
+'''
 slot_village_state            = 35 #svs_normal, svs_being_raided, svs_looted, svs_recovering, svs_deserted
+'''
+    村庄被洗劫的进度
+'''
 slot_village_raid_progress    = 36
+'''
+    村庄被洗劫后重建的进度
+'''
 slot_village_recover_progress = 37
+'''
+    村庄是否被添加烟雾（被洗劫时的特效）
+'''
 slot_village_smoke_added      = 38
 
+'''
+    村庄出现劫匪
+'''
 slot_village_infested_by_bandits   = 39
-
+'''
+    村庄上一次被哪个领主访问过
+'''
 slot_center_last_visited_by_lord   = 41
 
 slot_center_last_player_alarm_hour = 42
@@ -705,12 +722,29 @@ slot_center_improvement_end_hour  = 125
 slot_party_last_traded_center     = 126 
 
 
-
+'''
+    村庄是否拥有庄园
+'''
 slot_center_has_manor            = 130 #village
+'''
+    村庄是否拥有磨坊(fish pond 是鱼塘，应该是制作者手误)
+'''
 slot_center_has_fish_pond        = 131 #village
+'''
+    村庄是否拥有了望塔
+'''
 slot_center_has_watch_tower      = 132 #village
+'''
+    村庄是否拥有学校
+'''
 slot_center_has_school           = 133 #village
+'''
+    村庄是否拥有驿站
+'''
 slot_center_has_messenger_post   = 134 #town, castle, village
+'''
+    村庄是否拥有监狱
+'''
 slot_center_has_prisoner_tower   = 135 #town, castle
 
 village_improvements_begin = slot_center_has_manor
@@ -1069,18 +1103,42 @@ sfs_inactive                   = 2
 
 
 #slot_faction_ai_state values
+'''
+    默认行为（防守）
+'''
 sfai_default                   		 = 0 #also defending
+'''
+    集结军队
+'''
 sfai_gathering_army            		 = 1
+'''
+    攻城
+'''
 sfai_attacking_center          		 = 2
+'''
+    洗劫村庄
+'''
 sfai_raiding_village           		 = 3
+'''
+   攻击敌军
+'''
 sfai_attacking_enemy_army      		 = 4
+'''
+    攻击某个城堡附近的敌人
+'''
 sfai_attacking_enemies_around_center = 5
+'''
+    宴会（婚礼，竞技大会）
+'''
 sfai_feast             		 		 = 6 #can be feast, wedding, or major tournament
 #Social events are a generic aristocratic gathering. Tournaments take place if they are in a town, and hunts take place if they are at a castle.
 #Weddings will take place at social events between betrothed couples if they have been engaged for at least a month, if the lady's guardian is the town lord, and if both bride and groom are present
 
 
 #Rebellion system changes begin
+'''
+    发生叛乱
+'''
 sfai_nascent_rebellion          = 7
 #Rebellion system changes end
 
@@ -1145,11 +1203,29 @@ spai_retreating_to_center       = 14
 spai_visiting_village           = 16 #same thing, I think. Recruiting differs from holding because NPC parties don't actually enter villages
 
 #slot_village_state values
+'''
+    村庄默认状态
+'''
 svs_normal                      = 0
+'''
+    已经被洗劫
+'''
 svs_being_raided                = 1
+'''
+    村庄被打劫
+'''
 svs_looted                      = 2
+'''
+    村庄重建中
+'''
 svs_recovering                  = 3
+'''
+    村庄被销毁
+'''
 svs_deserted                    = 4
+'''
+    村庄解围
+'''
 svs_under_siege                 = 5
 
 #$g_player_icon_state values

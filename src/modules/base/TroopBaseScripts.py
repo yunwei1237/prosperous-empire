@@ -168,22 +168,38 @@ troopBaseScripts={
                 (troop_set_slot,":target_troop",slot_troop_guardian,":guardian"),
                 (troop_set_slot,":target_troop",slot_troop_betrothed,":betrothed"),
 
+                (store_faction_of_troop,":faction",":source_troop"),
+                (try_begin),
+                    (faction_slot_eq,":faction",slot_faction_leader,":source_troop"),
+                    (faction_set_slot,":faction",slot_faction_leader,":target_troop"),
+                (try_end),
+
                 (call_script, "script_update_troop_notes",":target_troop"),
             ]),
             ("player_cosplay_anyone",[
                 (store_script_param,":troop",1),
 
-                (str_store_troop_name_link,s1,":troop"),
-                (display_message,"@cosplay {s1}"),
+                (str_store_troop_name,s5,":troop"),
+                (display_message,"@cosplay {s5}"),
+
+                (troop_set_name,"trp_player",s5),
+                (party_set_name,"p_main_party","str_s5_s_party"),
+
+                (store_faction_of_troop,":faction",":troop"),
+                (call_script,"script_player_join_faction",":faction"),
+
+                (assign, "$player_has_homage", 1),
 
                 (call_script,"script_get_center_of_lord",":troop","p_town_1"),
-
                 (assign,":center",reg0),
 
                 (call_script,"script_get_troop_all_items","trp_player",":troop"),
+
+                (troop_equip_items,"trp_player"),
                 (call_script,"script_get_troop_all_wealth","trp_player",":troop"),
                 (call_script,"script_get_loard_all_centers","trp_player",":troop"),
-                (call_script,"script_add_party_as_companions","p_main_party",":troop",-1),
+                (troop_get_slot,":party",":troop",slot_troop_leaded_party),
+                (call_script,"script_add_party_as_companions","p_main_party",":party",-1),
                 (party_relocate_near_party,"p_main_party",":center",3),
             ]),
         ],
