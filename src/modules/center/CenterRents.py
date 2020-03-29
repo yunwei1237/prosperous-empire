@@ -14,16 +14,16 @@ from module_scripts import *
 ## 每天更新（24）
 center_tax_inscrease_interval = 24
 
-## 最终 = 200 * 7（1400） + 1000（最大税收）
+## 最终(2400) = 200 * 7（1400） + 1000（最大税收）
 village_rent_increase_per_day = 200
-## 最终 = 400 * 7（2800） + 2000（最大税收）
+## 最终(4800) = 400 * 7（2800） + 2000（最大税收）
 castle_rent_increase_per_day = 400
-## 最终 = 800 * 7（5600） + 2000（最大税收）
+## 最终(7600) = 800 * 7（5600） + 2000（最大税收）
 town_rent_increase_per_day = 800
 
 
-villageMange = {
-    "name":"villageMange",
+centerRents = {
+    "name":"CenterRents",
     "enable":True,
     "simple_triggers":{
         "append":[

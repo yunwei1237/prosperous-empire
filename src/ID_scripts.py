@@ -593,9 +593,17 @@ script_troop_clear_items = 591
 script_get_troop_all_items = 592
 script_get_troop_all_wealth = 593
 script_player_cosplay_anyone = 594
-script_create_battle_for_player = 595
-script_go_to_map = 596
+script_get_lord_strength = 595
+script_update_lord_wealth = 596
 script_update_prisperity_for_all_center = 597
 script_init_building_when_game_start = 598
+script_get_patrol_center_strength = 599
+script_get_patrol_ideal_size = 600
+script_get_patrol_ideal_party_count = 601
+script_get_patrol_center_need_create_num = 602
+script_get_patrol_party_need_size = 603
+script_update_patrol_partys_for_all = 604
+script_update_all_patrol_party_faction = 605
+script_ladies_go_out = 606
 
 

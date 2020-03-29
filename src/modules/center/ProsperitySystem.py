@@ -64,7 +64,7 @@ prosperitySystem = {
         "append":[
             ##
             (prosperity_update_interval, [
-                (display_message,"@prisperity init"),
+                #(display_message,"@prisperity init"),
                 (call_script, "script_update_prisperity_for_all_center"),
             ]),
         ],
@@ -125,9 +125,9 @@ prosperitySystem = {
                     (val_add,":center_prosperity",":prosperity"),
                     (party_set_slot,":center_no",slot_town_prosperity,":center_prosperity"),
 
-                    (assign,reg1,":prosperity"),
-                    (str_store_party_name_link,s1,":center_no"),
-                    (display_message,"@{s1} 增 加 {reg1} 点 繁 荣 度"),
+                    #(assign,reg1,":prosperity"),
+                    #(str_store_party_name_link,s1,":center_no"),
+                    #(display_message,"@{s1} 增 加 {reg1} 点 繁 荣 度"),
                 (try_end),
                 ]),
         ],

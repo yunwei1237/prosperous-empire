@@ -299,14 +299,11 @@ partyBaseScripts={
                     #(display_message,"@do remove prisoners:{s1}"),
 
                 (try_end),
-
                 (gt,":total_price",0),
                 (party_stack_get_troop_id,":leader",":party_no",0),
                 (try_begin),
                     (ge,":leader",0),
-                    (troop_get_slot,":wealth",":leader",slot_troop_wealth),
-                    (val_add,":wealth",":total_price"),
-                    (troop_set_slot,":leader",slot_troop_wealth,":wealth"),
+                    (call_script, "script_update_lord_wealth", ":leader", ":total_price", 1),
                 (else_try),
                     (party_slot_eq,":party_no",slot_party_type,spt_patrol),
                     (party_get_slot,":center",":party_no",slot_party_protect_center),
@@ -314,9 +311,7 @@ partyBaseScripts={
                 (else_try),
                     (store_faction_of_party,":faction",":party_no"),
                     (faction_get_slot,":king",":faction",slot_faction_leader),
-                    (troop_get_slot,":wealth",":king",slot_troop_wealth),
-                    (val_add,":wealth",":total_price"),
-                    (troop_set_slot,":king",slot_troop_wealth,":wealth"),
+                    (call_script, "script_update_lord_wealth", ":king", ":total_price", 1),
                 (try_end),
             ]),
             ## 获得指定地点最近的据点

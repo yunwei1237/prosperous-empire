@@ -41,7 +41,7 @@ ladiesGoOut={
     "scripts":{
         "append":[
             ("ladies_go_out",[
-                (display_message,"@ladies go out start"),
+                #(display_message,"@ladies go out start"),
                 (try_for_range,":lady_no",kingdom_ladies_begin,kingdom_ladies_end),
                     ## 获领导的队伍
                     (troop_get_slot, ":lead_party", ":lady_no", slot_troop_leaded_party),
@@ -64,7 +64,7 @@ ladiesGoOut={
                         (try_begin),
                             (le,":lead_party",0),
                             ## 创建部队(-1代表使用默认值)
-                            (call_script,"script_create_party",":lady_no",":home",-1,-1,-1,"icon_woman_b",-1),
+                            (call_script,"script_create_party",":lady_no",":home",-1,-1,-1,spt_kingdom_hero_party,"icon_woman_b",-1),
                             (assign,":lady_party",reg0),
                             ## 增加士兵
                             (call_script,"script_party_add_members",":lady_party",-1,5,0,10),
@@ -83,14 +83,14 @@ ladiesGoOut={
                             (call_script,"script_party_add_members",":lead_party",-1,1,0,10),
                             ## 增加经验
                             (call_script,"script_party_add_xp_and_upgrade",":lead_party",3,100),
-                            (str_store_party_name,s1,":lead_party"),
-                            (display_message,"@lady party({s1}) is update"),
+                            #(str_store_party_name,s1,":lead_party"),
+                            #(display_message,"@lady party({s1}) is update"),
                         (try_end),
                     (else_try),
                         # 有战争时,不会出外游玩
                         (gt,":lead_party",0),
-                        (str_store_party_name,s1,":lead_party"),
-                        (display_message,"@lady party({s1}) is go home"),
+                        # (str_store_party_name,s1,":lead_party"),
+                        # (display_message,"@lady party({s1}) is go home"),
                         (remove_party,":lead_party"),
                         (troop_set_slot,":lady_no",slot_troop_leaded_party,-1),
                         (call_script,"script_troop_go_home",":lady_no"),

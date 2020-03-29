@@ -168,7 +168,7 @@ heroCollection = {
                         (le,":party",0),
                         (troop_slot_eq,":cur_troop",slot_troop_hero_status,sths_normal),
                         ## 出生在家乡附近
-                        (call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,hero_map_icon,-1),
+                        (call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,spt_kingdom_hero_party,hero_map_icon,-1),
                         #(call_script,"script_create_party",":cur_troop","p_main_party",hero_default_faction,-1,-1,"icon_gray_knight",-1),
                         (assign,":party",reg0),
                         ## 增加士兵

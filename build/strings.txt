@@ -1,5 +1,5 @@
 stringsfile version 1
-3263
+3275
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3263,3 +3263,15 @@ str_second_name_end end
 str_s5_leave_home {s5}_leave_home
 str_s5_go_home {s5}_go_home
 str_s1_s2_name {s1}_{s2}
+str_lrep_none none
+str_lrep_martial martial
+str_lrep_quarrelsome quarrelsome
+str_lrep_selfrighteous selfrighteous
+str_lrep_cunning cunning
+str_lrep_debauched debauched
+str_lrep_goodnatured goodnatured
+str_lrep_upstanding upstanding
+str_lrep_roguish roguish
+str_lrep_benefactor benefactor
+str_lrep_custodian custodian
+str_s5_s_patrol_party {s5}'s_patrol_Party

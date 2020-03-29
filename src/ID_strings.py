@@ -3261,5 +3261,17 @@ str_second_name_end = 3259
 str_s5_leave_home = 3260
 str_s5_go_home = 3261
 str_s1_s2_name = 3262
+str_lrep_none = 3263
+str_lrep_martial = 3264
+str_lrep_quarrelsome = 3265
+str_lrep_selfrighteous = 3266
+str_lrep_cunning = 3267
+str_lrep_debauched = 3268
+str_lrep_goodnatured = 3269
+str_lrep_upstanding = 3270
+str_lrep_roguish = 3271
+str_lrep_benefactor = 3272
+str_lrep_custodian = 3273
+str_s5_s_patrol_party = 3274
 
 

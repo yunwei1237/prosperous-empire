@@ -3,6 +3,7 @@
 ## 包含一些对阵营常用的操作
 from header_operations import *
 from header_parties import *
+from header_skills import *
 from module_constants import *
 
 
@@ -201,6 +202,46 @@ troopBaseScripts={
                 (call_script,"script_add_party_as_companions","p_main_party",":party",-1),
                 (party_relocate_near_party,"p_main_party",":center",3),
             ]),
+            ## 获得领主的军事强度
+            ("get_lord_strength",[
+                (store_script_param_1,":leader"),
+                (assign,":strength",0),
+                (try_begin),
+                    (ge,":leader"),
+                    ## 战术加成
+                    (store_skill_level,":tactics",skl_tactics,":leader"),
+                    (store_mul,":tactics_strength",":tactics",2),
+                    (val_add,":strength",":tactics_strength"),
+                    ## 教练加成
+                    (store_skill_level,":trainer",skl_trainer,":leader"),
+                    (store_mul,":trainer_strength",":trainer",2),
+                    (val_add,":strength",":trainer_strength"),
+                    ## 性格加成
+                    (this_or_next|troop_slot_eq,":leader",slot_lord_reputation_type,lrep_martial),
+                    (troop_slot_eq,":leader",slot_lord_reputation_type,lrep_quarrelsome),
+                    (val_add,":strength",3),
+                    ## 性格缺陷
+                    (troop_slot_eq,":leader",slot_lord_reputation_type,lrep_custodian),
+                    (val_sub,":strength",3),
+                (try_end),
+                (assign,reg0,":strength"),
+            ]),
+            ## 更新领主财富
+            ("update_lord_wealth",[
+                 (store_script_param_1, ":lord_no"),
+                 (store_script_param_2, ":value"),
+                 ## 0:失去钱 1：获得钱
+                 (store_script_param, ":type",3),
+
+                 (troop_get_slot,":wealth",":lord_no",slot_troop_wealth),
+                 (try_begin),
+                     (gt,":type",0),
+                     (val_add,":wealth",":value"),
+                 (else_try),
+                    (val_sub,":wealth",":value"),
+                 (try_end),
+                 (troop_set_slot,":lord_no",slot_troop_wealth,":wealth"),
+             ]),
         ],
     },
     "strings":{

@@ -23,8 +23,8 @@ village_retain_ratio = 20
 lord_retain_ratio = 100 - village_retain_ratio
 
 
-villageMange = {
-    "name":"villageMange",
+lordCollectionRents = {
+    "name":"LordCollectionRents",
     "enable":True,
     "simple_triggers":{
         "append":[
