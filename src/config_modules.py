@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from modules.BuildingSystem import buildingSystem
 from modules.HeroCollection import heroCollection
 from modules.LadiesGoOut import ladiesGoOut
 from modules.PartyManage import partyManage
@@ -22,6 +23,7 @@ modules = [
     testMode,
     #patrolGuardParty,
     prosperitySystem,
+    buildingSystem,
     #partyManage,
     #heroCollection,
     #ladiesGoOut,

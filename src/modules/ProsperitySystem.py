@@ -54,17 +54,6 @@ center_has_prisoner_tower_prosperity= 1 #town, castle
     工厂繁荣度加成
 '''
 center_player_enterprise_prosperity = 7
-## 以下内容非游戏程序员不要修改
-
-## 【slot】
-
-## party slot
-
-
-## 【args】
-
-## 巡逻队类型
-spt_patrol             = 7
 
 
 prosperitySystem = {

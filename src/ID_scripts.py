@@ -596,5 +596,6 @@ script_player_cosplay_anyone = 594
 script_create_battle_for_player = 595
 script_go_to_map = 596
 script_update_prisperity_for_all_center = 597
+script_init_building_when_game_start = 598
 
 
