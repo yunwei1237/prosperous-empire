@@ -1338,9 +1338,9 @@ agent_refill_wielded_shield_hit_points = 1692   # (agent_refill_wielded_shield_h
 agent_is_in_special_mode               = 1693   # (agent_is_in_special_mode,<agent_id>),
 ###获取队伍附加到的目标
 party_get_attached_to                  = 1694   # (party_get_attached_to, <destination>, <party_id>),
-###获取队伍附加的队伍数量
+###获取队伍附加的队伍数量（获得攻击方或防守方参与的部队数量）
 party_get_num_attached_parties         = 1695   # (party_get_num_attached_parties, <destination>, <party_id>),
-###获取附加队伍的排列
+###获取附加队伍的排列（多个部队同时参与战斗时，会产生两个军队列表，第一个是攻击方，第二个是防守方，每一个列表中都保存同盟军队，攻击方列表中第一个部队就是最先发起攻击的队伍，防守方列表中第一个就是首先被攻击的那个部队，可以通过列表中的第一个位置判断玩家是不是发起攻击者，或被攻击者）
 party_get_attached_party_with_rank     = 1696   # (party_get_attached_party_with_rank, <destination>, <party_id>, <attached_party_no>),
 ###强制伤亡到集团军
 inflict_casualties_to_party_group      = 1697   # (inflict_casualties_to_party, <parent_party_id>, <attack_rounds>, <party_id_to_add_causalties_to>), 

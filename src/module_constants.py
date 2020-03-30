@@ -20,7 +20,13 @@ slot_item_is_checked               = 0
     该物品作为队伍食物时，提高士气的数值
 '''
 slot_item_food_bonus               = 1
+'''
+    书籍阅读进程
+'''
 slot_item_book_reading_progress    = 2
+'''
+    玩家是否在读书（1：阅读，0:未阅读）
+'''
 slot_item_book_read                = 3
 
 '''
@@ -313,8 +319,17 @@ slot_faction_reinforcements_b        = 78
 '''
 slot_faction_reinforcements_c        = 79
 
+'''
+    阵营的军队数量
+'''
 slot_faction_num_armies              = 80
+'''
+    阵营的城堡数量
+'''
 slot_faction_num_castles             = 81
+'''
+    阵营的城镇数量
+'''
 slot_faction_num_towns               = 82
 
 slot_faction_last_attacked_center    = 85
@@ -385,6 +400,15 @@ slot_party_ai_rationale        = 6 #Currently unused, but can be used to save a 
     城堡的领主
 '''
 slot_town_lord                 = 7
+'''
+    队伍的第二个行为（在做第一个事时，会一会临时做第二件事）
+    
+    比如：攻城（第一个行为）时遇到弱小军队时，会不会攻击（第二个行为）
+    
+    1：会攻击 0:不会攻击（并且专心攻城）
+    
+    2:队伍会被移除
+'''
 slot_party_ai_substate         = 8
 slot_town_claimed_by_player    = 9
 
@@ -481,6 +505,9 @@ slot_center_siege_with_belfry = 27
 slot_center_last_taken_by_troop = 28
 
 # party will follow this party if set:
+'''
+    阵营指挥官
+'''
 slot_party_commander_party = 30 #default -1   #Deprecate
 slot_party_following_player    = 31
 slot_party_follow_player_until_time = 32
@@ -581,7 +608,9 @@ slot_center_original_faction           = 61
     从哪个国家抢夺的城堡
 '''
 slot_center_ex_faction                 = 62
-
+'''
+    是否记所有领主跟随自己（1：是，0：否）
+'''
 slot_party_follow_me                   = 63
 slot_center_siege_begin_hours          = 64 #used for sieges
 slot_center_siege_hardness             = 65
@@ -1145,44 +1174,54 @@ sfai_nascent_rebellion          = 7
 #slot_party_ai_state values
 '''
     未知情况
+    思考下一个目标中
 '''
 spai_undefined                  = -1
 
 '''
-    围攻城市
+    围攻城市（勇气：9，攻击性：1，主动性：20）
 '''
 spai_besieging_center           = 1
 
 '''
-    巡逻城市
+    巡逻城市（）
+    元帅：
+        距离大于800（勇气：8，攻击性：1，主动性：10）
+        距离小于800（勇气：8，攻击性：8，主动性：100）
+    领主：
+       （勇气：8，攻击性：8，主动性：100）
 '''
 spai_patrolling_around_center   = 4
 
 '''
     突袭城市
+    元帅：（勇气：8，攻击性：1，主动性：20）
+    领主：（勇气：8，攻击性：7，主动性：100）
 '''
 spai_raiding_around_center      = 5
 
 ##spai_raiding_village            = 6
 
 '''
-    守卫城市
+    守卫城市（勇气：9，攻击性：7，主动性：100）
 '''
 spai_holding_center             = 7
 ##spai_helping_town_against_siege = 9
 
 '''
     吸引军队
+    元帅：（勇气：8，攻击性：1，主动性：10）
+    领主：（勇气：8，攻击性：8，主动性：100）
 '''
 spai_engaging_army              = 10
 
 '''
-    跟随军队
+    跟随军队（勇气：9，攻击：6，主动性：10）
 '''
 spai_accompanying_army          = 11
 
 '''
-    保护军队
+    保护军队（勇气：9，攻击：9，主动性：80）
 '''
 spai_screening_army             = 12
 
@@ -1192,19 +1231,19 @@ spai_screening_army             = 12
 spai_trading_with_town          = 13
 
 '''
-    向城市撤退
+    向城市撤退（勇气：4，攻击性：3，主动性：100）
 '''
 spai_retreating_to_center       = 14
 ##spai_trading_within_kingdom     = 15
 
 '''
-    访问村子
+    访问村子（勇气：8，攻击性：8，主动性：100）
 '''
 spai_visiting_village           = 16 #same thing, I think. Recruiting differs from holding because NPC parties don't actually enter villages
 
 #slot_village_state values
 '''
-    村庄默认状态
+    村庄正常状态
 '''
 svs_normal                      = 0
 '''
@@ -1941,6 +1980,9 @@ slot_quest_temp_slot      			= 27
 slot_party_template_num_killed   = 1
 
 slot_party_template_lair_type    	 	= 3
+'''
+    巢穴
+'''
 slot_party_template_lair_party    		= 4
 slot_party_template_lair_spawnpoint     = 5
 

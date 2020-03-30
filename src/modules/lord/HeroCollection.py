@@ -41,7 +41,7 @@ hero_join_player_party_relation = 25
 
 
 ## 英雄图标
-hero_map_icon = "icon_gray_knight"
+hero_map_icon = "icon_axeman"
 
 
 ## 以下内容非程序员不要修改
@@ -56,8 +56,20 @@ hero_end = "trp_hero_end"
 ## 英雄状态
 slot_troop_hero_status = 175
 
-sths_normal           = 1
-sths_in_player_party = 2
+## 独自领军作战（没有目标和理想）
+sths_is_leader      = 0
+## 在做农民
+sths_is_farmer      = 1
+## 在做劫匪
+sths_is_looter      = 2
+## 在做商人
+sths_is_merchant    = 3
+## 在做士兵（在玩家或领主队伍中）
+sths_is_soldier     = 4
+## 在做一个国家的领主
+sths_is_lord        = 5
+## 在做国王
+sths_is_king        = 6
 
 
 ## 英雄出生在哪个国家（招兵时会使用他出生的国家兵种）
@@ -108,7 +120,7 @@ heroCollection = {
                     ## 姓名
                     (call_script,"script_set_random_name",":cur_troop"),
                     ## 状态
-                    (troop_set_slot,":cur_troop",slot_troop_hero_status,sths_normal),
+                    (troop_set_slot,":cur_troop", slot_troop_hero_status, sths_is_leader),
                     ## 职业
                     (troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
                     ## 性格 (直接使用系统领主性格)
@@ -166,7 +178,7 @@ heroCollection = {
                     (try_begin),
                         ## 队伍无效后（被击败）
                         (le,":party",0),
-                        (troop_slot_eq,":cur_troop",slot_troop_hero_status,sths_normal),
+                        (troop_slot_eq,":cur_troop", slot_troop_hero_status, sths_is_leader),
                         ## 出生在家乡附近
                         (call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,spt_kingdom_hero_party,hero_map_icon,-1),
                         #(call_script,"script_create_party",":cur_troop","p_main_party",hero_default_faction,-1,-1,"icon_gray_knight",-1),
@@ -225,7 +237,7 @@ heroCollection = {
                     # (ge,reg0,hero_join_player_party_relation),
                 ],"I'm glad to be part of your team", "close_window",[
                     (call_script,"script_add_party_as_companions","p_main_party","$g_talk_troop_party",1),
-                    (troop_set_slot,"$g_talk_troop", slot_troop_hero_status, sths_in_player_party),
+                    (troop_set_slot,"$g_talk_troop", slot_troop_hero_status, sths_is_soldier),
 
                     (eq, "$talk_context", tc_party_encounter),
                     (assign, "$g_leave_encounter", 1)
