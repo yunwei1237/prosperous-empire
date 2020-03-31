@@ -146,7 +146,7 @@ lordSoldiersManage = {
                         ## 钱足够
                         (troop_slot_ge,":lord_no",slot_troop_wealth,lord_recruit_soldiers_cost),
                         ## 增加士兵
-                        (call_script, "script_party_add_members", ":party", -1, ":strength", 30, 50),
+                        (call_script, "script_party_add_members", ":party", -1, ":strength",-1, 30, 50),
                         ## 减少钱财
                         (call_script,"script_update_lord_wealth",":lord_no",lord_recruit_soldiers_cost,-1),
 

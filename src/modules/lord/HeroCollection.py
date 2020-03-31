@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from ID_parties import *
+from ID_troops import *
 from header_dialogs import *
 from module_scripts import *
 
@@ -32,17 +34,18 @@ hero_party_update_interval = 12
 ## 英雄士兵数量小于时，就开始招募
 hero_party_min_count = 35
 
-
-## 默认阵营（赏金猎人）
-hero_default_faction = fac_manhunters
-
 ## 英雄加入玩家队伍需要的关系值
 hero_join_player_party_relation = 25
 
 
 ## 英雄图标
-hero_map_icon = "icon_axeman"
-
+hero_leader_map_icon = "icon_peasant"
+hero_farmer_map_icon = "icon_village_a"
+hero_looter_map_icon = "icon_axeman"
+hero_merchant_map_icon = "icon_mule"
+hero_soldier_map_icon = "icon_vaegir_knight"
+hero_lord_map_icon = "icon_gray_knight"
+hero_king_map_icon = "icon_gray_knight"
 
 ## 以下内容非程序员不要修改
 
@@ -56,29 +59,62 @@ hero_end = "trp_hero_end"
 ## 英雄状态
 slot_troop_hero_status = 175
 
-## 独自领军作战（没有目标和理想）
+## 作为领军（没有目标和理想）
+## AI:
+# 基本：巡逻家乡附近并与劫匪作战，靠战利品，物品，俘虏过生活（支付队伍工资）
+## 贫穷时（财富为0时）：性格比较好的会变成农民，性格不好的会变成劫匪
+## 富有时（财富为5000时）：有军事和好战性格时大机率会选择成为士兵，没有此性格时，会选择作为商人
+##
 sths_is_leader      = 0
 ## 在做农民
+## AI:
+# 基本：带领农民与城镇进行交易，靠货物生活
+## 富有时，会变成领军
 sths_is_farmer      = 1
-## 在做劫匪
-sths_is_looter      = 2
+## 在做不法之徒
+## AI:带领劫匪攻击农民，玩家，商队，领主，国王,靠战利品，物品，俘虏生活
+##
+sths_is_outlaws      = 2
 ## 在做商人
+## AI:带领商队，来回于城镇之间，靠货物生活，招募俘虏（支付队伍工资）
 sths_is_merchant    = 3
 ## 在做士兵（在玩家或领主队伍中）
+## AI:
+## 1.服务玩家时：加入玩家队伍，与玩家并肩作战
+## 2.服务领主和国王时：独自领军，并跟随领主或国王
+## 3.服务领地时：巡逻领地，并与劫匪和敌国作战
+## 声望高时，会做被国王封为领主
+##　
 sths_is_soldier     = 4
 ## 在做一个国家的领主
+## AI:独自领军，保护自己的土地，招募英雄为随从，跟随元帅与敌军战斗，作为元帅时，率领领主大军作战，（支付队伍工资）
+## 当声望高时，拥有特殊性格（贪婪的）时，会选择独立，创建一个全新政权
 sths_is_lord        = 5
 ## 在做国王
+## AI:独自领军，保护自己的土地，与敌国作战，招募英雄为领主或招募英雄为随从，作为元帅时，率领领主大军作战，（支付队伍工资）
+
 sths_is_king        = 6
 
+sths_end            = 7
+
+
+hero_status_begin = sths_is_leader
+hero_status_end = sths_end
+
+
+outlaws_spawn_point_begin = p_steppe_bandit_spawn_point
+outlaws_spawn_point_end = p_desert_bandit_spawn_point + 1
 
 ## 英雄出生在哪个国家（招兵时会使用他出生的国家兵种）
 slot_troop_from_faction = 176
 
 ## 英雄上一次巡逻的据点
-slot_troop_last_patroll_center = 177
+#slot_troop_last_patroll_center = 177
 
-
+## 英雄服务的目标队伍
+## 士兵：服务的领主
+## 劫匪：巢穴
+slot_troop_service_target = 177
 
 
 heroCollection = {
@@ -94,6 +130,11 @@ heroCollection = {
                 }
             ]
         },
+    "party_templates":{
+        "append":[
+            ("hero_leader_party", "{!}hero_leader_party", 0, 0, fac_commoners, 0, [(trp_watchman,5,10),(trp_caravan_guard,1,5),(trp_mercenary_crossbowman,1,5),(trp_hired_blade,1,2),(trp_mercenary_horseman,2,5),(trp_mercenary_cavalry,1,2)]),
+        ],
+    },
     "simple_triggers":{
         "append":[
             (hero_party_update_interval,[
@@ -116,35 +157,64 @@ heroCollection = {
             ## 只会被使用一次
             ("init_hero_collection",[
                 ## 初始化人员信息
-                (try_for_range,":cur_troop",hero_begin,hero_end),
+                (try_for_range,":troop",hero_begin,hero_end),
                     ## 姓名
-                    (call_script,"script_set_random_name",":cur_troop"),
-                    ## 状态
-                    (troop_set_slot,":cur_troop", slot_troop_hero_status, sths_is_leader),
+                    (call_script,"script_set_random_name",":troop"),
+                    ## 生活状态(随机职业,不包含国王)
+                    (store_random_in_range,":hero_status",hero_status_begin,hero_status_end - 1),
+                    (troop_set_slot,":troop", slot_troop_hero_status, ":hero_status"),
                     ## 职业
-                    (troop_set_slot, ":cur_troop", slot_troop_occupation, slto_kingdom_hero),
+                    (troop_set_slot, ":troop", slot_troop_occupation, slto_kingdom_hero),
                     ## 性格 (直接使用系统领主性格)
                     (store_random_in_range,":reputation",lrep_none,lrep_conventional),
-                    (troop_set_slot,":cur_troop",slot_lord_reputation_type,":reputation"),
+                    (troop_set_slot,":troop",slot_lord_reputation_type,":reputation"),
                     ## 财富
-                    (store_random_in_range,":wealth",200,10000),
-                    (troop_set_slot,":cur_troop",slot_troop_wealth,":wealth"),
+                    (store_random_in_range,":wealth",200,2000),
+                    (troop_set_slot,":troop",slot_troop_wealth,":wealth"),
                     ## 声望
-                    (store_random_in_range,":renown",20,300),
-                    (troop_set_slot,":cur_troop",slot_troop_renown,":renown"),
-                    ## 家乡
-                    (store_random_in_range,":center",centers_begin,centers_end),
-                    (troop_set_slot,":cur_troop",slot_troop_home,":center"),
-                    (store_faction_of_party,":faction",":center"),
-                    (troop_set_slot,":cur_troop",slot_troop_from_faction,":faction"),
-                    ## 阵营(平民阵营)
-                    (troop_set_faction,":cur_troop",hero_default_faction),
+                    (store_random_in_range,":renown",20,100),
+                    (troop_set_slot,":troop",slot_troop_renown,":renown"),
+                    ## 家乡和阵营
+                    (try_begin),
+                        (troop_slot_eq,":troop",slot_troop_hero_status,sths_is_leader),
+                        (troop_set_faction,":troop","fac_commoners"),
+                        (store_random_in_range,":hometown",centers_begin,centers_end),
+                    (else_try),
+                        (this_or_next|troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
+                        (this_or_next|troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
+                        (this_or_next|troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_soldier),
+                        (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_lord),
+                        (store_random_in_range,":cur_faction",kingdoms_begin,kingdoms_end),
+                        (try_begin),
+                            (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
+                            (store_random_in_range,":hometown",villages_begin,villages_end),
 
-                    # (str_store_troop_name_link,s1,":cur_troop"),
+                        (else_try),
+                            (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
+                            (store_random_in_range,":hometown",towns_begin,towns_end),
+                        (else_try),
+                            (store_random_in_range,":hometown",centers_begin,centers_begin),
+                        (try_end),
+                    (else_try),
+                        (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_outlaws),
+                        (assign,":cur_faction","fac_outlaws"),
+                    (try_end),
+                    ## 家乡
+                    (troop_set_slot,":troop",slot_troop_home,":hometown"),
+                    ## 出生时的阵营（用于招兵）
+                    (store_faction_of_party,":from_faction",":hometown"),
+                    (troop_set_slot,":troop",slot_troop_from_faction,":from_faction"),
+                    ## 当前加入的阵营
+                    (troop_set_faction, ":troop", ":cur_faction"),
+                    ## 服务对象
+                    (call_script,"script_get_service_target",":troop"),
+                    (assign,":service_target",reg0),
+                    (troop_set_slot, ":troop", slot_troop_service_target, ":service_target"),
+
+                    # (str_store_troop_name_link,s1,":troop"),
                     # (str_store_faction_name_link,s2,":faction"),
                     # (str_store_party_name_link,s3,":center"),
                     # (display_message,"@hero({s1})'faction is {s2},home is {s3}"),
-                (try_end),
                 ## 初始化人员关系（只设置，父亲，儿子，没有庞大家族）
                 (try_for_range,":cur_index",hero_begin,hero_end),
                     #(store_add,":father","trp_hero_1",":cur_index"),
@@ -170,54 +240,192 @@ heroCollection = {
                 (call_script, "script_update_all_notes"),
             ]),
             ## 更新英雄的状态，定时更新
-            ("update_hero_collection_status",[
+            ("create_hero_party",[
                 ## 创建队伍
-                (try_for_range,":cur_troop",hero_begin,hero_end),
-                    (troop_get_slot,":party",":cur_troop",slot_troop_leaded_party),
-                    (troop_get_slot,":home",":cur_troop",slot_troop_home),
+                (store_script_param_1,":troop"),
+                (troop_get_slot,":party",":troop",slot_troop_leaded_party),
+                ## 队伍无效后（被击败）,需要创建队伍
+                (lt,":party",0),
+
+                ## 部队创建时的参数准备
+                (assign,"init_xp",hero_party_init_strength),
+                (try_begin),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_king),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_soldier),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_lord),
+                    (assign,":party_template",-1),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_leader),
+                    (assign,":party_template","pt_hero_leader_party"),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
+                    (assign,":party_template","pt_village_farmers"),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_outlaws),
                     (try_begin),
-                        ## 队伍无效后（被击败）
-                        (le,":party",0),
-                        (troop_slot_eq,":cur_troop", slot_troop_hero_status, sths_is_leader),
-                        ## 出生在家乡附近
-                        (call_script,"script_create_party",":cur_troop",":home",fac_commoners,-1,-1,spt_kingdom_hero_party,hero_map_icon,-1),
-                        #(call_script,"script_create_party",":cur_troop","p_main_party",hero_default_faction,-1,-1,"icon_gray_knight",-1),
-                        (assign,":party",reg0),
-                        ## 增加士兵
-                        (troop_get_slot, ":faction", ":cur_troop", slot_troop_from_faction),
-                        (call_script,"script_party_add_members",":party",":faction",hero_party_init_strength,60,40),
-                        ## 增加经验
-                        (call_script,"script_party_add_xp_and_upgrade",":party",hero_party_init_strength,20),
-                        ## 设置ai
-                        (call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":home",5),
-                        # (str_store_party_name_link,s1,":party"),
-                        # (str_store_party_name_link,s2,":home"),
-                        # (display_message,"@party({s1}) is create at {s2}"),
+                        (eq,":spawn_point",p_steppe_bandit_spawn_point),
+                        (assign,":party_template","pt_steppe_bandits"),
+                    (else_try),
+                        (eq,":spawn_point",p_taiga_bandit_spawn_point),
+                        (assign,":party_template","pt_taiga_bandits"),
+                    (else_try),
+                        (eq,":spawn_point",p_mountain_bandit_spawn_point),
+                        (assign,":party_template","pt_mountain_bandits"),
+                    (else_try),
+                        (eq,":spawn_point",p_forest_bandit_spawn_point),
+                        (assign,":party_template","pt_forest_bandits"),
+                    (else_try),
+                        (eq,":spawn_point",p_sea_raider_spawn_point_1),
+                        (assign,":party_template","pt_sea_raiders"),
+                    (else_try),
+                        (eq,":spawn_point",p_desert_bandit_spawn_point),
+                        (assign,":party_template","pt_desert_bandits"),
                     (try_end),
-
-                    (ge,":party",0),
-                    (troop_get_slot,":last_center",":cur_troop",slot_troop_last_patroll_center),
-                    (call_script,"script_get_center_close_the_center",":home",":last_center"),
-                    (assign,":new_center",reg0),
-                    (troop_set_slot,":cur_troop",slot_troop_last_patroll_center,":new_center"),
-
-                    # (str_store_troop_name,s1,":cur_troop"),
-                    # (str_store_party_name,s3,":new_center"),
-                    # (display_message,"@party({s1}) patroll cennter({s3})"),
-
-                    (call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":new_center",5),
-
-                    (store_troop_count_companions,":party_size",":party"),
+                    ## 不法之徒不升级士兵
+                    (assign,"init_xp",0),
+                (try_end),
+                ## 出生地
+                (troop_get_slot,":near_center",":troop",slot_troop_service_target),
+                ## 获得队伍图标
+                (call_script,"script_get_hero_map_icon",":troop"),
+                (assign,":map_icon",reg0),
+                ## 阵营
+                (store_faction_of_troop,":faction",":troop"),
+                ## 创建队伍
+                (call_script,"script_create_party",":troop",":near_center", ":faction", -1, -1, spt_kingdom_hero_party, ":map_icon", -1),
+                (assign,":party",reg0),
+                ## 增加士兵
+                (troop_get_slot, ":faction", ":troop", slot_troop_from_faction),
+                (call_script,"script_party_add_members",":party",":faction",hero_party_init_strength,":party_template",60,40),
+                ## 增加经验
+                (call_script,"script_party_add_xp_and_upgrade",":party",hero_party_init_strength,20),
+                # (str_store_party_name_link,s1,":party"),
+                # (str_store_party_name_link,s2,":home"),
+                # (display_message,"@party({s1}) is create at {s2}"),
+            ]),
+            ("get_hero_map_icon",[
+                (store_script_param_1,":troop"),
+                ## 调整出身信息
+                (try_begin),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_leader),
+                    (assign,":map_icon",hero_leader_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
+                    (assign,":map_icon",hero_farmer_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_outlaws),
+                    (assign,":map_icon",hero_looter_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
+                    (assign,":map_icon",hero_merchant_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_soldier),
+                    (assign,":map_icon",hero_soldier_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_lord),
+                    (assign,":map_icon",hero_lord_map_icon),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_king),
+                    (assign,":map_icon",hero_king_map_icon),
+                (try_end),
+                (assign,reg0,":map_icon"),
+            ]),
+            ## 服务对象策略：
+            # 士兵，家乡领主>城堡或城镇领主>国王
+            # 劫匪：巢穴
+            ("get_service_target",[
+                (store_script_param_1,":troop"),
+                (troop_get_slot,":hometown",":troop",slot_troop_home),
+                (assign,":service_target",-1),
+                (try_begin),
+                    ## 服务于家乡的领主（或国王）
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_soldier),
                     (try_begin),
-                        (lt,hero_party_min_count),
-                        ## 每一点统御增加一点军事强度
-                        (store_skill_level,":leadership",":cur_troop",skl_leadership),
-                        (assign,":strength",":leadership"),
-                        (call_script,"script_party_add_members",":party",-1,":strength",60,40),
-                        (display_message,"@hero count update"),
+                        ## 家乡是城镇或城堡时
+                        (this_or_next|is_between, ":hometown", towns_begin, towns_end),
+                        (is_between, ":hometown", castles_begin, castles_end),
+                        (try_begin),
+                            (party_get_slot, ":lord", ":hometown", slot_town_lord),
+                            ## 服务于家乡的领主
+                            (gt, ":lord", 0),
+                            (assign,":service_target",":lord"),
+                        (else_try),
+                            ## 家乡没有领主时，服务于国王
+                            (store_faction_of_party,":faction",":hometown"),
+                            (faction_get_slot,":king",":faction",slot_faction_leader),
+                            (assign,":service_target",":king"),
+                        (try_end),
+                    (else_try),
+                        ## 家乡是村庄
+                        (is_between, ":hometown", villages_begin, villages_end),
+                        (try_begin),
+                            (party_get_slot, ":lord", ":hometown", slot_town_lord),
+                            ## 服务于村庄的领主
+                            (gt, ":lord", 0),
+                            (assign,":service_target",":lord"),
+                        (else_try),
+                            ## 村庄没有领主时，服务于城堡或城镇的领主
+                            (party_get_slot,":up_center",":hometown",slot_village_bound_center),
+                            (party_get_slot,":lord",":up_center",slot_town_lord),
+                            (gt, ":lord", 0),
+                            (assign,":service_target",":lord"),
+                        (else_try),
+                            ## 城堡或城镇没有领主时，服务于国王
+                            (store_faction_of_party,":faction",":hometown"),
+                            (faction_get_slot,":king",":faction",slot_faction_leader),
+                            (assign,":service_target",":king"),
+                        (try_end),
                     (try_end),
-                    # (str_store_troop_name,s4,":cur_troop"),
-                    # (display_message,"@hero({s4}) status update end"),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_outlaws),
+                    (store_random_in_range,":spawn_point",outlaws_spawn_point_begin,outlaws_spawn_point_end),
+                    (assign,":service_target",":spawn_point"),
+                (try_end),
+                (assign,reg0,":service_target"),
+            ]),
+            ## 交易队伍ai
+            ("trade_party_ai_update",[
+                (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
+                (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
+                ## 队伍未出发 --> 创建队伍出发
+                ## 货物运输中 --> 检测是否到站
+                ## 交易完成   --> 检测是否可以返回
+            ]),
+            ## 战斗队伍ai
+            ("war_party_ai_update", [
+                (store_script_param_1,":troop"),
+                (troop_get_slot,":party",":troop",slot_troop_leaded_party),
+                (troop_get_slot,":service_target",":troop",slot_troop_service_target),
+                (party_get_num_companions,":companions_size",":party"),
+                (try_begin),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_leader),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_outlaws),
+                    (call_script,"script_party_set_ai_state",":party",spai_patrolling_around_center,":service_target"),
+                (else_try),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_soldier),
+                    (call_script,"script_party_set_ai_state",":party",spai_accompanying_army,":service_target"),
+                (else_try),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_lord),
+                    (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_king),
+
+                    (store_faction_of_troop,":faction",":troop"),
+                    (faction_get_slot,":marshall",":faction",slot_faction_marshall),
+                    (store_relation,":marshall_relation",":troop",":marshall"),
+                    (troop_get_slot,":service_target",":marshall",slot_troop_leaded_party),
+                    (faction_get_slot,":faction_ai",":faction",slot_faction_ai_state),
+                    (try_begin),
+                        ## 集结军队，
+                        (eq,":faction_ai",sfai_gathering_army),
+                        ## 士兵数量大于30个
+                        (ge, ":companions_size", 30),
+                        ## 与元帅的关系不为负
+                        (ge, ":marshall_relation", 0),
+                        ## 服务对象正常
+                        (gt, ":service_target", 0),
+                        (call_script, "script_party_set_ai_state", ":party", spai_accompanying_army, ":service_target"),
+                    (else_try),
+
+                    (try_end),
                 (try_end),
             ]),
         ],

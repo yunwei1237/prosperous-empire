@@ -70,7 +70,7 @@ ladiesGoOut={
                             (call_script,"script_create_party",":lady_no",":home",-1,-1,-1,spt_kingdom_hero_party,"icon_woman_b",-1),
                             (assign,":lady_party",reg0),
                             ## 增加士兵
-                            (call_script,"script_party_add_members",":lady_party",-1,5,0,10),
+                            (call_script,"script_party_add_members",":lady_party",-1,5,-1,0,10),
                             ## 增加经验
                             (call_script,"script_party_add_xp_and_upgrade",":lady_party",20,100),
                             ## 设置ai
@@ -83,7 +83,7 @@ ladiesGoOut={
                             (party_get_num_companions,":size",":lead_party"),
                             (lt,":size",lady_party_min_count),
                             ## 增加士兵
-                            (call_script,"script_party_add_members",":lead_party",-1,1,0,10),
+                            (call_script,"script_party_add_members",":lead_party",-1,1,-1,0,10),
                             ## 增加经验
                             (call_script,"script_party_add_xp_and_upgrade",":lead_party",3,100),
                             #(str_store_party_name,s1,":lead_party"),

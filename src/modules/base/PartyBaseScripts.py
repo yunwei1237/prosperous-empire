@@ -131,10 +131,14 @@ partyBaseScripts={
                 (store_script_param, ":faction_no",2),
                 ## 军事强度，一点强度，大概3个士兵
                 (store_script_param, ":strength",3),
+                ## 队伍模板，
+                ## -1,使用阵营士兵模板
+                ## 指定模板时，使用指定模板添加士兵
+                (store_script_param, ":party_template", 4),
                 ## 初级士兵概率（值最大为100）
-                (store_script_param, ":primary_probability",4),
+                (store_script_param, ":primary_probability",5),
                 ## 中级士兵概率（值最大为100）
-                (store_script_param, ":intermediate_probability",5),
+                (store_script_param, ":intermediate_probability",6),
                 ## 高级士兵概念（高级 = 100 - 初级 - 中级）
                 #(store_script_param, ":advanced_probability",6),
 
@@ -148,20 +152,28 @@ partyBaseScripts={
                     (assign,":strength",1),
                 (try_end),
 
-                ## 计算中级士兵的概率
-                (val_add,":intermediate_probability",":primary_probability"),
-
-                ## 根据概率获得阵营模板
-                (store_random_in_range, ":pt_no", 0, 100),
+                ## 处理模板
                 (try_begin),
-                    (le, ":pt_no", ":primary_probability"),
-                    (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_a),
+                    ## 默认模板时，使用阵营士兵模板
+                    (lt,":party_template",0),
+                    ## 计算中级士兵的概率
+                    (val_add,":intermediate_probability",":primary_probability"),
+                    ## 根据概率获得阵营模板
+                    (store_random_in_range, ":pt_no", 0, 100),
+                    (try_begin),
+                        (le, ":pt_no", ":primary_probability"),
+                        (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_a),
+                    (else_try),
+                        (le, ":pt_no", ":intermediate_probability"),
+                        (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_b),
+                    (else_try),
+                        (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_c),
+                    (try_end),
                 (else_try),
-                    (le, ":pt_no", ":intermediate_probability"),
-                    (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_b),
-                (else_try),
-                    (faction_get_slot, ":pt_temp", ":faction_no", slot_faction_reinforcements_c),
+                    ## 使用指定模板
+                    (assign,":pt_temp",":party_template"),
                 (try_end),
+                ## 根据模板生成士兵
                 (try_for_range, ":unused", 0, ":strength"),
                     (party_add_template, ":party_no", ":pt_temp"),
                 (try_end),
@@ -171,28 +183,31 @@ partyBaseScripts={
                 (store_script_param, ":strength",2),
                 (store_script_param, ":special_arms_probability",3),
 
-                ## 计算军事强度(同伴有教练技能时会增加经验)
-                (party_get_num_companion_stacks,":stack",":party_no"),
-                (try_for_range,":stack_index",0,":stack"),
-                    (party_stack_get_troop_id,":troop_no",":party_no",":stack_index"),
-                    (troop_is_hero,":troop_no"),
-                    (store_skill_level,":trainer_level",":troop_no",skl_trainer),
-                    (val_add,":strength",":trainer_level"),
-                (try_end),
-                (store_mul, ":total_xp", ":strength", per_strength_xp),
-
-                ## 根据特殊兵种概率来升级更加强壮的士兵，如果没有指定概率就是随机升级
                 (try_begin),
-                    (gt,":special_arms_probability",0),
-                    (store_random_in_range,":pro",0,100),
-                    (try_begin),
-                        (le,":special_arms_probability",":pro"),
-                        (party_upgrade_with_xp, ":party_no", ":total_xp", 1),
-                    (else_try),
-                        (party_upgrade_with_xp, ":party_no", ":total_xp", 2),
+                    (gt,":strength",0),
+                    ## 计算军事强度(同伴有教练技能时会增加经验)
+                    (party_get_num_companion_stacks,":stack",":party_no"),
+                    (try_for_range,":stack_index",0,":stack"),
+                        (party_stack_get_troop_id,":troop_no",":party_no",":stack_index"),
+                        (troop_is_hero,":troop_no"),
+                        (store_skill_level,":trainer_level",":troop_no",skl_trainer),
+                        (val_add,":strength",":trainer_level"),
                     (try_end),
-                (else_try),
-                    (party_upgrade_with_xp, ":party_no", ":total_xp", 0),
+                    (store_mul, ":total_xp", ":strength", per_strength_xp),
+
+                    ## 根据特殊兵种概率来升级更加强壮的士兵，如果没有指定概率就是随机升级
+                    (try_begin),
+                        (gt,":special_arms_probability",0),
+                        (store_random_in_range,":pro",0,100),
+                        (try_begin),
+                            (le,":special_arms_probability",":pro"),
+                            (party_upgrade_with_xp, ":party_no", ":total_xp", 1),
+                        (else_try),
+                            (party_upgrade_with_xp, ":party_no", ":total_xp", 2),
+                        (try_end),
+                    (else_try),
+                        (party_upgrade_with_xp, ":party_no", ":total_xp", 0),
+                    (try_end),
                 (try_end),
             ]),
             ("party_change_ai_state",[

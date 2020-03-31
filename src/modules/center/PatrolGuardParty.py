@@ -256,7 +256,7 @@ patrolGuardParty = {
                         ## 设置巡逻据点
                         (party_set_slot, ":party",slot_party_protect_center,":center_no"),
                         ## 增加士兵
-                        (call_script,"script_party_add_members",":party",-1,":strength",30,50),
+                        (call_script,"script_party_add_members",":party",-1,":strength",-1,30,50),
                         ## 增加经验
                         (call_script,"script_party_add_xp_and_upgrade",":party",":strength",50),
                         ## 设置ai
@@ -292,7 +292,7 @@ patrolGuardParty = {
                         ## 花钱招募
                         (call_script, "script_update_center_wealth", ":center_no",patrol_update_cost_money,-1),
                         ## 增加士兵
-                        (call_script,"script_party_add_members",":party_no",-1,":strength",30,50),
+                        (call_script,"script_party_add_members",":party_no",-1,":strength",-1,30,50),
                     (try_end),
                     ## 【升级士兵】
                     ## 获得巡逻据点的军事强度
