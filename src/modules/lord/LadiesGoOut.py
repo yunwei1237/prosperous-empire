@@ -62,7 +62,10 @@ ladiesGoOut={
                         # (assign,reg1,":lead_party"),
                         # (display_message,"@lead_party id is {reg1}"),
                         (try_begin),
+                            ## 没有领导的队伍
                             (le,":lead_party",0),
+                            ## 没有被人俘虏
+                            (neg|troop_slot_ge,":lady_no",slot_troop_prisoner_of_party,0),
                             ## 创建部队(-1代表使用默认值)
                             (call_script,"script_create_party",":lady_no",":home",-1,-1,-1,spt_kingdom_hero_party,"icon_woman_b",-1),
                             (assign,":lady_party",reg0),
