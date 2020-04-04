@@ -47,3 +47,5 @@ mst_alley_fight = 45
 mst_meeting_merchant = 46
 mst_town_fight = 47
 mst_multiplayer_duel = 48
+mst_my_alley_fight = 49
+mst_my_town_center = 50

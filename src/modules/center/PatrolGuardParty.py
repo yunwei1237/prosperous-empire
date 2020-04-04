@@ -20,15 +20,15 @@ from module_scripts import *
 
 
 ## 巡逻队多久更新一次（游戏中的单位：小时）
-patrol_update_interval = 2
+patrol_update_interval = 48
 
-## 多少个荣誉会生成一个巡逻队,至少有一队
-patrol_count_per_party_renown= 200
+## 多少个荣誉会生成一个巡逻队
+patrol_count_per_party_renown= 500
 
 ## 每80个繁荣度会多增加一队巡逻队
 patrol_center_prosperity_per_party=80
 
-## 巡逻队基础队数(有领主时，最少队数)
+## 巡逻队基础队数,至少有一队(有领主时，最少队数)
 patrol_base_count = 1
 
 ## 巡逻队基础数量（有领主时，最少人数）
@@ -54,7 +54,7 @@ patrol_strength_per_trainer = 1
 patrol_center_prosperity_per_strength = 25
 
 ## 每次升级士兵的花费
-patrol_update_cost_money = 200
+patrol_update_cost_money = 500
 
 ## 以下内容非游戏程序员不要修改
 
@@ -261,8 +261,9 @@ patrolGuardParty = {
                         (call_script,"script_party_add_xp_and_upgrade",":party",":strength",50),
                         ## 设置ai
                         ##(call_script, "script_party_set_ai_state", ":lady_party",  spai_patrolling_around_center, ":home"),
-                        (call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":center_no",5),
-
+                        ##(call_script,"script_party_change_ai_state",":party",ai_bhvr_patrol_party,":center_no",5),
+                        (call_script,"script_set_party_ai_patrol_center",":party",":center_no"),
+                        #(call_script,"script_party_set_ai_state",":party",spai_patrolling_around_center,":center_no"),
                         #(str_store_party_name,s1,":center_no"),
                         #(display_message,"@create :{s1} patrol party"),
                         ## 更新创建的队数量，以免重复创建

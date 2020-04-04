@@ -26,7 +26,7 @@ modModules = [
     ladiesGoOut,
     #partyManage,
     #heroCollection,
-    #testMode,
+    testMode,
 ]
 
 

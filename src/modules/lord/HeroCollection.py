@@ -305,7 +305,6 @@ heroCollection = {
             ]),
             ("get_hero_map_icon",[
                 (store_script_param_1,":troop"),
-                ## 调整出身信息
                 (try_begin),
                     (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_leader),
                     (assign,":map_icon",hero_leader_map_icon),
@@ -385,11 +384,51 @@ heroCollection = {
             ]),
             ## 交易队伍ai
             ("trade_party_ai_update",[
+                (store_script_param_1,":troop"),
+                (troop_get_slot,":party",":troop",slot_troop_leaded_party),
                 (this_or_next | troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer),
                 (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
                 ## 队伍未出发 --> 创建队伍出发
                 ## 货物运输中 --> 检测是否到站
                 ## 交易完成   --> 检测是否可以返回
+                (troop_get_slot,":home",":troop",slot_troop_home),
+                (party_get_cur_town,":cur_center",":party"),
+
+                (assign,":need_create_party",0),
+                (assign,":near_town",":home"),
+                (assign,":party_temp",-1),
+                (try_begin),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_farmer)
+
+                    (try_begin),
+                        ## 在家，准备出发
+                        (this_or_next|eq,":cur_center",":home"),
+                        ## 队伍没有创建时（或被打败），从家出发
+                        (le,":party",0),
+                        ## 创建队伍
+                        (call_script,"script_create_hero_party",":troop"),
+                        (assign,":party",reg0),
+                        ## 从家出发
+                        (party_get_slot,":town",":home",slot_village_bound_center),
+                        (call_script,"script_set_party_ai_go_to_town",":party",":town"),
+                    (else_try),
+                    (try_end),
+                (else_try),
+                    (troop_slot_eq, ":troop", slot_troop_hero_status, sths_is_merchant),
+                (try_end),
+
+
+                ## 创建部队(-1代表使用默认值)
+                (call_script, "script_create_party", ":troop", ":home", -1, -1, -1, spt_kingdom_hero_party,
+                 "icon_woman_b", -1),
+                (assign, ":lady_party", reg0),
+                ## 增加士兵
+                (call_script, "script_party_add_members", ":lady_party", -1, 5, -1, 0, 10),
+                ## 增加经验
+                (call_script, "script_party_add_xp_and_upgrade", ":lady_party", 20, 100),
+                ## 设置ai
+                ##(call_script, "script_party_set_ai_state", ":lady_party",  spai_patrolling_around_center, ":home"),
+                (call_script, "script_party_change_ai_state", ":lady_party", ai_bhvr_patrol_party, ":home", 5),
             ]),
             ## 战斗队伍ai
             ("war_party_ai_update", [

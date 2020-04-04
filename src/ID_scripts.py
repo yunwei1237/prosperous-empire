@@ -605,5 +605,7 @@ script_get_patrol_party_need_size = 603
 script_update_patrol_partys_for_all = 604
 script_update_all_patrol_party_faction = 605
 script_ladies_go_out = 606
+script_create_battle_for_player = 607
+script_go_to_map = 608
 
 
