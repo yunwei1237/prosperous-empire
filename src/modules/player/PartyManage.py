@@ -11,8 +11,9 @@ from header_operations import *
 from header_skills import *
 from header_triggers import *
 from module_constants import *
+from smart_module_slot import getTroopSlotNum
 
-slot_troop_team_duty = 170
+slot_troop_team_duty = getTroopSlotNum("slot_troop_team_duty")
 
 
 

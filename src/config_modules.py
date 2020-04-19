@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from modules.base.AiBaseScripts import aiBaseScripts
 from modules.center.BuildingSystem import buildingSystem
 from modules.center.CenterRents import centerRents
 from modules.center.PatrolGuardParty import patrolGuardParty
@@ -11,21 +12,22 @@ from modules.lord.LadiesGoOut import ladiesGoOut
 from modules.lord.LordCollectionRents import lordCollectionRents
 from modules.lord.LordSoldiersManage import lordSoldiersManage
 from modules.lord.ShowLordReputationType import showLordReputationType
+from modules.lord.HeroCollection import heroCollection
 
 '''
     剧本模块
 '''
 modModules = [
-    prosperitySystem,
-    buildingSystem,
-    centerRents,
-    lordCollectionRents,
-    lordSoldiersManage,
-    showLordReputationType,
-    patrolGuardParty,
-    ladiesGoOut,
+    # prosperitySystem,
+    # buildingSystem,
+    # centerRents,
+    # lordCollectionRents,
+    # lordSoldiersManage,
+    # showLordReputationType,
+    # patrolGuardParty,
+    # ladiesGoOut,
     #partyManage,
-    #heroCollection,
+    heroCollection,
     testMode,
 ]
 
@@ -40,6 +42,7 @@ modules = []
     基础模块
 '''
 baseModules = [
+    aiBaseScripts,
     partyBaseScripts,
     factionBaseScripts,
     troopBaseScripts,

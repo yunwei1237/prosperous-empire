@@ -3,7 +3,7 @@ import os
 from header_common import *
 from module_info import *
 from module_postfx import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 
 def write_python_header(postfx_params_list):

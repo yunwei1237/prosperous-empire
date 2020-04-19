@@ -6,7 +6,7 @@ from module_parties import *
 from process_operations import *
 
 from process_common import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 
 def save_parties(parties):

@@ -1,7 +1,7 @@
 from module_info import *
 from module_particle_systems import *
 from process_common import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 id_pos        = 0
 flags_pos     = 1

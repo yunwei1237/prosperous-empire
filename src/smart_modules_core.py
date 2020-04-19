@@ -6,7 +6,7 @@ import string
 from config_modules import modules
 from module_dialogs import dialogs
 from module_game_menus import game_menus
-from module_info import export_dir
+from module_info import export_dir, src_dir
 from module_mission_templates import mission_templates
 from module_scripts import scripts
 from module_simple_triggers import simple_triggers
@@ -436,4 +436,10 @@ def recompileGlobalVars(variable_list,variable_uses, triggers_args=[], sentences
 #preprocessInternational()
 
 
-checkDependentOn(partyBaseScripts)
+##checkDependentOn(partyBaseScripts)
+
+
+
+
+
+

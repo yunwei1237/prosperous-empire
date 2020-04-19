@@ -6,7 +6,7 @@ from module_mission_templates import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess, recompileGlobalVars
+from smart_modules_core import preprocess, recompileGlobalVars
 
 mission_template_name_pos = 0
 mission_template_flags_pos = 1

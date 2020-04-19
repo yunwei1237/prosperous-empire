@@ -12,6 +12,8 @@ from module_constants import *
 from modules.lord.HeroCollection_header import mergeList
 
 ## 姓氏
+from smart_module_slot import getTroopSlotNo
+
 first = [u"陈",u"李",u"黄",u"张",u"朱",u"梁",u"林",u"刘",u"马",u"白",u"吴",u"曹",u"蔡",u"车",u"谭",u"罗",u"杨",u"诸 葛",u"司 马",u"南 宫",u"太 史",u"公 良",u"公 孙",u"公 良",u"百 里"]
 ## 名字
 second = [u"宛",u"丘",u"形",u"采",u"用",u"其",u"利",u"器",u"用",u"桐",u"平",u"桃",u"山",u"明",u"月",u"朋",u"峰",u"峦",u"清",u"浮",u"桥",u"杰",u"贡",u"英",u"弄",u"三",u"武",u"言",u"玄 策",u"大 目",u"三 刀"]
@@ -52,8 +54,8 @@ second_end = "str_second_name_end"
 
 
 ## slot
-slot_troop_first_name = 177
-slot_troop_second_name = 178
+slot_troop_first_name = getTroopSlotNo("slot_troop_first_name")
+slot_troop_second_name = getTroopSlotNo("slot_troop_second_name")
 
 troopBaseScripts={
     "name":"TroopBaseScripts",
@@ -99,7 +101,15 @@ troopBaseScripts={
             ("set_name_for_son", [
                 (store_script_param_1, ":father"),
                 (store_script_param_2, ":son"),
+
+                (str_store_troop_name,s3,":father"),
+
                 (troop_get_slot,":first_name",":father",slot_troop_first_name),
+
+                (assign,reg1,":first_name"),
+                (display_message,"@father first name id {reg1}"),
+
+
                 (call_script,"script_get_random_second_name"),
                 (assign,":second_name",reg0),
 
@@ -111,8 +121,43 @@ troopBaseScripts={
                 (troop_set_name, ":son", "str_s1_s2_name"),
 
                 (troop_set_slot, ":son", slot_troop_father, ":father"),
-            ]),
 
+
+                (display_message,"@son(father:{s3}) first name:{s1}  second name:{s2}"),
+            ]),
+            ("display_troop_info",[
+                (store_script_param_1,":troop"),
+                ## 姓名
+                (str_store_troop_name,s1,":troop"),
+                (display_message,"@name:{s1}"),
+                ## 姓
+                (troop_get_slot,":first_name",":troop",slot_troop_first_name),
+                (str_store_string,s1,":first_name"),
+                (display_message,"@firstName:{s1}"),
+                ## 名
+                (troop_get_slot,":second_name",":troop",slot_troop_second_name),
+                (str_store_string,s1,":second_name"),
+                (display_message,"@secondName:{s1}"),
+                ## 年龄
+                (troop_get_slot,reg1,":troop",slot_troop_age),
+                (display_message,"@age:{reg1}"),
+                ## 性别
+                (troop_get_type,reg1,":troop"),
+                (display_message,"@sex:{reg1?str_man:str_woman}"),
+                ## 财富
+                (troop_get_slot,reg1,":troop",slot_troop_wealth),
+                (display_message,"@wealth:{reg1}"),
+                ## 被俘虏城市
+                (troop_get_slot,":center",":troop",slot_troop_prisoner_of_party),
+                (try_begin),
+                    (gt,":center",0),
+                    (str_store_party_name,s1,":center"),
+                    (display_message,"@prisoner:{s1}"),
+                (try_end),
+
+                (display_message,"@-----------------------------------------------------"),
+
+            ]),
             ("set_age_in_range",[
                 (store_script_param,":troop",1),
                 (store_script_param,":min_age",2),
@@ -126,7 +171,7 @@ troopBaseScripts={
                 (troop_get_slot,":father_age",":father",slot_troop_age),
                 (store_random_in_range,":father_age_in_son_birth",20,30),
                 (store_sub,":age",":father_age",":father_age_in_son_birth"),
-                (call_script, "script_init_troop_age", ":father", ":age"),
+                (call_script, "script_init_troop_age", ":son", ":age"),
             ]),
             ("troop_clear_items",[
                 (store_script_param,":troop",1),

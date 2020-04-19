@@ -1,4 +1,8 @@
 @echo off
+
+::删除数据
+del "src/slot" /q
+
 python src/process_init.py
 python src/process_global_variables.py
 python src/process_strings.py
@@ -30,6 +34,8 @@ python src/process_global_variables_unused.py
 python src/process_postfx.py
 
 ::del src/*.pyc
+
+
 
 echo.
 echo ______________________________

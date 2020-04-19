@@ -3,7 +3,7 @@ from header_common import *
 from module_info import *
 from module_animations import *
 from process_common import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 
 def compile_action_sets(actions):

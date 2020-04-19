@@ -6,7 +6,7 @@ from module_skins import *
 import string
 
 # WARNING: The following should be the same as the number in face_generator.h
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 num_voice_types = 2
 #####################

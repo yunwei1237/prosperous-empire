@@ -3,7 +3,7 @@ from module_simple_triggers import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess, recompileGlobalVars
+from smart_modules_core import preprocess, recompileGlobalVars
 
 
 def save_simple_triggers(variable_list,variable_uses,triggers,tag_uses,quick_strings):

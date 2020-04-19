@@ -14,7 +14,10 @@ from module_constants import *
 
 ## slot
 ## 用于保存巡逻的据点
-slot_party_protect_center = 401
+from smart_module_slot import getPartySlotNo
+
+slot_party_protect_center = getPartySlotNo("slot_party_protect_center")
+
 
 ## args
 ## 巡逻队类型
@@ -129,7 +132,7 @@ partyBaseScripts={
             ("party_add_members", [
                 (store_script_param, ":party_no",1),
                 (store_script_param, ":faction_no",2),
-                ## 军事强度，一点强度，大概3个士兵
+                ## 军事强度
                 (store_script_param, ":strength",3),
                 ## 队伍模板，
                 ## -1,使用阵营士兵模板
@@ -329,17 +332,20 @@ partyBaseScripts={
                     (call_script, "script_update_lord_wealth", ":king", ":total_price", 1),
                 (try_end),
             ]),
-            ## 获得指定地点最近的据点
-            ("get_center_close_the_center",[
-                (store_script_param_1,":center"),
-                (store_script_param_2,":not_want_center"),
-
+            ## 获得指定队伍附近指定类型的队伍
+            ("get_the_nearby_center",[
+                ## 当前队伍
+                (store_script_param_1,":cur_party"),
+                ## 最近队伍的类型(如：附近的村庄（spt_village），附近的城堡（spt_castle），附近的城镇（spt_town）)
+                (store_script_param_2,":party_type"),
                 (assign,":min",99999999),
-                (assign,":close_center",":center"),
+                (assign,":close_center",":cur_party"),
                 (try_for_range,":center_no",centers_begin,centers_end),
-                    (store_distance_to_party_from_party,":distance",":center_no",":center"),
-                    (le,":min",":distance"),
-                    (neq,":center_no",":not_want_center"),
+                    ## 过滤指定类型
+                    (party_slot_eq,":center_no",slot_party_type,":party_type"),
+                    ## 获得据点之间的距离
+                    (store_distance_to_party_from_party,":distance",":center_no",":cur_party"),
+                    (le,":distance",":min"),
                     (assign,":min",":distance"),
                     (assign,":close_center",":center_no"),
                 (try_end),
@@ -446,9 +452,11 @@ partyBaseScripts={
                 (assign,":max_level",0),
                 (party_get_num_companion_stacks,":stacks",":party_no"),
                 (try_for_range,":stack_i",0,":stacks"),
-                (party_stack_get_troop_id,":troop_no",":party_no",":stack_i"),
-                (troop_is_hero,":troop_no"),
-                (store_skill_level,":skill_level",":troop_no",":skill_id"),
+                    (party_stack_get_troop_id,":troop_no",":party_no",":stack_i"),
+                    (troop_is_hero,":troop_no"),
+                    (store_skill_level,":skill_level",":troop_no",":skill_id"),
+                    (gt,":skill_level",":max_level"),
+                    (assign,":max_level",":skill_level"),
                 (try_end),
                 (assign,reg0,":max_level"),
             ]),

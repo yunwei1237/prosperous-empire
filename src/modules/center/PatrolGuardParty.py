@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from header_dialogs import *
 from module_scripts import *
+from smart_module_slot import getPartySlotNo
 
 '''
     巡逻队功能
@@ -63,9 +64,9 @@ patrol_update_cost_money = 500
 ## party slot
 
 ## 用于保存巡逻队的数量
-slot_party_patrol_num     = 400
+slot_party_patrol_num     = getPartySlotNo("slot_party_patrol_num")
 ## 用于保存巡逻的据点
-slot_party_protect_center = 401
+slot_party_protect_center = getPartySlotNo("slot_party_protect_center")
 
 ## 【args】
 

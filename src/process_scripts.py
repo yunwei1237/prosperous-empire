@@ -5,7 +5,7 @@ from module_scripts import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess, recompileGlobalVars
+from smart_modules_core import preprocess, recompileGlobalVars
 
 
 def save_scripts(variable_list,variable_uses,scripts,tag_uses,quick_strings):

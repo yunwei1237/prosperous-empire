@@ -5,7 +5,7 @@ from module_scene_props import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 
 def save_scene_props(variable_list,variable_uses,tag_uses,quick_strings):

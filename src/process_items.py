@@ -2,7 +2,7 @@ import string
 
 from process_common import *
 from module_items import *
-from process_smart_modules import preprocess
+from smart_modules_core import preprocess
 
 
 def get_item_code(item):

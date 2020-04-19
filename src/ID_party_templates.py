@@ -61,3 +61,4 @@ pt_sea_raider_lair = 59
 pt_looter_lair = 60
 pt_bandit_lair_templates_end = 61
 pt_leaded_looters = 62
+pt_hero_leader_party = 63

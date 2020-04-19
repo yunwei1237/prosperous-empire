@@ -6,7 +6,7 @@ from module_game_menus import *
 
 from process_common import *
 from process_operations import *
-from process_smart_modules import preprocess, recompileGlobalVars
+from smart_modules_core import preprocess, recompileGlobalVars
 
 
 def save_game_menu_item(ofile,variable_list,variable_uses,menu_item,tag_uses,quick_strings):

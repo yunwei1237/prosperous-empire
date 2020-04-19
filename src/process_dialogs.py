@@ -8,7 +8,7 @@ from module_dialogs import *
 from process_common import *
 from process_global_variables import compile_all_global_vars
 from process_operations import *
-from process_smart_modules import *
+from smart_modules_core import *
 
 speaker_pos = 0
 ipt_token_pos = 1

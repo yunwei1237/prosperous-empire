@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -fr src/slot/*.slot
+
 python src/process_init.py
 python src/process_global_variables.py
 python src/process_strings.py
