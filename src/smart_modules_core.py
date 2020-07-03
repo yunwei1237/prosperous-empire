@@ -24,7 +24,7 @@ def log(type,text):
     print "{} - {}".format(type,text)
 
 def debug(text):
-    log("DEUBG".ljust(5),text)
+    log("DEBUG".ljust(5),text)
 def info(text):
     log("INFO".ljust(5),text)
 def warn(text):
