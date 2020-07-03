@@ -47,9 +47,7 @@ buildingSystem = {
     },
     "scripts":{
         "append":[
-            ## 巡逻队的核心功能，驱动巡逻队运行的代码
             ("init_building_when_game_start",[
-                ## 领地巡逻队
                 (try_for_range,":center_no",centers_begin,centers_end),
                     (this_or_next|party_slot_eq,":center_no",slot_party_type,spt_town),
                     (this_or_next|party_slot_eq,":center_no",slot_party_type,spt_castle),

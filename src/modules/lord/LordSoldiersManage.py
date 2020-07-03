@@ -29,7 +29,7 @@ from module_scripts import *
 '''
 
 ## 领主自动维护士兵时间24 * 1(1天)
-lord_auto_collect_tax_interval = 4
+lord_auto_collect_tax_interval = 24 * 1
 
 ## 每次招募士兵花费
 lord_recruit_soldiers_cost = 1500
