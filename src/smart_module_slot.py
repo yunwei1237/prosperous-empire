@@ -3,10 +3,11 @@
 ## slot编号 操作
 
 import os
+from smart_modules_log import *
 
 from module_info import src_dir
 
-slot_dir = src_dir + "/slot/"
+slot_dir = src_dir + "slot/"
 #path = os.path.abspath(".");
 #slot_dir = path + "/slot/"
 
@@ -55,7 +56,9 @@ def getConfigPath(type):
 ## 用于初始化slot文件
 def initSlot():
     for (type,config) in slotNoConfig.items():
-        open(getConfigPath(type),mode="w").close()
+        cfgPath = getConfigPath(type)
+        debug("初始化slot编号配置文件：" + cfgPath)
+        open(cfgPath,mode="w").close()
 
 def getSlotNo(type,slotName):
     config = slotNoConfig.get(type)
@@ -77,6 +80,8 @@ def getSlotNo(type,slotName):
         dataText = lines[1]
     data = eval(dataText)
     if(data.has_key(slotName)):
+        slotVal = data.get(slotName)
+        debug(slotName + "已经有值，不创建新的slot值：" + str(slotVal))
         return data.get(slotName)
     else:
         num += 1
@@ -85,6 +90,7 @@ def getSlotNo(type,slotName):
         data[slotName] = num
         file.write(str(data) + "\n")
         file.close()
+        debug(slotName + "还没有值，创建新的slot值：" + str(num))
     return num;
 
 
