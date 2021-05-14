@@ -4,9 +4,9 @@
 import os
 path = os.path.abspath(".");
 
-## 编译后的目录
+## 编译到项目目录
 export_dir = path + "/build/"
-
+## 编译到mod中
 export_dir = "D:\\Program Files (x86)\\Mount&Blade Warband\\Modules\\Native\\"
 
 ## 脚本所在目录
